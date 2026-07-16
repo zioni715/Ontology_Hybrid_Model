@@ -1,14 +1,1 @@
-# Runtime prerequisites installed outside pip:
-# - Python 3.13.14
-# - Java >= 21
-# - Apache Jena 6.1.0
-#
-# Browser visualization dependency:
-# - D3.js 7.x via CDN: https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js
-
 rdflib==7.6.0
-pyparsing>=3.1.0,<4
-pandas==3.0.3
-openpyxl==3.1.5
-SPARQLWrapper==2.0.0
-pyshacl>=0.30.0

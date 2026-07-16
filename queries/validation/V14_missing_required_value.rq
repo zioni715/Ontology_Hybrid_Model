@@ -1,0 +1,27 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# V14: Required values are missing from a current progress line or its contract item.
+SELECT ?line ?contractItemCode ?item ?itemName ?unit ?contractQuantity ?contractUnitPrice ?currentQuantity ?workType
+WHERE {
+  ?line a pcpo:CurrentProgressLine .
+  OPTIONAL { ?line pcpo:contractItemCode ?contractItemCode }
+  OPTIONAL { ?line pcpo:itemName ?itemName }
+  OPTIONAL { ?line pcpo:hasUnit ?unit }
+  OPTIONAL { ?line pcpo:currentProgressQuantityValue ?currentQuantity }
+  OPTIONAL {
+    ?line pcpo:basedOnContractItem ?item .
+    OPTIONAL { ?item pcpo:contractQuantityValue ?contractQuantity }
+    OPTIONAL { ?item pcpo:contractUnitPriceValue ?contractUnitPrice }
+    OPTIONAL {
+      ?item a ?workType .
+      ?workType rdfs:subClassOf+ pcpo:ReinforcedConcreteWorkItem .
+    }
+  }
+  FILTER(
+    !BOUND(?contractItemCode) || !BOUND(?item) || !BOUND(?itemName) ||
+    !BOUND(?unit) || !BOUND(?currentQuantity) || !BOUND(?contractQuantity) ||
+    !BOUND(?contractUnitPrice) || !BOUND(?workType)
+  )
+}
+ORDER BY ?line

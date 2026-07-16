@@ -1,0 +1,14 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# V02: Duplicate item codes inside the same contract version.
+SELECT ?version ?contractItemCode (COUNT(DISTINCT ?item) AS ?itemCount)
+WHERE {
+  ?item pcpo:belongsToContractVersion ?version ;
+        pcpo:contractItemCode ?contractItemCode ;
+        a ?itemClass .
+  ?itemClass rdfs:subClassOf* pcpo:ContractItem .
+}
+GROUP BY ?version ?contractItemCode
+HAVING(COUNT(DISTINCT ?item) > 1)
+ORDER BY ?version ?contractItemCode

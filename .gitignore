@@ -1,15 +1,26 @@
 # Ignore all root-level files and directories by default.
 /*
 
+# Keep local source documents on disk, but never commit them.
+/Documents/
+
 # Keep repository configuration and reproducibility files.
 !/.gitignore
 !/README.md
 !/requirements.txt
 
-# Keep ontology source, visualization, and validation artifacts.
+# Keep only the runnable ontology implementation.
 !/ontology/
 !/ontology/**
 !/visualization/
 !/visualization/**
-!/validation/
-!/validation/**
+!/data/
+!/data/**
+!/queries/
+!/queries/**
+!/scripts/
+!/scripts/**
+
+# Ignore generated Python cache files.
+**/__pycache__/
+*.py[cod]

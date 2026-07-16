@@ -1,0 +1,13 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+
+# V06: Applied progress-line unit prices differ from the effective contract item.
+SELECT ?line ?contractItemCode ?appliedUnitPrice ?contractUnitPrice
+WHERE {
+  ?line a pcpo:CurrentProgressLine ;
+        pcpo:basedOnContractItem ?item ;
+        pcpo:appliedContractUnitPriceValue ?appliedUnitPrice .
+  ?item pcpo:contractItemCode ?contractItemCode ;
+        pcpo:contractUnitPriceValue ?contractUnitPrice .
+  FILTER(ABS(?appliedUnitPrice - ?contractUnitPrice) > 0.0001)
+}
+ORDER BY ?line

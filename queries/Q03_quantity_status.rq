@@ -1,0 +1,20 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+
+# Q03: Previous, current, cumulative, contract, and remaining quantities for round 2.
+SELECT ?contractItemCode ?previousCumulativeQuantity ?currentProgressQuantity
+       ?cumulativeQuantity ?contractQuantity ?remainingQuantity ?unit
+WHERE {
+  ?round pcpo:progressRoundNumber 2 .
+  ?line a pcpo:CurrentProgressLine ;
+        pcpo:hasProgressRound ?round ;
+        pcpo:basedOnContractItem ?item ;
+        pcpo:previousCumulativeQuantityValue ?previousCumulativeQuantity ;
+        pcpo:currentProgressQuantityValue ?currentProgressQuantity ;
+        pcpo:cumulativeQuantityValue ?cumulativeQuantity ;
+        pcpo:remainingQuantityValue ?remainingQuantity ;
+        pcpo:hasUnit ?unitResource .
+  ?item pcpo:contractItemCode ?contractItemCode ;
+        pcpo:contractQuantityValue ?contractQuantity .
+  ?unitResource pcpo:unitCode ?unit .
+}
+ORDER BY ?contractItemCode

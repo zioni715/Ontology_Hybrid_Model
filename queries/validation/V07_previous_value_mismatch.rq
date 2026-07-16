@@ -1,0 +1,18 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+
+# V07: Values carried into the current line differ from the approved previous line.
+SELECT ?line ?approvedLine ?carriedQuantity ?approvedQuantity ?carriedAmount ?approvedAmount
+WHERE {
+  ?line a pcpo:CurrentProgressLine ;
+        pcpo:carriedForwardFrom ?approvedLine ;
+        pcpo:previousCumulativeQuantityValue ?carriedQuantity ;
+        pcpo:previousCumulativeAmountValue ?carriedAmount .
+  ?approvedLine a pcpo:PreviousProgressLine ;
+                pcpo:cumulativeQuantityValue ?approvedQuantity ;
+                pcpo:cumulativeAmountValue ?approvedAmount .
+  FILTER(
+    ABS(?carriedQuantity - ?approvedQuantity) > 0.0001 ||
+    ABS(?carriedAmount - ?approvedAmount) > 0.5
+  )
+}
+ORDER BY ?line

@@ -1,0 +1,23 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Q01: Reinforced-concrete contract items in contract version 2.
+SELECT ?contractItemCode ?subwork ?itemName ?specification ?unit
+       ?contractQuantity ?contractUnitPrice ?contractAmount
+WHERE {
+  ?version pcpo:contractVersionNumber 2 ;
+           pcpo:hasContractItem ?item .
+  ?item a ?workType ;
+        pcpo:contractItemCode ?contractItemCode ;
+        pcpo:itemName ?itemName ;
+        pcpo:specificationText ?specification ;
+        pcpo:hasUnit ?unitResource ;
+        pcpo:contractQuantityValue ?contractQuantity ;
+        pcpo:contractUnitPriceValue ?contractUnitPrice ;
+        pcpo:contractAmountValue ?contractAmount .
+  ?workType rdfs:subClassOf+ pcpo:ReinforcedConcreteWorkItem ;
+            rdfs:label ?subwork .
+  ?unitResource pcpo:unitCode ?unit .
+  FILTER(LANG(?subwork) = "ko")
+}
+ORDER BY ?contractItemCode

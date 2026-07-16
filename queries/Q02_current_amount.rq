@@ -1,0 +1,23 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+
+# Q02: Connect round-2 QTO quantities to the effective contract unit price.
+SELECT ?contractItemCode ?itemName ?specification ?unit
+       ?currentProgressQuantity ?contractUnitPrice ?calculatedCurrentAmount
+WHERE {
+  ?round pcpo:progressRoundNumber 2 .
+  ?qtoLine a pcpo:QuantityCalculationLine ;
+           pcpo:hasProgressRound ?round ;
+           pcpo:correspondsTo ?progressLine ;
+           pcpo:basedOnContractItem ?item ;
+           pcpo:currentProgressQuantityValue ?currentProgressQuantity .
+  ?progressLine a pcpo:CurrentProgressLine ;
+                pcpo:basedOnContractItem ?item .
+  ?item pcpo:contractItemCode ?contractItemCode ;
+        pcpo:itemName ?itemName ;
+        pcpo:specificationText ?specification ;
+        pcpo:hasUnit ?unitResource ;
+        pcpo:contractUnitPriceValue ?contractUnitPrice .
+  ?unitResource pcpo:unitCode ?unit .
+  BIND(?currentProgressQuantity * ?contractUnitPrice AS ?calculatedCurrentAmount)
+}
+ORDER BY ?contractItemCode

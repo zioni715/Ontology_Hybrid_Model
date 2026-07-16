@@ -1,0 +1,14 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+
+# V04: Specifications on QTO/progress lines differ from their contract item.
+SELECT ?line ?contractItemCode ?documentSpecification ?contractSpecification
+WHERE {
+  VALUES ?lineClass { pcpo:QuantityCalculationLine pcpo:CurrentProgressLine }
+  ?line a ?lineClass ;
+        pcpo:basedOnContractItem ?item ;
+        pcpo:specificationText ?documentSpecification .
+  ?item pcpo:contractItemCode ?contractItemCode ;
+        pcpo:specificationText ?contractSpecification .
+  FILTER(STR(?documentSpecification) != STR(?contractSpecification))
+}
+ORDER BY ?line

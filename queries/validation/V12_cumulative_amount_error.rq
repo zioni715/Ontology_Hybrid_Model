@@ -1,0 +1,13 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+
+# V12: cumulativeAmount != previousCumulativeAmount + currentProgressAmount.
+SELECT ?line ?previousAmount ?currentAmount ?recordedCumulativeAmount ?expectedCumulativeAmount
+WHERE {
+  ?line a pcpo:CurrentProgressLine ;
+        pcpo:previousCumulativeAmountValue ?previousAmount ;
+        pcpo:currentProgressAmountValue ?currentAmount ;
+        pcpo:cumulativeAmountValue ?recordedCumulativeAmount .
+  BIND(?previousAmount + ?currentAmount AS ?expectedCumulativeAmount)
+  FILTER(ABS(?recordedCumulativeAmount - ?expectedCumulativeAmount) > 0.5)
+}
+ORDER BY ?line

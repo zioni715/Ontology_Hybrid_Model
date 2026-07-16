@@ -1,0 +1,18 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Q04: Sum round-2 current progress amounts by the four sub-work classes.
+SELECT ?subwork (SUM(?currentAmount) AS ?subworkCurrentAmount)
+WHERE {
+  ?round pcpo:progressRoundNumber 2 .
+  ?line a pcpo:CurrentProgressLine ;
+        pcpo:hasProgressRound ?round ;
+        pcpo:basedOnContractItem ?item ;
+        pcpo:currentProgressAmountValue ?currentAmount .
+  ?item a ?workType .
+  ?workType rdfs:subClassOf+ pcpo:ReinforcedConcreteWorkItem ;
+            rdfs:label ?subwork .
+  FILTER(LANG(?subwork) = "ko")
+}
+GROUP BY ?workType ?subwork
+ORDER BY ?workType

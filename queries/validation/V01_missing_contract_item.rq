@@ -1,0 +1,15 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# V01: Quantity calculation lines without a defined contract item.
+SELECT ?line ?contractItemCode
+WHERE {
+  ?line a pcpo:QuantityCalculationLine .
+  OPTIONAL { ?line pcpo:contractItemCode ?contractItemCode }
+  FILTER NOT EXISTS {
+    ?line pcpo:basedOnContractItem ?item .
+    ?item a ?itemClass .
+    ?itemClass rdfs:subClassOf* pcpo:ContractItem .
+  }
+}
+ORDER BY ?line

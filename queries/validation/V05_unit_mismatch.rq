@@ -1,0 +1,16 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+
+# V05: Units on QTO/progress lines differ from their contract item.
+SELECT ?line ?contractItemCode ?documentUnitCode ?contractUnitCode
+WHERE {
+  VALUES ?lineClass { pcpo:QuantityCalculationLine pcpo:CurrentProgressLine }
+  ?line a ?lineClass ;
+        pcpo:basedOnContractItem ?item ;
+        pcpo:hasUnit ?documentUnit .
+  ?item pcpo:contractItemCode ?contractItemCode ;
+        pcpo:hasUnit ?contractUnit .
+  ?documentUnit pcpo:unitCode ?documentUnitCode .
+  ?contractUnit pcpo:unitCode ?contractUnitCode .
+  FILTER(?documentUnit != ?contractUnit)
+}
+ORDER BY ?line

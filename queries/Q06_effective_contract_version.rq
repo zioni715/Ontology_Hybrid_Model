@@ -1,0 +1,21 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Q06: Select the contract version effective on the round-2 reference date.
+SELECT ?progressRound ?referenceDate ?contractIdentifier ?versionNumber ?validFrom ?validTo
+WHERE {
+  ?progressPeriod pcpo:progressRoundNumber 2 ;
+                  pcpo:progressRoundNumber ?progressRound ;
+                  pcpo:progressReferenceDate ?referenceDate .
+  ?contract a pcpo:Contract ;
+            pcpo:contractIdentifier ?contractIdentifier ;
+            pcpo:hasContractVersion ?version .
+  ?version a ?versionClass ;
+           pcpo:contractVersionNumber ?versionNumber ;
+           pcpo:validFrom ?validFrom .
+  ?versionClass rdfs:subClassOf* pcpo:ContractVersion .
+  OPTIONAL { ?version pcpo:validTo ?validTo }
+  FILTER(?validFrom <= ?referenceDate)
+  FILTER(!BOUND(?validTo) || ?referenceDate <= ?validTo)
+}
+ORDER BY DESC(?versionNumber)

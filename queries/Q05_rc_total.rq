@@ -1,0 +1,14 @@
+PREFIX pcpo: <https://example.org/pcpo#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Q05: Sum the four sub-work amounts for the round-2 reinforced-concrete total.
+SELECT (SUM(?currentAmount) AS ?reinforcedConcreteCurrentAmount)
+WHERE {
+  ?round pcpo:progressRoundNumber 2 .
+  ?line a pcpo:CurrentProgressLine ;
+        pcpo:hasProgressRound ?round ;
+        pcpo:basedOnContractItem ?item ;
+        pcpo:currentProgressAmountValue ?currentAmount .
+  ?item a ?workType .
+  ?workType rdfs:subClassOf+ pcpo:ReinforcedConcreteWorkItem .
+}
