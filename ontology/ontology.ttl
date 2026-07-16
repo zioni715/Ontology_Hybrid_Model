@@ -1,0 +1,552 @@
+@prefix rcpp: <https://w3id.org/rcpp#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://w3id.org/rcpp>
+    a rdfs:Resource ;
+    dcterms:title "철근콘크리트공종 기성비용 산정서류 RDF/RDFS 온톨로지"@ko ;
+    dcterms:identifier "RCPP" ;
+    dcterms:hasVersion "0.9.0" ;
+    dcterms:description "기성제출서류패키지, 문서, 문서섹션, 문서행, 업무항목, 항목규격, 공종 개념, 수량산출항목, 단가항목, 집계항목, 원가항목을 분리하고 계약-수량-단가-기성-집계-원가 계산 계보, 계산규칙, 통화, 비율, 단위 정보를 표현하는 RDF/RDFS 어휘."@ko ;
+    rdfs:comment "문서 종류 축과 공종 축을 분리한다. 공종은 rdfs:Class가 아니라 WorkType의 개념 인스턴스로 두며, 문서에 실제로 나타난 원문값은 문서행에, 정규화된 업무 의미와 규격은 업무항목과 규격 노드에 둔다."@ko .
+
+#################################################################
+# 1. 상위 클래스
+#################################################################
+
+rcpp:DocumentPackage
+    a rdfs:Class ;
+    rdfs:label "문서 패키지"@ko ;
+    rdfs:comment "기성 청구 또는 비용 산정을 위해 함께 제출·검토되는 문서 묶음."@ko .
+
+rcpp:Document
+    a rdfs:Class ;
+    rdfs:label "문서"@ko ;
+    rdfs:comment "독립 파일, 시트, 서식 또는 문서 단위. 공종은 문서 클래스의 하위분류가 아니라 관계로 연결한다."@ko .
+
+rcpp:DocumentSection
+    a rdfs:Class ;
+    rdfs:label "문서 섹션"@ko ;
+    rdfs:comment "문서 안에서 특정 공종, 표, 집계, 산출 범위를 담당하는 구획."@ko .
+
+rcpp:WorkType
+    a rdfs:Class ;
+    rdfs:label "공종"@ko ;
+    rdfs:comment "비용산정 대상이 되는 공종 또는 하위 공종의 개념 인스턴스 유형. 예: 철근공사, 콘크리트공사."@ko .
+
+rcpp:BusinessItem
+    a rdfs:Class ;
+    rdfs:label "업무항목"@ko ;
+    rdfs:comment "여러 문서행이 함께 가리키는 업무상 동일 비용산정 항목. 정규화된 항목명, 표준 단위코드, 공종, 구조화된 규격을 갖고 문서 위치와 원문값은 문서행에 둔다."@ko .
+
+rcpp:ItemSpecification
+    a rdfs:Class ;
+    rdfs:label "항목 규격"@ko ;
+    rdfs:comment "업무항목의 규격을 문서 원문과 구조화 속성으로 표현하는 노드. 같은 업무명이라도 규격이 다르면 별도 업무항목과 규격 노드로 분리한다."@ko .
+
+rcpp:RebarSpecification
+    a rdfs:Class ;
+    rdfs:label "철근 규격"@ko ;
+    rdfs:subClassOf rcpp:ItemSpecification .
+
+rcpp:ConcreteSpecification
+    a rdfs:Class ;
+    rdfs:label "콘크리트 규격"@ko ;
+    rdfs:subClassOf rcpp:ItemSpecification .
+
+rcpp:FormworkSpecification
+    a rdfs:Class ;
+    rdfs:label "거푸집 규격"@ko ;
+    rdfs:subClassOf rcpp:ItemSpecification .
+
+rcpp:ShoringSpecification
+    a rdfs:Class ;
+    rdfs:label "동바리 규격"@ko ;
+    rdfs:subClassOf rcpp:ItemSpecification .
+
+rcpp:DocumentRow
+    a rdfs:Class ;
+    rdfs:label "문서행"@ko ;
+    rdfs:subClassOf rcpp:LineItem ;
+    rdfs:comment "특정 문서 또는 시트에 실제로 나타난 행 단위 기록. 동일 업무항목이라도 문서별 행은 별도 인스턴스로 식별한다."@ko .
+
+rcpp:LineItem
+    a rdfs:Class ;
+    rdfs:label "항목"@ko ;
+    rdfs:comment "계약, 기성, 수량산출, 단가, 집계 문서에서 행 단위로 관리되는 정보."@ko .
+
+rcpp:CostItem
+    a rdfs:Class ;
+    rdfs:label "원가항목"@ko ;
+    rdfs:comment "원가계산서에서 직접공사비, 간접공사비, 법정경비, 일반관리비, 이윤, 부가가치세처럼 구분되는 비용 구성항목."@ko .
+
+rcpp:AggregateValue
+    a rdfs:Class ;
+    rdfs:label "집계값"@ko ;
+    rdfs:comment "공급가액, 부가가치세액, 총공사비처럼 여러 항목을 계산하여 얻는 값."@ko .
+
+rcpp:StandardReference
+    a rdfs:Class ;
+    rdfs:label "표준원가근거"@ko ;
+    rdfs:comment "표준품셈, 표준시장단가 등 단가 또는 소요량 산정에 사용하는 공식 기준."@ko .
+
+#################################################################
+# 2. 문서 패키지와 문서 유형
+#################################################################
+
+rcpp:ProgressPaymentSubmissionPackage
+    a rdfs:Class ;
+    rdfs:label "기성제출서류패키지"@ko ;
+    rdfs:subClassOf rcpp:DocumentPackage ;
+    rdfs:comment "공사기성부분내역서와 그 산정 근거가 되는 문서들을 함께 묶은 제출 단위."@ko .
+
+rcpp:RcppProgressPaymentSubmissionPackage
+    a rdfs:Class ;
+    rdfs:label "철근콘크리트공종 기성제출서류패키지"@ko ;
+    rdfs:subClassOf rcpp:ProgressPaymentSubmissionPackage ;
+    rdfs:comment "aboutWorkType이 철근콘크리트공사인 기성제출서류패키지. RDFS에서는 OWL 정의 클래스가 아니므로 인스턴스의 aboutWorkType 값과 사용 규칙으로 관리한다."@ko .
+
+rcpp:ProgressPaymentDocument
+    a rdfs:Class ;
+    rdfs:label "기성서류"@ko ;
+    rdfs:subClassOf rcpp:Document .
+
+rcpp:StatementDocument
+    a rdfs:Class ;
+    rdfs:label "내역서"@ko ;
+    rdfs:subClassOf rcpp:ProgressPaymentDocument ;
+    rdfs:comment "공사비 또는 기성비용을 항목, 수량, 단가, 금액, 비율로 표시하는 문서 유형."@ko .
+
+rcpp:ProgressPaymentStatement
+    a rdfs:Class ;
+    rdfs:label "공사기성부분내역서"@ko ;
+    rdfs:subClassOf rcpp:StatementDocument ;
+    rdfs:comment "도급액, 공사명, 기성부분금액과 기성내역행을 최종 표시하는 문서."@ko .
+
+rcpp:ContractBOQ
+    a rdfs:Class ;
+    rdfs:label "계약 산출내역서"@ko ;
+    rdfs:subClassOf rcpp:ProgressPaymentDocument ;
+    rdfs:comment "계약 기준 항목, 규격, 단위, 계약수량, 계약단가, 계약금액을 제공하는 문서."@ko .
+
+rcpp:TradeDetailSheet
+    a rdfs:Class ;
+    rdfs:label "공종별내역서"@ko ;
+    rdfs:subClassOf rcpp:ProgressPaymentDocument ;
+    rdfs:comment "공종별 기성 내역항목의 계약·전회·금회·누계·잔여 수량 및 금액을 관리하는 문서."@ko .
+
+rcpp:TradeSummarySheet
+    a rdfs:Class ;
+    rdfs:label "공종별집계표"@ko ;
+    rdfs:subClassOf rcpp:ProgressPaymentDocument ;
+    rdfs:comment "공종별내역서의 하위 내역항목을 공종 기준으로 집계하는 문서."@ko .
+
+rcpp:QuantityTakeoffSheet
+    a rdfs:Class ;
+    rdfs:label "수량산출서"@ko ;
+    rdfs:subClassOf rcpp:ProgressPaymentDocument ;
+    rdfs:comment "위치, 부재, 치수, 산식, 공제·할증 조건으로 기성수량을 산출하는 문서."@ko .
+
+rcpp:UnitPriceBasisDocument
+    a rdfs:Class ;
+    rdfs:label "단가근거서류"@ko ;
+    rdfs:subClassOf rcpp:ProgressPaymentDocument ;
+    rdfs:comment "일위대가, 단가산출, 자재단가, 표준 기준 등 적용단가의 근거를 제공하는 문서군."@ko .
+
+rcpp:UnitPriceBasisPackage
+    a rdfs:Class ;
+    rdfs:label "단가근거서류패키지"@ko ;
+    rdfs:subClassOf rcpp:DocumentPackage ;
+    rdfs:comment "단가산출서, 일위대가표, 소요자재단가현황 등 단가 근거 문서들을 묶은 하위 패키지."@ko .
+
+rcpp:UnitPriceTable
+    a rdfs:Class ;
+    rdfs:label "일위대가표"@ko ;
+    rdfs:subClassOf rcpp:UnitPriceBasisDocument .
+
+rcpp:UnitPriceCalculationSheet
+    a rdfs:Class ;
+    rdfs:label "단가산출서"@ko ;
+    rdfs:subClassOf rcpp:UnitPriceBasisDocument .
+
+rcpp:MaterialPriceSurvey
+    a rdfs:Class ;
+    rdfs:label "소요자재단가현황"@ko ;
+    rdfs:subClassOf rcpp:UnitPriceBasisDocument .
+
+rcpp:CostCalculationSheet
+    a rdfs:Class ;
+    rdfs:label "원가계산서"@ko ;
+    rdfs:subClassOf rcpp:ProgressPaymentDocument ;
+    rdfs:comment "직접공사비, 간접공사비, 법정경비, 일반관리비, 이윤, 부가가치세 등 원가항목을 계산하는 문서."@ko .
+
+#################################################################
+# 3. 공종 축
+#################################################################
+
+rcpp:ReinforcedConcreteWork
+    a rcpp:WorkType ;
+    rdfs:label "철근콘크리트공사"@ko ;
+    rdfs:comment "공사기성부분내역서에서 비용 산정 대상이 되는 철근콘크리트공종 개념. 하위 공종은 각 하위 공종의 isSubWorkTypeOf 관계로 찾는다."@ko .
+
+rcpp:RebarWork
+    a rcpp:WorkType ;
+    rdfs:label "철근공사"@ko ;
+    rdfs:comment "가공, 조립, 이음, 정착 등은 기본적으로 aboutWorkType과 수량산출항목의 조건 속성으로 기록하고, 강종·호칭·공칭직경은 철근 규격 노드에서 관리한다."@ko ;
+    rcpp:isSubWorkTypeOf rcpp:ReinforcedConcreteWork .
+
+rcpp:ConcreteWork
+    a rcpp:WorkType ;
+    rdfs:label "콘크리트공사"@ko ;
+    rdfs:comment "콘크리트 종류, 설계기준강도, 골재치수, 슬럼프 같은 규격값은 콘크리트 규격 노드에서 관리하고 부재치수, 공제·할증 등 산출 조건은 수량산출항목에 둔다."@ko ;
+    rcpp:isSubWorkTypeOf rcpp:ReinforcedConcreteWork .
+
+rcpp:Formwork
+    a rcpp:WorkType ;
+    rdfs:label "거푸집공사"@ko ;
+    rdfs:comment "재료·형식, 적용부재 같은 규격값은 거푸집 규격 노드에서 관리하고 접촉면 치수, 면수, 개소수, 공제면적 등 산출 조건은 수량산출항목에 둔다."@ko ;
+    rcpp:isSubWorkTypeOf rcpp:ReinforcedConcreteWork .
+
+rcpp:ShoringWork
+    a rcpp:WorkType ;
+    rdfs:label "동바리공사"@ko ;
+    rdfs:comment "동바리 시스템과 적용높이 같은 규격값은 동바리 규격 노드에서 관리하고 지지부재, 측정방식, 평면치수, 간격, 임대기간 등 산출 조건은 수량산출항목에 둔다."@ko ;
+    rcpp:isSubWorkTypeOf rcpp:ReinforcedConcreteWork .
+
+#################################################################
+# 4. 문서 섹션과 행 단위 항목
+#################################################################
+
+rcpp:ProgressPaymentSection
+    a rdfs:Class ;
+    rdfs:label "기성내역섹션"@ko ;
+    rdfs:subClassOf rcpp:DocumentSection .
+
+rcpp:ContractBOQSection
+    a rdfs:Class ;
+    rdfs:label "계약내역섹션"@ko ;
+    rdfs:subClassOf rcpp:DocumentSection .
+
+rcpp:TradeDetailSection
+    a rdfs:Class ;
+    rdfs:label "공종내역섹션"@ko ;
+    rdfs:subClassOf rcpp:DocumentSection ;
+    rdfs:comment "공종별내역서 내부에서 특정 공종의 내역항목을 담는 섹션. aboutWorkType으로 공종을 참조한다."@ko .
+
+rcpp:TradeSummarySection
+    a rdfs:Class ;
+    rdfs:label "공종집계섹션"@ko ;
+    rdfs:subClassOf rcpp:DocumentSection .
+
+rcpp:QuantityTakeoffSection
+    a rdfs:Class ;
+    rdfs:label "수량산출섹션"@ko ;
+    rdfs:subClassOf rcpp:DocumentSection .
+
+rcpp:UnitPriceBasisSection
+    a rdfs:Class ;
+    rdfs:label "단가근거섹션"@ko ;
+    rdfs:subClassOf rcpp:DocumentSection .
+
+rcpp:CostCalculationSection
+    a rdfs:Class ;
+    rdfs:label "원가계산섹션"@ko ;
+    rdfs:subClassOf rcpp:DocumentSection .
+
+rcpp:ProgressLineItem
+    a rdfs:Class ;
+    rdfs:label "기성내역항목"@ko ;
+    rdfs:subClassOf rcpp:LineItem ;
+    rdfs:comment "공사기성부분내역서 또는 공종별내역서의 행 단위 비용 항목. 계약·수량·단가·집계 항목과 연결된다."@ko .
+
+rcpp:ProgressStatementLineItem
+    a rdfs:Class ;
+    rdfs:label "공사기성부분내역서 행"@ko ;
+    rdfs:subClassOf rcpp:DocumentRow ,
+        rcpp:ProgressLineItem ;
+    rdfs:comment "공사기성부분내역서에 실제로 기재된 기성 내역 행. 공종별내역서 행과 값이 같아도 별도 인스턴스로 식별한다."@ko .
+
+rcpp:TradeDetailLineItem
+    a rdfs:Class ;
+    rdfs:label "공종별내역서 행"@ko ;
+    rdfs:subClassOf rcpp:DocumentRow ,
+        rcpp:ProgressLineItem ;
+    rdfs:comment "공종별내역서에 실제로 기재된 공종별 내역 행. 공사기성부분내역서 행의 근거 또는 원천 행이 될 수 있다."@ko .
+
+rcpp:ContractBOQLineItem
+    a rdfs:Class ;
+    rdfs:label "계약산출내역서 행"@ko ;
+    rdfs:subClassOf rcpp:DocumentRow ,
+        rcpp:ContractLineItem ;
+    rdfs:comment "계약 산출내역서에 실제로 기재된 계약 기준 행."@ko .
+
+rcpp:ContractLineItem
+    a rdfs:Class ;
+    rdfs:label "계약내역항목"@ko ;
+    rdfs:subClassOf rcpp:LineItem .
+
+rcpp:QuantityCalculationItem
+    a rdfs:Class ;
+    rdfs:label "수량산출항목"@ko ;
+    rdfs:subClassOf rcpp:LineItem .
+
+rcpp:UnitPriceItem
+    a rdfs:Class ;
+    rdfs:label "단가항목"@ko ;
+    rdfs:subClassOf rcpp:LineItem .
+
+rcpp:UnitPriceCompositionItem
+    a rdfs:Class ;
+    rdfs:label "일위대가항목"@ko ;
+    rdfs:subClassOf rcpp:UnitPriceItem .
+
+rcpp:MaterialPriceItem
+    a rdfs:Class ;
+    rdfs:label "자재단가항목"@ko ;
+    rdfs:subClassOf rcpp:UnitPriceItem .
+
+rcpp:SummaryLineItem
+    a rdfs:Class ;
+    rdfs:label "집계항목"@ko ;
+    rdfs:subClassOf rcpp:LineItem .
+
+rcpp:CalculationRule
+    a rdfs:Class ;
+    rdfs:label "계산규칙"@ko ;
+    rdfs:comment "계산 대상 값이 어떤 입력값과 연산자로 산출되는지 기계 판독 가능하게 표현하는 규칙."@ko .
+
+rcpp:SumCalculation
+    a rdfs:Class ;
+    rdfs:label "합산계산"@ko ;
+    rdfs:subClassOf rcpp:CalculationRule .
+
+rcpp:RateCalculation
+    a rdfs:Class ;
+    rdfs:label "요율계산"@ko ;
+    rdfs:subClassOf rcpp:CalculationRule .
+
+#################################################################
+# 5. 원가항목과 표준근거
+#################################################################
+
+rcpp:DirectConstructionCost
+    a rdfs:Class ;
+    rdfs:label "직접공사비"@ko ;
+    rdfs:subClassOf rcpp:CostItem .
+
+rcpp:IndirectConstructionCost
+    a rdfs:Class ;
+    rdfs:label "간접공사비"@ko ;
+    rdfs:subClassOf rcpp:CostItem .
+
+rcpp:StatutoryExpense
+    a rdfs:Class ;
+    rdfs:label "법정경비"@ko ;
+    rdfs:subClassOf rcpp:CostItem .
+
+rcpp:GeneralAdministrationCost
+    a rdfs:Class ;
+    rdfs:label "일반관리비"@ko ;
+    rdfs:subClassOf rcpp:CostItem .
+
+rcpp:Profit
+    a rdfs:Class ;
+    rdfs:label "이윤"@ko ;
+    rdfs:subClassOf rcpp:CostItem .
+
+rcpp:ValueAddedTax
+    a rdfs:Class ;
+    rdfs:label "부가가치세"@ko ;
+    rdfs:subClassOf rcpp:CostItem .
+
+rcpp:SubtotalAmount
+    a rdfs:Class ;
+    rdfs:label "공급가액"@ko ;
+    rdfs:subClassOf rcpp:AggregateValue .
+
+rcpp:TotalAmount
+    a rdfs:Class ;
+    rdfs:label "총공사비"@ko ;
+    rdfs:subClassOf rcpp:AggregateValue .
+
+rcpp:StandardProductionRate
+    a rdfs:Class ;
+    rdfs:label "표준품셈"@ko ;
+    rdfs:subClassOf rcpp:StandardReference .
+
+rcpp:StandardMarketRate
+    a rdfs:Class ;
+    rdfs:label "표준시장단가"@ko ;
+    rdfs:subClassOf rcpp:StandardReference .
+
+#################################################################
+# 6. 객체속성
+#################################################################
+
+rcpp:hasDocument a rdf:Property ; rdfs:label "hasDocument" ; rdfs:domain rcpp:DocumentPackage ; rdfs:range rcpp:Document .
+rcpp:hasSheet a rdf:Property ; rdfs:label "hasSheet" ; rdfs:comment "하나의 파일 안에서 시트를 문서 단위로 다룰 때 사용한다."@ko .
+rcpp:hasSection a rdf:Property ; rdfs:label "hasSection" ; rdfs:range rcpp:DocumentSection .
+rcpp:hasPart a rdf:Property ; rdfs:label "hasPart" .
+rcpp:aboutWorkType a rdf:Property ; rdfs:label "aboutWorkType" ; rdfs:range rcpp:WorkType .
+rcpp:isSubWorkTypeOf a rdf:Property ; rdfs:label "isSubWorkTypeOf" ; rdfs:domain rcpp:WorkType ; rdfs:range rcpp:WorkType .
+rcpp:hasLineItem a rdf:Property ; rdfs:label "hasLineItem" ; rdfs:domain rcpp:DocumentSection ; rdfs:range rcpp:LineItem .
+rcpp:describesBusinessItem a rdf:Property ; rdfs:label "describesBusinessItem" ; rdfs:domain rcpp:DocumentRow ; rdfs:range rcpp:BusinessItem .
+rcpp:forBusinessItem a rdf:Property ; rdfs:label "forBusinessItem" ; rdfs:range rcpp:BusinessItem ; rdfs:comment "수량산출항목, 단가항목, 업무항목별 소계처럼 단일 업무항목의 계산 또는 근거인 항목을 연결한다."@ko .
+rcpp:hasSpecification a rdf:Property ; rdfs:label "hasSpecification" ; rdfs:range rcpp:ItemSpecification ; rdfs:comment "업무항목이 구조화된 규격 노드를 참조함을 나타낸다."@ko .
+rcpp:actualSpecification a rdf:Property ; rdfs:label "actualSpecification" ; rdfs:range rcpp:ItemSpecification ; rdfs:comment "수량산출항목 등에서 계약 규격과 다른 실제 시공 규격을 별도로 기록할 때 사용한다."@ko .
+rcpp:summarizesWorkType a rdf:Property ; rdfs:label "summarizesWorkType" ; rdfs:range rcpp:WorkType ; rdfs:comment "집계항목이 특정 공종 전체를 집계함을 나타낸다."@ko .
+rcpp:aggregatesBusinessItem a rdf:Property ; rdfs:label "aggregatesBusinessItem" ; rdfs:range rcpp:BusinessItem ; rdfs:comment "집계항목이 특정 업무항목만을 집계함을 나타낸다."@ko .
+rcpp:derivedFrom a rdf:Property ; rdfs:label "derivedFrom" ; rdfs:comment "문서행, 산출항목, 집계값 등이 어떤 원천 행 또는 근거 항목에서 유도되었는지 나타낸다."@ko .
+
+rcpp:referencesContractDocument a rdf:Property ; rdfs:label "referencesContractDocument" ; rdfs:range rcpp:ContractBOQ .
+rcpp:supportedBy a rdf:Property ; rdfs:label "supportedBy" ; rdfs:comment "문서 또는 항목이 증빙·근거 문서로 뒷받침됨을 나타낸다."@ko .
+rcpp:correspondsToContractItem a rdf:Property ; rdfs:label "correspondsToContractItem" ; rdfs:range rcpp:ContractLineItem .
+rcpp:hasQuantityBasis a rdf:Property ; rdfs:label "hasQuantityBasis" ; rdfs:range rcpp:QuantityCalculationItem .
+rcpp:hasUnitPriceBasis a rdf:Property ; rdfs:label "hasUnitPriceBasis" ; rdfs:range rcpp:UnitPriceItem .
+rcpp:aggregatedInto a rdf:Property ; rdfs:label "aggregatedInto" ; rdfs:range rcpp:SummaryLineItem .
+
+rcpp:calculatedBy a rdf:Property ; rdfs:label "calculatedBy" ; rdfs:range rcpp:UnitPriceCompositionItem .
+rcpp:documentedIn a rdf:Property ; rdfs:label "documentedIn" ; rdfs:range rcpp:Document .
+rcpp:usesMaterialPrice a rdf:Property ; rdfs:label "usesMaterialPrice" ; rdfs:range rcpp:MaterialPriceItem .
+rcpp:basedOnStandard a rdf:Property ; rdfs:label "basedOnStandard" ; rdfs:range rcpp:StandardProductionRate .
+rcpp:basedOnMarketRate a rdf:Property ; rdfs:label "basedOnMarketRate" ; rdfs:range rcpp:StandardMarketRate .
+
+rcpp:hasCostItem a rdf:Property ; rdfs:label "hasCostItem" ; rdfs:range rcpp:CostItem .
+rcpp:hasSubtotal a rdf:Property ; rdfs:label "hasSubtotal" ; rdfs:range rcpp:SubtotalAmount .
+rcpp:hasTaxAmount a rdf:Property ; rdfs:label "hasTaxAmount" ; rdfs:range rcpp:ValueAddedTax .
+rcpp:hasTotalAmount a rdf:Property ; rdfs:label "hasTotalAmount" ; rdfs:range rcpp:TotalAmount .
+rcpp:isCalculatedFrom a rdf:Property ; rdfs:label "isCalculatedFrom" ; rdfs:comment "값이나 항목이 어떤 입력 항목에서 계산되는지 나타낸다."@ko .
+rcpp:computedBy a rdf:Property ; rdfs:label "computedBy" ; rdfs:range rcpp:CalculationRule ; rdfs:comment "값이나 항목이 어떤 계산규칙으로 산출되는지 연결한다."@ko .
+rcpp:hasBaseAmount a rdf:Property ; rdfs:label "hasBaseAmount" ; rdfs:comment "계산규칙이 입력으로 사용하는 기준 금액 또는 기준 항목."@ko .
+rcpp:produces a rdf:Property ; rdfs:label "produces" ; rdfs:comment "계산규칙이 산출하는 결과 항목 또는 집계값."@ko .
+
+#################################################################
+# 7. 데이터속성
+#################################################################
+
+rcpp:documentName a rdf:Property ; rdfs:label "문서명"@ko ; rdfs:range xsd:string .
+rcpp:projectName a rdf:Property ; rdfs:label "공사명"@ko ; rdfs:range xsd:string .
+rcpp:progressRound a rdf:Property ; rdfs:label "기성회차"@ko ; rdfs:range xsd:integer .
+rcpp:sectionName a rdf:Property ; rdfs:label "섹션명"@ko ; rdfs:range xsd:string .
+rcpp:itemCodeText a rdf:Property ; rdfs:label "원문 항목코드"@ko ; rdfs:range xsd:string .
+rcpp:itemNameText a rdf:Property ; rdfs:label "원문 항목명"@ko ; rdfs:range xsd:string .
+rcpp:canonicalItemCode a rdf:Property ; rdfs:label "정규 항목코드"@ko ; rdfs:range xsd:string .
+rcpp:normalizedItemName a rdf:Property ; rdfs:label "정규 항목명"@ko ; rdfs:range xsd:string .
+rcpp:workTypeText a rdf:Property ; rdfs:label "작업유형 원문"@ko ; rdfs:range xsd:string .
+rcpp:specificationText a rdf:Property ; rdfs:label "규격 원문"@ko ; rdfs:range xsd:string .
+rcpp:unitText a rdf:Property ; rdfs:label "단위 원문"@ko ; rdfs:range xsd:string .
+rcpp:currencyCode a rdf:Property ; rdfs:label "통화코드"@ko ; rdfs:range xsd:string .
+rcpp:amountScale a rdf:Property ; rdfs:label "금액 스케일"@ko ; rdfs:range xsd:decimal .
+
+rcpp:contractQuantity a rdf:Property ; rdfs:label "계약수량"@ko ; rdfs:range xsd:decimal .
+rcpp:contractUnitPrice a rdf:Property ; rdfs:label "계약단가"@ko ; rdfs:range xsd:decimal .
+rcpp:contractAmount a rdf:Property ; rdfs:label "계약금액"@ko ; rdfs:range xsd:decimal .
+rcpp:previousQuantity a rdf:Property ; rdfs:label "전회수량"@ko ; rdfs:range xsd:decimal .
+rcpp:previousAmount a rdf:Property ; rdfs:label "전회금액"@ko ; rdfs:range xsd:decimal .
+rcpp:currentQuantity a rdf:Property ; rdfs:label "금회수량"@ko ; rdfs:range xsd:decimal .
+rcpp:currentAmount a rdf:Property ; rdfs:label "금회금액"@ko ; rdfs:range xsd:decimal .
+rcpp:cumulativeQuantity a rdf:Property ; rdfs:label "누계수량"@ko ; rdfs:range xsd:decimal .
+rcpp:cumulativeAmount a rdf:Property ; rdfs:label "누계금액"@ko ; rdfs:range xsd:decimal .
+rcpp:remainingQuantity a rdf:Property ; rdfs:label "잔여수량"@ko ; rdfs:range xsd:decimal .
+rcpp:remainingAmount a rdf:Property ; rdfs:label "잔여금액"@ko ; rdfs:range xsd:decimal .
+rcpp:unitPrice a rdf:Property ; rdfs:label "단가"@ko ; rdfs:range xsd:decimal .
+rcpp:amountValue a rdf:Property ; rdfs:label "금액값"@ko ; rdfs:range xsd:decimal .
+rcpp:progressRate a rdf:Property ; rdfs:label "기성비율"@ko ; rdfs:comment "0.50처럼 0~1 범위의 비율값으로 저장하고 화면에서는 50%로 표시한다."@ko ; rdfs:range xsd:decimal .
+rcpp:rateValue a rdf:Property ; rdfs:label "요율값"@ko ; rdfs:range xsd:decimal .
+rcpp:numericValue a rdf:Property ; rdfs:label "숫자값"@ko ; rdfs:range xsd:decimal .
+rcpp:unitCode a rdf:Property ; rdfs:label "단위코드"@ko ; rdfs:range xsd:string .
+rcpp:calculationOperator a rdf:Property ; rdfs:label "계산연산자"@ko ; rdfs:range xsd:string .
+
+rcpp:memberType a rdf:Property ; rdfs:label "부재 유형"@ko ; rdfs:range xsd:string .
+rcpp:memberLocation a rdf:Property ; rdfs:label "부재 위치"@ko ; rdfs:range xsd:string .
+rcpp:dimensionLength a rdf:Property ; rdfs:label "길이"@ko ; rdfs:range xsd:decimal .
+rcpp:dimensionWidth a rdf:Property ; rdfs:label "폭"@ko ; rdfs:range xsd:decimal .
+rcpp:dimensionHeight a rdf:Property ; rdfs:label "높이"@ko ; rdfs:range xsd:decimal .
+rcpp:memberCount a rdf:Property ; rdfs:label "부재 개수"@ko ; rdfs:range xsd:integer .
+rcpp:deductionRule a rdf:Property ; rdfs:label "공제 규칙"@ko ; rdfs:range xsd:string .
+rcpp:allowanceRule a rdf:Property ; rdfs:label "할증 규칙"@ko ; rdfs:range xsd:string .
+rcpp:roundingRule a rdf:Property ; rdfs:label "반올림 규칙"@ko ; rdfs:range xsd:string .
+rcpp:documentedQuantity a rdf:Property ; rdfs:label "문서기재수량"@ko ; rdfs:range xsd:decimal .
+rcpp:derivedQuantity a rdf:Property ; rdfs:label "파생수량"@ko ; rdfs:range xsd:decimal .
+rcpp:quantityDifference a rdf:Property ; rdfs:label "수량차이"@ko ; rdfs:range xsd:decimal .
+rcpp:differenceDirection a rdf:Property ; rdfs:label "차이 방향"@ko ; rdfs:range xsd:string .
+rcpp:toleranceValue a rdf:Property ; rdfs:label "허용오차값"@ko ; rdfs:range xsd:decimal .
+rcpp:toleranceUnit a rdf:Property ; rdfs:label "허용오차 단위"@ko ; rdfs:range xsd:string .
+rcpp:validationStatus a rdf:Property ; rdfs:label "검증상태"@ko ; rdfs:range xsd:string .
+
+rcpp:steelGrade a rdf:Property ; rdfs:label "철근 강종"@ko ; rdfs:range xsd:string .
+rcpp:barDesignation a rdf:Property ; rdfs:label "철근 호칭"@ko ; rdfs:range xsd:string .
+rcpp:nominalDiameterValue a rdf:Property ; rdfs:label "공칭직경 숫자값"@ko ; rdfs:range xsd:decimal .
+rcpp:nominalDiameterUnit a rdf:Property ; rdfs:label "공칭직경 단위"@ko ; rdfs:range xsd:string .
+rcpp:barShape a rdf:Property ; rdfs:label "철근 형상"@ko ; rdfs:range xsd:string .
+rcpp:barLength a rdf:Property ; rdfs:label "철근 길이"@ko ; rdfs:range xsd:decimal .
+rcpp:barLengthUnit a rdf:Property ; rdfs:label "철근 길이 단위"@ko ; rdfs:range xsd:string .
+rcpp:barCount a rdf:Property ; rdfs:label "철근 개수"@ko ; rdfs:range xsd:integer .
+rcpp:unitWeight a rdf:Property ; rdfs:label "단위중량"@ko ; rdfs:range xsd:decimal .
+rcpp:unitWeightUnit a rdf:Property ; rdfs:label "단위중량 단위"@ko ; rdfs:range xsd:string .
+rcpp:totalBarLength a rdf:Property ; rdfs:label "철근 총길이"@ko ; rdfs:range xsd:decimal .
+rcpp:totalBarLengthUnit a rdf:Property ; rdfs:label "철근 총길이 단위"@ko ; rdfs:range xsd:string .
+rcpp:rebarWeight a rdf:Property ; rdfs:label "철근 중량"@ko ; rdfs:range xsd:decimal .
+rcpp:rebarWeightUnit a rdf:Property ; rdfs:label "철근 중량 단위"@ko ; rdfs:range xsd:string .
+rcpp:spliceMethod a rdf:Property ; rdfs:label "철근 이음 방식"@ko ; rdfs:range xsd:string .
+rcpp:anchorageLength a rdf:Property ; rdfs:label "철근 정착 길이"@ko ; rdfs:range xsd:decimal .
+rcpp:anchorageLengthUnit a rdf:Property ; rdfs:label "철근 정착 길이 단위"@ko ; rdfs:range xsd:string .
+
+rcpp:concreteType a rdf:Property ; rdfs:label "콘크리트 종류"@ko ; rdfs:range xsd:string .
+rcpp:designStrengthValue a rdf:Property ; rdfs:label "설계기준압축강도 숫자값"@ko ; rdfs:range xsd:decimal .
+rcpp:designStrengthText a rdf:Property ; rdfs:label "설계기준압축강도 원문"@ko ; rdfs:range xsd:string .
+rcpp:designStrengthUnit a rdf:Property ; rdfs:label "설계기준압축강도 단위"@ko ; rdfs:range xsd:string .
+rcpp:aggregateMaxSizeValue a rdf:Property ; rdfs:label "굵은골재 최대치수 숫자값"@ko ; rdfs:range xsd:decimal .
+rcpp:aggregateMaxSizeText a rdf:Property ; rdfs:label "굵은골재 최대치수 원문"@ko ; rdfs:range xsd:string .
+rcpp:aggregateMaxSizeUnit a rdf:Property ; rdfs:label "굵은골재 최대치수 단위"@ko ; rdfs:range xsd:string .
+rcpp:slumpValue a rdf:Property ; rdfs:label "슬럼프 숫자값"@ko ; rdfs:range xsd:decimal .
+rcpp:slumpText a rdf:Property ; rdfs:label "슬럼프 원문"@ko ; rdfs:range xsd:string .
+rcpp:slumpUnit a rdf:Property ; rdfs:label "슬럼프 단위"@ko ; rdfs:range xsd:string .
+rcpp:airContentValue a rdf:Property ; rdfs:label "공기량 숫자값"@ko ; rdfs:range xsd:decimal .
+rcpp:airContentText a rdf:Property ; rdfs:label "공기량 원문"@ko ; rdfs:range xsd:string .
+rcpp:airContentUnit a rdf:Property ; rdfs:label "공기량 단위"@ko ; rdfs:range xsd:string .
+rcpp:dimensionUnit a rdf:Property ; rdfs:label "치수 단위"@ko ; rdfs:range xsd:string .
+rcpp:grossVolume a rdf:Property ; rdfs:label "총체적"@ko ; rdfs:range xsd:decimal .
+rcpp:deductionVolume a rdf:Property ; rdfs:label "공제체적"@ko ; rdfs:range xsd:decimal .
+rcpp:netVolume a rdf:Property ; rdfs:label "순체적"@ko ; rdfs:range xsd:decimal .
+rcpp:volumeUnit a rdf:Property ; rdfs:label "체적 단위"@ko ; rdfs:range xsd:string .
+
+rcpp:formworkMaterial a rdf:Property ; rdfs:label "거푸집 재료"@ko ; rdfs:range xsd:string .
+rcpp:formworkType a rdf:Property ; rdfs:label "거푸집 형식"@ko ; rdfs:range xsd:string .
+rcpp:contactMember a rdf:Property ; rdfs:label "적용 부재"@ko ; rdfs:range xsd:string .
+rcpp:perimeterLength a rdf:Property ; rdfs:label "둘레 길이"@ko ; rdfs:range xsd:decimal .
+rcpp:faceCount a rdf:Property ; rdfs:label "면수"@ko ; rdfs:range xsd:integer .
+rcpp:placeCount a rdf:Property ; rdfs:label "개소수"@ko ; rdfs:range xsd:integer .
+rcpp:panelThickness a rdf:Property ; rdfs:label "자재두께"@ko ; rdfs:range xsd:decimal .
+rcpp:panelThicknessUnit a rdf:Property ; rdfs:label "자재두께 단위"@ko ; rdfs:range xsd:string .
+rcpp:grossContactArea a rdf:Property ; rdfs:label "총 접촉면적"@ko ; rdfs:range xsd:decimal .
+rcpp:deductionArea a rdf:Property ; rdfs:label "공제면적"@ko ; rdfs:range xsd:decimal .
+rcpp:netContactArea a rdf:Property ; rdfs:label "순 접촉면적"@ko ; rdfs:range xsd:decimal .
+rcpp:areaUnit a rdf:Property ; rdfs:label "면적 단위"@ko ; rdfs:range xsd:string .
+
+rcpp:shoringSystem a rdf:Property ; rdfs:label "동바리 시스템"@ko ; rdfs:range xsd:string .
+rcpp:supportMember a rdf:Property ; rdfs:label "지지부재"@ko ; rdfs:range xsd:string .
+rcpp:measurementMethod a rdf:Property ; rdfs:label "측정방식"@ko ; rdfs:range xsd:string .
+rcpp:supportLength a rdf:Property ; rdfs:label "지지면 길이"@ko ; rdfs:range xsd:decimal .
+rcpp:supportLengthUnit a rdf:Property ; rdfs:label "지지면 길이 단위"@ko ; rdfs:range xsd:string .
+rcpp:supportWidth a rdf:Property ; rdfs:label "지지면 폭"@ko ; rdfs:range xsd:decimal .
+rcpp:supportWidthUnit a rdf:Property ; rdfs:label "지지면 폭 단위"@ko ; rdfs:range xsd:string .
+rcpp:shoringHeight a rdf:Property ; rdfs:label "설치높이"@ko ; rdfs:range xsd:decimal .
+rcpp:shoringHeightUnit a rdf:Property ; rdfs:label "설치높이 단위"@ko ; rdfs:range xsd:string .
+rcpp:supportCount a rdf:Property ; rdfs:label "지지재수"@ko ; rdfs:range xsd:integer .
+rcpp:supportSpacing a rdf:Property ; rdfs:label "지지재 간격"@ko ; rdfs:range xsd:decimal .
+rcpp:supportSpacingUnit a rdf:Property ; rdfs:label "지지재 간격 단위"@ko ; rdfs:range xsd:string .
+rcpp:rentalDuration a rdf:Property ; rdfs:label "임대기간"@ko ; rdfs:range xsd:decimal .
+rcpp:rentalDurationUnit a rdf:Property ; rdfs:label "임대기간 단위"@ko ; rdfs:range xsd:string .
+rcpp:supportArea a rdf:Property ; rdfs:label "지지면적"@ko ; rdfs:range xsd:decimal .
+rcpp:supportAreaUnit a rdf:Property ; rdfs:label "지지면적 단위"@ko ; rdfs:range xsd:string .
+rcpp:installedVolume a rdf:Property ; rdfs:label "설치체적"@ko ; rdfs:range xsd:decimal .
+rcpp:installedVolumeUnit a rdf:Property ; rdfs:label "설치체적 단위"@ko ; rdfs:range xsd:string .
+rcpp:periodQuantity a rdf:Property ; rdfs:label "기간수량"@ko ; rdfs:range xsd:decimal .
+rcpp:periodQuantityUnit a rdf:Property ; rdfs:label "기간수량 단위"@ko ; rdfs:range xsd:string .
+
+rcpp:calculationFormula a rdf:Property ; rdfs:label "계산식"@ko ; rdfs:range xsd:string .
+rcpp:sourceLocation a rdf:Property ; rdfs:label "출처위치"@ko ; rdfs:range xsd:string .
+rcpp:originalValue a rdf:Property ; rdfs:label "원문값"@ko ; rdfs:range xsd:string .

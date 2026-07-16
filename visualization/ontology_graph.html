@@ -1,0 +1,1448 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>철근콘크리트공종 기성비용 온톨로지 구조 그래프</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d8dee8;
+      --focus: #111827;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 22px 12px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 22px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    button,
+    input {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+    }
+
+    button {
+      padding: 0 12px;
+      cursor: pointer;
+    }
+
+    button:hover { border-color: #4b5563; }
+
+    button.active {
+      border-color: #15803d;
+      background: #dcfce7;
+      color: #14532d;
+      font-weight: 700;
+    }
+
+    input {
+      width: min(340px, 100%);
+      padding: 0 10px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      height: calc(100vh - 106px);
+      min-height: 720px;
+    }
+
+    .graph-panel {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      background: #fbfcfe;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    svg:active { cursor: grabbing; }
+
+    .load-error {
+      display: none;
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 18px;
+      padding: 14px 16px;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      background: #fef2f2;
+      color: #991b1b;
+      font-size: 14px;
+    }
+
+    .link {
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      opacity: 0.9;
+    }
+
+    .link-label {
+      paint-order: stroke;
+      stroke: #fbfcfe;
+      stroke-width: 5px;
+      stroke-linejoin: round;
+      fill: #334155;
+      font-size: 11px;
+      pointer-events: none;
+    }
+
+    .node {
+      cursor: pointer;
+      transition: opacity 140ms ease;
+    }
+
+    .node circle {
+      stroke-width: 3px;
+      filter: drop-shadow(0 3px 5px rgba(15, 23, 42, 0.18));
+    }
+
+    .node text {
+      text-anchor: middle;
+      dominant-baseline: middle;
+      fill: #111827;
+      font-size: 13px;
+      font-weight: 800;
+      pointer-events: none;
+    }
+
+    .node.small text { font-size: 11px; }
+    .node.focus circle { stroke: var(--focus); stroke-width: 4px; }
+    .dim { opacity: 0.16; }
+
+    .side {
+      overflow: auto;
+      background: var(--panel);
+      border-left: 1px solid var(--line);
+      padding: 18px;
+    }
+
+    .side h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .side h3 {
+      margin: 18px 0 8px;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      column-gap: 10px;
+      row-gap: 10px;
+      font-size: 13px;
+    }
+
+    dt {
+      color: #64748b;
+      font-weight: 700;
+    }
+
+    dd {
+      margin: 0;
+      min-width: 0;
+      line-height: 1.5;
+    }
+
+    code {
+      display: inline-block;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #f1f5f9;
+      color: #0f172a;
+      font-family: "Segoe UI", "Noto Sans KR", Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .note-list,
+    .formula-list {
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    .note-list li,
+    .formula-list li { margin: 6px 0; }
+
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+      padding: 6px 0;
+      border-top: 1px solid #e5e7eb;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .detail-table th {
+      width: 42%;
+      color: #334155;
+      font-weight: 800;
+      padding-right: 8px;
+    }
+
+    .attribute-value {
+      margin-bottom: 3px;
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .calc-flow {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .calc-card {
+      padding: 10px;
+      border: 1px solid #dbe4f0;
+      border-radius: 8px;
+      background: #f8fafc;
+    }
+
+    .calc-title {
+      margin-bottom: 8px;
+      font-weight: 800;
+      color: #1f2937;
+    }
+
+    .calc-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .calc-token {
+      padding: 5px 7px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .calc-token.output {
+      border-color: #2563eb;
+      background: #dbeafe;
+      color: #1e3a8a;
+    }
+
+    .calc-op {
+      color: #64748b;
+      font-weight: 800;
+    }
+
+    .calc-note {
+      margin-top: 7px;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .legend {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 980px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .meta {
+        text-align: left;
+        white-space: normal;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .graph-panel {
+        height: 72vh;
+        min-height: 560px;
+      }
+
+      .side {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>철근콘크리트공종 기성비용 온톨로지 구조 그래프</h1>
+    <div class="meta">RDF/RDFS 관계 · 업무항목 중심 · 계산 계보 모델</div>
+  </header>
+
+  <div class="toolbar">
+    <button type="button" data-filter="all" class="active">전체</button>
+    <button type="button" data-filter="document">문서</button>
+    <button type="button" data-filter="section">섹션</button>
+    <button type="button" data-filter="work">공종</button>
+    <button type="button" data-filter="item">항목</button>
+    <button type="button" data-filter="basis">단가근거</button>
+    <button type="button" data-filter="cost">원가</button>
+    <button type="button" id="reset">초기화</button>
+    <input id="search" type="search" placeholder="검색: 철근중량, 콘크리트 순체적, 거푸집 접촉면적, 동바리">
+  </div>
+
+  <main class="layout">
+    <section class="graph-panel">
+      <div class="load-error" id="load-error">D3.js를 불러오지 못했습니다. 인터넷 연결 또는 CDN 접근을 확인하세요.</div>
+      <svg id="graph" role="img" aria-label="철근콘크리트공종 기성비용 온톨로지 구조 그래프"></svg>
+    </section>
+    <aside class="side" id="details">
+      <h2>선택 노드</h2>
+      <dl>
+        <dt>라벨</dt>
+        <dd>노드를 선택하면 RDF/RDFS 유형, 속성, 계산식, 연결관계가 표시됩니다.</dd>
+      </dl>
+      <h3>노드 구분</h3>
+      <div class="legend" id="legend"></div>
+    </aside>
+  </main>
+
+  <script>
+    const width = 1900;
+    const height = 1280;
+
+    const typeMeta = {
+      package: { label: "문서 패키지", fill: "#dcfce7", stroke: "#43a047", radius: 43 },
+      document: { label: "문서", fill: "#fff7df", stroke: "#c77b13", radius: 35 },
+      section: { label: "문서 섹션", fill: "#e0f2fe", stroke: "#0284c7", radius: 32 },
+      work: { label: "공종", fill: "#ede9fe", stroke: "#7c3aed", radius: 31 },
+      business: { label: "업무항목", fill: "#eef2ff", stroke: "#4f46e5", radius: 32 },
+      spec: { label: "항목 규격", fill: "#f0fdf4", stroke: "#16a34a", radius: 31 },
+      row: { label: "문서행", fill: "#f1f5f9", stroke: "#475569", radius: 31 },
+      item: { label: "행 단위 항목", fill: "#eaf2ff", stroke: "#4f83cc", radius: 32 },
+      basis: { label: "단가·표준 근거", fill: "#dff7f4", stroke: "#0f766e", radius: 30 },
+      cost: { label: "원가항목", fill: "#fce7f3", stroke: "#c23073", radius: 30 },
+      value: { label: "집계값", fill: "#fef3c7", stroke: "#d97706", radius: 29 }
+    };
+
+    const relationMeta = {
+      hasDocument: { label: "rcpp:hasDocument", color: "#43a047", filters: ["document"] },
+      hasPart: { label: "rcpp:hasPart", color: "#43a047", filters: ["document"] },
+      hasSection: { label: "rcpp:hasSection", color: "#0284c7", filters: ["section"] },
+      aboutWorkType: { label: "rcpp:aboutWorkType", color: "#7c3aed", filters: ["work", "section", "item"] },
+      isSubWorkTypeOf: { label: "rcpp:isSubWorkTypeOf", color: "#7c3aed", filters: ["work"] },
+      hasLineItem: { label: "rcpp:hasLineItem", color: "#4f83cc", filters: ["item"] },
+      describesBusinessItem: { label: "rcpp:describesBusinessItem", color: "#4f46e5", filters: ["item"] },
+      forBusinessItem: { label: "rcpp:forBusinessItem", color: "#4f46e5", filters: ["item"] },
+      hasSpecification: { label: "rcpp:hasSpecification", color: "#16a34a", filters: ["item"] },
+      summarizesWorkType: { label: "rcpp:summarizesWorkType", color: "#7c3aed", filters: ["work", "item"] },
+      derivedFrom: { label: "rcpp:derivedFrom", color: "#64748b", filters: ["item"] },
+      referencesContractDocument: { label: "rcpp:referencesContractDocument", color: "#64748b", filters: ["document"] },
+      supportedBy: { label: "rcpp:supportedBy", color: "#64748b", filters: ["document"] },
+      correspondsToContractItem: { label: "rcpp:correspondsToContractItem", color: "#2563eb", filters: ["item"] },
+      hasQuantityBasis: { label: "rcpp:hasQuantityBasis", color: "#2563eb", filters: ["item"] },
+      hasUnitPriceBasis: { label: "rcpp:hasUnitPriceBasis", color: "#0f766e", filters: ["item", "basis"] },
+      aggregatedInto: { label: "rcpp:aggregatedInto", color: "#2563eb", filters: ["item"] },
+      isCalculatedFrom: { label: "rcpp:isCalculatedFrom", color: "#d97706", filters: ["cost", "item"] },
+      computedBy: { label: "rcpp:computedBy", color: "#9333ea", filters: ["cost"] },
+      hasBaseAmount: { label: "rcpp:hasBaseAmount", color: "#9333ea", filters: ["cost"] },
+      produces: { label: "rcpp:produces", color: "#9333ea", filters: ["cost"] },
+      calculatedBy: { label: "rcpp:calculatedBy", color: "#0f766e", filters: ["basis"] },
+      documentedIn: { label: "rcpp:documentedIn", color: "#0f766e", filters: ["basis"] },
+      usesMaterialPrice: { label: "rcpp:usesMaterialPrice", color: "#0f766e", filters: ["basis"] },
+      basedOnStandard: { label: "rcpp:basedOnStandard", color: "#0f766e", filters: ["basis"] },
+      basedOnMarketRate: { label: "rcpp:basedOnMarketRate", color: "#0f766e", filters: ["basis"] },
+      hasCostItem: { label: "rcpp:hasCostItem", color: "#c23073", filters: ["cost"] },
+      hasSubtotal: { label: "rcpp:hasSubtotal", color: "#d97706", filters: ["cost"] },
+      hasTaxAmount: { label: "rcpp:hasTaxAmount", color: "#d97706", filters: ["cost"] },
+      hasTotalAmount: { label: "rcpp:hasTotalAmount", color: "#d97706", filters: ["cost"] }
+    };
+
+    const nodes = [
+      { id: "package", label: "기성제출서류패키지", type: "package", group: "document", iri: "rcpp:ProgressPaymentSubmissionPackage", x: 110, y: 560, detail: "공사기성부분내역서와 비용 산정 근거서류를 함께 묶은 제출 단위." },
+
+      { id: "statementDoc", label: "공사기성부분내역서", type: "document", group: "document", iri: "rcpp:ProgressPaymentStatement", x: 390, y: 150, detail: "최종 기성금액과 기성내역행을 표시하는 문서." },
+      { id: "contractDoc", label: "계약 산출내역서", type: "document", group: "document", iri: "rcpp:ContractBOQ", x: 390, y: 290, detail: "계약 기준 항목, 규격, 단위, 계약수량, 계약단가, 계약금액을 제공하는 문서." },
+      { id: "tradeDetailDoc", label: "공종별내역서", type: "document", group: "document", iri: "rcpp:TradeDetailSheet", x: 390, y: 430, detail: "공종별 기성 내역항목의 계약·전회·금회·누계·잔여 수량 및 금액을 관리하는 문서." },
+      { id: "tradeSummaryDoc", label: "공종별집계표", type: "document", group: "document", iri: "rcpp:TradeSummarySheet", x: 390, y: 570, detail: "공종별내역서의 하위 항목을 공종 기준으로 집계하는 문서." },
+      { id: "quantityDoc", label: "수량산출서", type: "document", group: "document", iri: "rcpp:QuantityTakeoffSheet", x: 390, y: 710, detail: "위치, 부재, 치수, 산식, 공제·할증 조건으로 기성수량을 산출하는 문서." },
+      { id: "unitDoc", label: "단가근거서류패키지", type: "package", group: "document", iri: "rcpp:UnitPriceBasisPackage", x: 390, y: 850, detail: "단가산출서, 일위대가표, 소요자재단가현황을 묶는 하위 문서 패키지." },
+      { id: "costDoc", label: "원가계산서", type: "document", group: "document", iri: "rcpp:CostCalculationSheet", x: 390, y: 1010, detail: "직접공사비, 간접공사비, 법정경비, 일반관리비, 이윤, 부가가치세를 계산하는 문서." },
+      { id: "unitCalcDoc", label: "단가산출서", type: "document", group: "basis", iri: "rcpp:UnitPriceCalculationSheet", x: 560, y: 835, detail: "단가항목 산출식과 근거를 문서화하는 단가근거서류." },
+      { id: "unitTableDoc", label: "일위대가표", type: "document", group: "basis", iri: "rcpp:UnitPriceTable", x: 560, y: 760, detail: "단가 구성요소와 일위대가 항목을 제공하는 문서." },
+      { id: "materialSurveyDoc", label: "소요자재단가현황", type: "document", group: "basis", iri: "rcpp:MaterialPriceSurvey", x: 560, y: 910, detail: "자재 조사단가 또는 적용단가를 제공하는 문서." },
+
+      { id: "progressSection", label: "기성내역섹션", type: "section", group: "section", iri: "rcpp:ProgressPaymentSection", x: 690, y: 150, detail: "공사기성부분내역서의 반복 기성내역행 구획." },
+      { id: "contractSection", label: "계약내역섹션", type: "section", group: "section", iri: "rcpp:ContractBOQSection", x: 690, y: 290, detail: "계약 산출내역서의 계약 내역항목 구획." },
+      { id: "tradeDetailSection", label: "공종내역섹션", type: "section", group: "section", iri: "rcpp:TradeDetailSection", x: 690, y: 430, detail: "공종별내역서 내부에서 특정 공종의 내역항목을 담는 섹션." },
+      { id: "summarySection", label: "공종집계섹션", type: "section", group: "section", iri: "rcpp:TradeSummarySection", x: 690, y: 570, detail: "공종별집계표 내부에서 특정 공종의 집계항목을 담는 섹션." },
+      { id: "quantitySection", label: "수량산출섹션", type: "section", group: "section", iri: "rcpp:QuantityTakeoffSection", x: 690, y: 710, detail: "수량산출서 내부에서 특정 공종의 수량산출항목을 담는 섹션." },
+      { id: "unitSection", label: "단가근거섹션", type: "section", group: "section", iri: "rcpp:UnitPriceBasisSection", x: 760, y: 850, detail: "단가산출서 내부에서 특정 공종의 단가항목을 담는 섹션." },
+      { id: "costSection", label: "원가계산섹션", type: "section", group: "section", iri: "rcpp:CostCalculationSection", x: 690, y: 1010, detail: "원가계산서 내부의 원가항목 계산 구획." },
+
+      { id: "rcWork", label: "철근콘크리트공사", type: "work", group: "work", iri: "rcpp:ReinforcedConcreteWork a rcpp:WorkType", x: 940, y: 90, detail: "공사기성부분내역서의 대상 공종 개념. rdfs:Class가 아니라 rcpp:WorkType 인스턴스로 사용한다." },
+      { id: "rebarWork", label: "철근공사", type: "work", group: "work", iri: "rcpp:RebarWork a rcpp:WorkType", x: 1190, y: 60, detail: "철근 관련 공종 개념. 강종·호칭·공칭직경은 업무항목의 철근 규격 노드에 둔다." },
+      { id: "concreteWork", label: "콘크리트공사", type: "work", group: "work", iri: "rcpp:ConcreteWork a rcpp:WorkType", x: 1190, y: 130, detail: "콘크리트 관련 공종 개념. 종류·강도·골재치수·슬럼프는 업무항목의 콘크리트 규격 노드에 둔다." },
+      { id: "formwork", label: "거푸집공사", type: "work", group: "work", iri: "rcpp:Formwork a rcpp:WorkType", x: 1190, y: 200, detail: "거푸집 관련 공종 개념. 접촉면적 산식 입력값은 거푸집 수량산출항목에 둔다." },
+      { id: "shoringWork", label: "동바리공사", type: "work", group: "work", iri: "rcpp:ShoringWork a rcpp:WorkType", x: 1190, y: 270, detail: "동바리 관련 공종 개념. 시스템과 적용높이는 규격 노드에, 측정방식과 임대기간은 수량산출항목에 둔다." },
+
+      { id: "businessItem", label: "공종별 업무항목", type: "business", group: "item", iri: "rcpp:BusinessItem", x: 980, y: 360, detail: "여러 문서행, 수량산출항목, 단가항목, 집계항목이 함께 가리키는 업무상 동일 항목. 예: 철근 가공 및 조립." },
+      { id: "specification", label: "항목 규격", type: "spec", group: "item", iri: "rcpp:ItemSpecification", x: 1220, y: 390, detail: "업무항목의 구조화 규격 노드. 철근·콘크리트·거푸집·동바리 규격값을 문서행 원문과 분리해 보존한다." },
+      { id: "progressItem", label: "공사기성부분내역서 행", type: "row", group: "item", iri: "rcpp:ProgressStatementLineItem", x: 1010, y: 470, detail: "공사기성부분내역서에 실제로 기재된 행. 문서 위치와 원문값을 가진다." },
+      { id: "tradeDetailRow", label: "공종별내역서 행", type: "row", group: "item", iri: "rcpp:TradeDetailLineItem", x: 1010, y: 570, detail: "공종별내역서에 실제로 기재된 공종별 내역 행. 기성부분내역서 행의 원천 행이 될 수 있다." },
+      { id: "contractItem", label: "계약산출내역서 행", type: "row", group: "item", iri: "rcpp:ContractBOQLineItem", x: 1260, y: 340, detail: "계약 산출내역서에 실제로 기재된 계약 기준 행." },
+      { id: "quantityRebar", label: "철근 수량산출항목", type: "item", group: "item", iri: "rcpp:QuantityCalculationItem + rcpp:RebarWork", x: 1240, y: 455, detail: "철근공사의 길이·단위중량·본수 등 속성으로 중량을 산출하는 항목." },
+      { id: "quantityConcrete", label: "콘크리트 수량산출항목", type: "item", group: "item", iri: "rcpp:QuantityCalculationItem + rcpp:ConcreteWork", x: 1460, y: 455, detail: "콘크리트공사의 부재치수·공제체적으로 순체적을 산출하는 항목. 강도·슬럼프는 규격 노드에서 참조한다." },
+      { id: "quantityFormwork", label: "거푸집 수량산출항목", type: "item", group: "item", iri: "rcpp:QuantityCalculationItem + rcpp:Formwork", x: 1240, y: 555, detail: "거푸집공사의 면수·개소수·공제면적으로 순 접촉면적을 산출하는 항목. 재료·형식은 규격 노드에서 참조한다." },
+      { id: "quantityShoring", label: "동바리 수량산출항목", type: "item", group: "item", iri: "rcpp:QuantityCalculationItem + rcpp:ShoringWork", x: 1460, y: 555, detail: "동바리공사의 측정방식·지지면·임대기간으로 설치체적 또는 기간수량을 산출하는 항목. 시스템·적용높이는 규격 노드에서 참조한다." },
+      { id: "unitPriceItem", label: "공종별 단가항목", type: "item", group: "basis", iri: "rcpp:UnitPriceItem", x: 1280, y: 710, detail: "기성내역항목에 적용되는 단가와 그 근거를 연결하는 항목." },
+      { id: "summaryItem", label: "공종별 집계항목", type: "item", group: "item", iri: "rcpp:SummaryLineItem", x: 1040, y: 610, detail: "공종별집계표에서 하위 기성내역항목을 합산한 항목." },
+
+      { id: "unitComposition", label: "일위대가항목", type: "basis", group: "basis", iri: "rcpp:UnitPriceCompositionItem", x: 1560, y: 590, detail: "재료비·노무비·경비 구성으로 합계단가를 만드는 항목." },
+      { id: "materialPrice", label: "자재단가항목", type: "basis", group: "basis", iri: "rcpp:MaterialPriceItem", x: 1560, y: 665, detail: "자재 조사단가 또는 적용단가 항목." },
+      { id: "standardProd", label: "표준품셈", type: "basis", group: "basis", iri: "rcpp:StandardProductionRate", x: 1560, y: 740, detail: "소요량과 작업 기준을 제공하는 표준원가근거." },
+      { id: "marketRate", label: "표준시장단가", type: "basis", group: "basis", iri: "rcpp:StandardMarketRate", x: 1560, y: 815, detail: "시장 단가 기반의 표준원가근거." },
+
+      { id: "directCost", label: "직접공사비", type: "cost", group: "cost", iri: "rcpp:DirectConstructionCost", x: 990, y: 930, detail: "철근콘크리트공종 내역항목에 직접 귀속 가능한 비용." },
+      { id: "indirectCost", label: "간접공사비", type: "cost", group: "cost", iri: "rcpp:IndirectConstructionCost", x: 1180, y: 930, detail: "공사 전체 또는 시설물 단위로 계산될 수 있는 간접 비용." },
+      { id: "statutoryExpense", label: "법정경비", type: "cost", group: "cost", iri: "rcpp:StatutoryExpense", x: 1370, y: 930, detail: "보험료, 법정 부담금 등 법령 또는 기준에 따른 경비." },
+      { id: "adminCost", label: "일반관리비", type: "cost", group: "cost", iri: "rcpp:GeneralAdministrationCost", x: 990, y: 1040, detail: "일반관리비. 이윤과 분리한다." },
+      { id: "profit", label: "이윤", type: "cost", group: "cost", iri: "rcpp:Profit", x: 1180, y: 1040, detail: "이윤. 일반관리비와 분리한다." },
+      { id: "vat", label: "부가가치세", type: "cost", group: "cost", iri: "rcpp:ValueAddedTax", x: 1370, y: 1040, detail: "세금 항목. 총액과 분리한다." },
+      { id: "subtotal", label: "공급가액", type: "value", group: "cost", iri: "rcpp:SubtotalAmount", x: 1560, y: 970, detail: "세전 합계 집계값." },
+      { id: "totalAmount", label: "총공사비", type: "value", group: "cost", iri: "rcpp:TotalAmount", x: 1560, y: 1060, detail: "공급가액과 부가가치세를 합산한 최종 집계값." },
+      { id: "calculationRule", label: "계산규칙", type: "value", group: "cost", iri: "rcpp:CalculationRule", x: 1560, y: 1145, detail: "SUM, RATE 같은 연산자와 기준금액, 요율, 산출 대상을 기계 판독 가능하게 표현하는 규칙 노드." }
+    ];
+
+    const links = [
+      { source: "package", target: "statementDoc", relation: "hasDocument" },
+      { source: "package", target: "contractDoc", relation: "hasDocument" },
+      { source: "package", target: "tradeDetailDoc", relation: "hasDocument" },
+      { source: "package", target: "tradeSummaryDoc", relation: "hasDocument" },
+      { source: "package", target: "quantityDoc", relation: "hasDocument" },
+      { source: "package", target: "unitDoc", relation: "hasPart" },
+      { source: "package", target: "costDoc", relation: "hasDocument" },
+      { source: "unitDoc", target: "unitCalcDoc", relation: "hasDocument" },
+      { source: "unitDoc", target: "unitTableDoc", relation: "hasDocument" },
+      { source: "unitDoc", target: "materialSurveyDoc", relation: "hasDocument" },
+
+      { source: "statementDoc", target: "progressSection", relation: "hasSection" },
+      { source: "contractDoc", target: "contractSection", relation: "hasSection" },
+      { source: "tradeDetailDoc", target: "tradeDetailSection", relation: "hasSection" },
+      { source: "tradeSummaryDoc", target: "summarySection", relation: "hasSection" },
+      { source: "quantityDoc", target: "quantitySection", relation: "hasSection" },
+      { source: "unitCalcDoc", target: "unitSection", relation: "hasSection" },
+      { source: "costDoc", target: "costSection", relation: "hasSection" },
+
+      { source: "statementDoc", target: "contractDoc", relation: "referencesContractDocument" },
+      { source: "statementDoc", target: "tradeDetailDoc", relation: "supportedBy" },
+      { source: "statementDoc", target: "tradeSummaryDoc", relation: "supportedBy" },
+      { source: "statementDoc", target: "quantityDoc", relation: "supportedBy" },
+      { source: "statementDoc", target: "unitDoc", relation: "supportedBy" },
+
+      { source: "progressSection", target: "rcWork", relation: "aboutWorkType" },
+      { source: "tradeDetailSection", target: "rebarWork", relation: "aboutWorkType" },
+      { source: "tradeDetailSection", target: "concreteWork", relation: "aboutWorkType" },
+      { source: "tradeDetailSection", target: "formwork", relation: "aboutWorkType" },
+      { source: "tradeDetailSection", target: "shoringWork", relation: "aboutWorkType" },
+      { source: "summarySection", target: "rebarWork", relation: "aboutWorkType" },
+      { source: "summarySection", target: "concreteWork", relation: "aboutWorkType" },
+      { source: "summarySection", target: "formwork", relation: "aboutWorkType" },
+      { source: "summarySection", target: "shoringWork", relation: "aboutWorkType" },
+      { source: "quantitySection", target: "rebarWork", relation: "aboutWorkType" },
+      { source: "quantitySection", target: "concreteWork", relation: "aboutWorkType" },
+      { source: "quantitySection", target: "formwork", relation: "aboutWorkType" },
+      { source: "quantitySection", target: "shoringWork", relation: "aboutWorkType" },
+      { source: "unitSection", target: "rebarWork", relation: "aboutWorkType" },
+      { source: "unitSection", target: "concreteWork", relation: "aboutWorkType" },
+      { source: "unitSection", target: "formwork", relation: "aboutWorkType" },
+      { source: "unitSection", target: "shoringWork", relation: "aboutWorkType" },
+      { source: "rebarWork", target: "rcWork", relation: "isSubWorkTypeOf" },
+      { source: "concreteWork", target: "rcWork", relation: "isSubWorkTypeOf" },
+      { source: "formwork", target: "rcWork", relation: "isSubWorkTypeOf" },
+      { source: "shoringWork", target: "rcWork", relation: "isSubWorkTypeOf" },
+
+      { source: "progressSection", target: "progressItem", relation: "hasLineItem" },
+      { source: "contractSection", target: "contractItem", relation: "hasLineItem" },
+      { source: "tradeDetailSection", target: "tradeDetailRow", relation: "hasLineItem" },
+      { source: "summarySection", target: "summaryItem", relation: "hasLineItem" },
+      { source: "quantitySection", target: "quantityRebar", relation: "hasLineItem" },
+      { source: "quantitySection", target: "quantityConcrete", relation: "hasLineItem" },
+      { source: "quantitySection", target: "quantityFormwork", relation: "hasLineItem" },
+      { source: "quantitySection", target: "quantityShoring", relation: "hasLineItem" },
+      { source: "unitSection", target: "unitPriceItem", relation: "hasLineItem" },
+      { source: "businessItem", target: "rebarWork", relation: "aboutWorkType" },
+      { source: "businessItem", target: "concreteWork", relation: "aboutWorkType" },
+      { source: "businessItem", target: "formwork", relation: "aboutWorkType" },
+      { source: "businessItem", target: "shoringWork", relation: "aboutWorkType" },
+      { source: "businessItem", target: "specification", relation: "hasSpecification" },
+      { source: "progressItem", target: "businessItem", relation: "describesBusinessItem" },
+      { source: "tradeDetailRow", target: "businessItem", relation: "describesBusinessItem" },
+      { source: "contractItem", target: "businessItem", relation: "describesBusinessItem" },
+      { source: "progressItem", target: "tradeDetailRow", relation: "derivedFrom" },
+      { source: "quantityRebar", target: "businessItem", relation: "forBusinessItem" },
+      { source: "quantityConcrete", target: "businessItem", relation: "forBusinessItem" },
+      { source: "quantityFormwork", target: "businessItem", relation: "forBusinessItem" },
+      { source: "quantityShoring", target: "businessItem", relation: "forBusinessItem" },
+      { source: "unitPriceItem", target: "businessItem", relation: "forBusinessItem" },
+      { source: "summaryItem", target: "rebarWork", relation: "summarizesWorkType" },
+      { source: "summaryItem", target: "concreteWork", relation: "summarizesWorkType" },
+      { source: "summaryItem", target: "formwork", relation: "summarizesWorkType" },
+      { source: "summaryItem", target: "shoringWork", relation: "summarizesWorkType" },
+
+      { source: "tradeDetailRow", target: "contractItem", relation: "correspondsToContractItem" },
+      { source: "tradeDetailRow", target: "quantityRebar", relation: "hasQuantityBasis" },
+      { source: "tradeDetailRow", target: "quantityConcrete", relation: "hasQuantityBasis" },
+      { source: "tradeDetailRow", target: "quantityFormwork", relation: "hasQuantityBasis" },
+      { source: "tradeDetailRow", target: "quantityShoring", relation: "hasQuantityBasis" },
+      { source: "tradeDetailRow", target: "unitPriceItem", relation: "hasUnitPriceBasis" },
+      { source: "tradeDetailRow", target: "summaryItem", relation: "aggregatedInto" },
+
+      { source: "unitPriceItem", target: "unitComposition", relation: "calculatedBy" },
+      { source: "unitPriceItem", target: "unitCalcDoc", relation: "documentedIn" },
+      { source: "unitPriceItem", target: "materialPrice", relation: "usesMaterialPrice" },
+      { source: "unitPriceItem", target: "standardProd", relation: "basedOnStandard" },
+      { source: "unitPriceItem", target: "marketRate", relation: "basedOnMarketRate" },
+
+      { source: "costSection", target: "directCost", relation: "hasCostItem" },
+      { source: "costSection", target: "indirectCost", relation: "hasCostItem" },
+      { source: "costSection", target: "statutoryExpense", relation: "hasCostItem" },
+      { source: "costSection", target: "adminCost", relation: "hasCostItem" },
+      { source: "costSection", target: "profit", relation: "hasCostItem" },
+      { source: "costSection", target: "subtotal", relation: "hasSubtotal" },
+      { source: "costSection", target: "vat", relation: "hasTaxAmount" },
+      { source: "costSection", target: "totalAmount", relation: "hasTotalAmount" },
+      { source: "directCost", target: "summaryItem", relation: "isCalculatedFrom" },
+      { source: "indirectCost", target: "directCost", relation: "isCalculatedFrom" },
+      { source: "statutoryExpense", target: "directCost", relation: "isCalculatedFrom" },
+      { source: "adminCost", target: "directCost", relation: "isCalculatedFrom" },
+      { source: "adminCost", target: "indirectCost", relation: "isCalculatedFrom" },
+      { source: "adminCost", target: "statutoryExpense", relation: "isCalculatedFrom" },
+      { source: "profit", target: "directCost", relation: "isCalculatedFrom" },
+      { source: "profit", target: "indirectCost", relation: "isCalculatedFrom" },
+      { source: "profit", target: "statutoryExpense", relation: "isCalculatedFrom" },
+      { source: "profit", target: "adminCost", relation: "isCalculatedFrom" },
+      { source: "subtotal", target: "directCost", relation: "isCalculatedFrom" },
+      { source: "subtotal", target: "indirectCost", relation: "isCalculatedFrom" },
+      { source: "subtotal", target: "statutoryExpense", relation: "isCalculatedFrom" },
+      { source: "subtotal", target: "adminCost", relation: "isCalculatedFrom" },
+      { source: "subtotal", target: "profit", relation: "isCalculatedFrom" },
+      { source: "vat", target: "subtotal", relation: "isCalculatedFrom" },
+      { source: "totalAmount", target: "subtotal", relation: "isCalculatedFrom" },
+      { source: "totalAmount", target: "vat", relation: "isCalculatedFrom" },
+      { source: "directCost", target: "calculationRule", relation: "computedBy" },
+      { source: "indirectCost", target: "calculationRule", relation: "computedBy" },
+      { source: "statutoryExpense", target: "calculationRule", relation: "computedBy" },
+      { source: "adminCost", target: "calculationRule", relation: "computedBy" },
+      { source: "profit", target: "calculationRule", relation: "computedBy" },
+      { source: "subtotal", target: "calculationRule", relation: "computedBy" },
+      { source: "vat", target: "calculationRule", relation: "computedBy" },
+      { source: "totalAmount", target: "calculationRule", relation: "computedBy" }
+    ];
+
+    const nodeDetails = {
+      package: {
+        attributes: [
+          ["rcpp:projectName", "공사명", "기성제출서류패키지의 프로젝트 식별정보"],
+          ["rcpp:progressRound", "기성회차", "이번 제출 패키지가 나타내는 기성 회차"],
+          ["rcpp:currencyCode", "통화코드", "KRW", "금액값의 통화"],
+          ["rcpp:amountScale", "금액 스케일", "1", "금액 숫자가 원 단위임을 나타낸다"]
+        ],
+        notes: ["패키지 인스턴스에는 공종 관계를 중복 저장하지 않고, 섹션과 업무항목의 rcpp:aboutWorkType으로 추적한다."]
+      },
+      progressItem: {
+        attributes: [
+          ["rcpp:describesBusinessItem", "업무항목 참조", "같은 업무항목을 가리키되 문서행 인스턴스는 분리한다"],
+          ["rcpp:derivedFrom", "원천 행", "공종별내역서 행에서 유도된 최종 표시 행"],
+          ["rcpp:sourceLocation", "출처위치", "공사기성부분내역서의 행·셀 위치"],
+          ["rcpp:itemCodeText", "원문 항목코드", "EX-RC-RB-001 등", "문서에 적힌 항목코드"],
+          ["rcpp:itemNameText", "원문 항목명", "철근 가공 및 조립 등", "문서에 적힌 항목명"],
+          ["rcpp:specificationText", "원문 규격", "SD400, D13 등", "문서에 적힌 규격"],
+          ["rcpp:unitText", "원문 단위", "ton, m3, m2 등", "문서에 적힌 단위 표현"],
+          ["rcpp:currentQuantity", "금회수량", "해당 문서행에 기재된 금회수량"],
+          ["rcpp:unitPrice", "단가", "해당 문서행에 적용된 단가"],
+          ["rcpp:currentAmount", "금회금액", "금회수량과 단가로 계산되는 금액"],
+          ["rcpp:cumulativeAmount", "누계금액", "전회금액과 금회금액의 합"],
+          ["rcpp:progressRate", "기성비율", "0.50 = 50%처럼 0~1 값으로 저장한다"]
+        ],
+        formulas: [
+          ["금회금액", "rcpp:currentAmount = rcpp:currentQuantity × rcpp:unitPrice", "수량·단가 방식 항목의 기본 산식이다."],
+          ["누계수량", "rcpp:cumulativeQuantity = rcpp:previousQuantity + rcpp:currentQuantity", "전회와 금회 수량을 합산한다."],
+          ["잔여수량", "rcpp:remainingQuantity = rcpp:contractQuantity - rcpp:cumulativeQuantity", "계약수량이 확정된 항목에 적용한다."]
+        ],
+        notes: [
+          "공사기성부분내역서에 실제로 나타난 행이다.",
+          "공종별내역서 행과 값이 같아도 출처위치와 수정 이력이 다를 수 있으므로 별도 인스턴스로 둔다.",
+          "계약·수량·단가 근거는 공종별내역서 행을 통해 추적하고, 이 행은 최종 기성 표시 행으로 둔다."
+        ]
+      },
+      tradeDetailRow: {
+        attributes: [
+          ["rcpp:describesBusinessItem", "업무항목 참조", "공사기성부분내역서 행과 같은 업무항목을 공유한다"],
+          ["rcpp:sourceLocation", "출처위치", "공종별내역서의 행·셀 위치"],
+          ["rcpp:itemCodeText", "원문 항목코드", "EX-RC-RB-001 등", "문서에 적힌 항목코드"],
+          ["rcpp:itemNameText", "원문 항목명", "철근 가공 및 조립 등", "문서에 적힌 항목명"],
+          ["rcpp:specificationText", "원문 규격", "SD400, D13 등", "문서에 적힌 규격"],
+          ["rcpp:unitText", "원문 단위", "ton, m3, m2 등", "문서에 적힌 단위 표현"],
+          ["rcpp:currentQuantity", "금회수량", "공종별내역서 원문 수량"],
+          ["rcpp:currentAmount", "금회금액", "공종별내역서 원문 금액"],
+          ["rcpp:hasQuantityBasis", "수량근거", "수량산출항목과 연결"],
+          ["rcpp:hasUnitPriceBasis", "단가근거", "단가항목과 연결"],
+          ["rcpp:aggregatedInto", "집계항목", "공종별집계표의 집계항목으로 합산된다"]
+        ],
+        notes: [
+          "공종별내역서에 실제로 존재하는 행이다.",
+          "계약행, 수량산출항목, 단가항목이 이 행의 근거가 되고, 이 행이 집계항목으로 올라간다."
+        ]
+      },
+      contractItem: {
+        attributes: [
+          ["rcpp:describesBusinessItem", "업무항목 참조", "기성행과 같은 업무항목을 공유한다"],
+          ["rcpp:sourceLocation", "출처위치", "계약산출내역서의 행·셀 위치"],
+          ["rcpp:itemCodeText", "원문 항목코드", "EX-RC-RB-001 등", "문서에 적힌 항목코드"],
+          ["rcpp:itemNameText", "원문 항목명", "철근 가공 및 조립 등", "문서에 적힌 항목명"],
+          ["rcpp:specificationText", "원문 규격", "SD400, D13 등", "문서에 적힌 규격"],
+          ["rcpp:unitText", "원문 단위", "ton, m3, m2 등", "문서에 적힌 단위 표현"],
+          ["rcpp:contractQuantity", "계약수량", "계약 기준 수량"],
+          ["rcpp:contractUnitPrice", "계약단가", "계약 기준 단가"],
+          ["rcpp:contractAmount", "계약금액", "계약수량과 계약단가의 곱"]
+        ],
+        notes: [
+          "계약산출내역서에 실제로 존재하는 행이다.",
+          "화살표는 RDF predicate 방향을 따른다. 공종별내역서 행이 rcpp:correspondsToContractItem으로 계약행을 참조한다."
+        ]
+      },
+      businessItem: {
+        attributeLabel: "대표 속성",
+        attributes: [
+          ["rcpp:canonicalItemCode", "정규 항목코드", "EX-RC-RB-001 등", "문서별 원문 코드와 분리된 통합 식별자"],
+          ["rcpp:normalizedItemName", "정규 항목명", "철근 가공 및 조립 등", "업무상 동일 항목명"],
+          ["rcpp:unitCode", "정규 단위코드", "t, m3, m2", "비교·계산에 쓰는 표준 단위"],
+          ["rcpp:aboutWorkType", "공종", "철근공사 등", "업무항목이 속한 공종 개념"],
+          ["rcpp:hasSpecification", "구조화 규격", "철근규격 SD400 D13 등", "규격값을 별도 노드로 분리"]
+        ],
+        notes: [
+          "시각화에서는 철근·콘크리트·거푸집·동바리 업무항목 4개를 하나의 대표 노드로 압축해 보여준다.",
+          "문서행은 원문값을 갖고, 업무항목은 정규화값과 규격 노드만 가진다.",
+          "문서행은 rcpp:describesBusinessItem으로, 수량·단가항목은 rcpp:forBusinessItem으로 같은 업무항목에 연결된다. 공종별 집계항목은 rcpp:summarizesWorkType을 사용한다."
+        ]
+      },
+      specification: {
+        attributeLabel: "규격 속성",
+        attributes: [
+          ["rcpp:specificationText", "원문 규격", "SD400, D13 / 레미콘, 24 MPa, 25 mm, 150 mm 등", "문서 규격 원문"],
+          ["rcpp:steelGrade", "철근 강종", "SD400", "철근 규격 노드의 구조화 속성"],
+          ["rcpp:barDesignation", "철근 호칭", "D13", "D13은 실제 직경값이 아니라 호칭이다"],
+          ["rcpp:nominalDiameterValue", "공칭직경", "12.7", "철근 호칭에 대응하는 실제 공칭직경 숫자값"],
+          ["rcpp:nominalDiameterUnit", "공칭직경 단위", "mm", "공칭직경 단위"],
+          ["rcpp:concreteType", "콘크리트 종류", "레미콘", "콘크리트 규격 속성"],
+          ["rcpp:designStrengthValue", "설계기준압축강도", "24 MPa", "콘크리트 규격 속성"],
+          ["rcpp:formworkMaterial", "거푸집 재료", "합판", "거푸집 규격 속성"],
+          ["rcpp:shoringSystem", "동바리 시스템", "시스템동바리", "동바리 규격 속성"]
+        ],
+        notes: [
+          "업무항목이 rcpp:hasSpecification으로 참조하는 노드다.",
+          "수량산출항목에는 계산 입력값만 두고, 강종·호칭·강도·재료 같은 규격값은 이 계층에서 관리한다."
+        ]
+      },
+      quantityRebar: {
+        attributeLabel: "속성값",
+        attributes: [
+          ["rcpp:forBusinessItem", "업무항목", "예시 업무항목: 철근 가공 및 조립", "수량산출항목이 어느 업무항목의 근거인지 식별한다"],
+          ["rcpp:forBusinessItem/rcpp:hasSpecification", "참조 규격", "철근규격 SD400 D13", "강종·호칭·공칭직경은 업무항목의 규격 노드에서 가져온다"],
+          ["rcpp:unitCode", "단위코드", "t", "내역서 금회수량과 비교할 정규 단위"],
+          ["rcpp:memberLocation", "부재 위치", "기초 F1", "수량산출서에서 확인되는 위치"],
+          ["rcpp:barShape", "철근 형상", "직선", "직선, 절곡 등 형상 조건"],
+          ["rcpp:barLength", "본당길이", "10.0", "수량산출서에서 확인되는 기본입력"],
+          ["rcpp:barLengthUnit", "본당길이 단위", "m", "길이값의 단위"],
+          ["rcpp:barCount", "본수", "1000", "수량산출서에서 확인되는 기본입력"],
+          ["rcpp:unitWeight", "단위중량", "0.995", "직경별 기준참조값"],
+          ["rcpp:unitWeightUnit", "단위중량 단위", "kg/m", "단위중량값의 단위"],
+          ["rcpp:totalBarLength", "총길이", "10000.0", "본당길이와 본수로 계산되는 파생값"],
+          ["rcpp:totalBarLengthUnit", "총길이 단위", "m", "총길이값의 단위"],
+          ["rcpp:rebarWeight", "이론중량", "9950.0", "계산으로 산출되는 파생수량"],
+          ["rcpp:rebarWeightUnit", "이론중량 단위", "kg", "중량값의 단위"],
+          ["rcpp:spliceMethod", "이음 방식", "겹침이음", "이음 조건값"],
+          ["rcpp:anchorageLength", "정착 길이", "0.52", "정착 조건값"],
+          ["rcpp:anchorageLengthUnit", "정착 길이 단위", "m", "정착 길이값의 단위"],
+          ["rcpp:documentedQuantity", "문서기재수량", "10.0 ton", "내역서 또는 수량산출서 원문 수량"],
+          ["rcpp:derivedQuantity", "파생수량", "9.95 ton", "속성값으로 계산한 검산 수량"],
+          ["rcpp:quantityDifference", "수량차이", "0.05 ton", "문서기재수량과 파생수량의 차이"],
+          ["rcpp:differenceDirection", "차이 방향", "documentedMinusDerived", "문서기재수량 - 파생수량"],
+          ["rcpp:toleranceValue", "허용오차", "0.10 ton", "오차 판정 기준"],
+          ["rcpp:validationStatus", "검증상태", "withinTolerance", "허용오차 이내"]
+        ],
+        calculationFlows: [
+          {
+            title: "철근 총길이 산출",
+            inputs: ["rcpp:barLength", "rcpp:barCount"],
+            operators: ["×"],
+            output: "rcpp:totalBarLength",
+            note: "본당길이와 본수를 곱해 총길이를 만든다."
+          },
+          {
+            title: "철근 이론중량 산출",
+            inputs: ["rcpp:totalBarLength", "rcpp:unitWeight"],
+            operators: ["×"],
+            output: "rcpp:rebarWeight",
+            note: "단위중량은 직경별 기준참조값이다. 원문 기재 중량은 documentedQuantity로 보존해 검산한다."
+          }
+        ],
+        formulas: [
+          ["총길이", "rcpp:totalBarLength = rcpp:barLength × rcpp:barCount", "길이와 본수가 확인될 때 계산한다."],
+          ["철근 이론중량", "rcpp:rebarWeight = rcpp:totalBarLength × rcpp:unitWeight", "직경별 단위중량 기준표와 연결해 검산한다."]
+        ]
+      },
+      quantityConcrete: {
+        attributeLabel: "속성값",
+        attributes: [
+          ["rcpp:forBusinessItem", "업무항목", "예시 업무항목: 콘크리트 타설", "수량산출항목이 어느 업무항목의 근거인지 식별한다"],
+          ["rcpp:forBusinessItem/rcpp:hasSpecification", "참조 규격", "콘크리트규격 레미콘 24MPa 25mm 150mm", "종류·강도·골재치수·슬럼프는 업무항목의 규격 노드에서 가져온다"],
+          ["rcpp:unitCode", "단위코드", "m3", "내역서 금회수량과 비교할 단위"],
+          ["rcpp:memberType", "부재 유형", "기초", "수량산출 대상 부재 유형"],
+          ["rcpp:memberLocation", "부재 위치", "기초 F1", "수량산출서에서 확인되는 위치"],
+          ["rcpp:dimensionLength", "길이", "20.0 m", "부재 체적 산출 입력"],
+          ["rcpp:dimensionWidth", "폭", "5.0 m", "부재 체적 산출 입력"],
+          ["rcpp:dimensionHeight", "높이/두께", "0.5 m", "부재 체적 산출 입력"],
+          ["rcpp:memberCount", "개수", "1", "동일 부재 반복 수"],
+          ["rcpp:grossVolume", "총체적", "50.0 m3", "공제 전 체적"],
+          ["rcpp:deductionVolume", "공제체적", "0.0 m3", "개구부 등 공제 체적"],
+          ["rcpp:netVolume", "순체적", "50.0 m3", "기성수량으로 연결되는 파생수량"],
+          ["rcpp:documentedQuantity", "문서기재수량", "50.0 m3", "내역서 또는 수량산출서 원문 수량"],
+          ["rcpp:quantityDifference", "수량차이", "0.0 m3", "문서기재수량과 순체적의 차이"]
+        ],
+        calculationFlows: [
+          {
+            title: "콘크리트 총체적 산출",
+            inputs: ["rcpp:dimensionLength", "rcpp:dimensionWidth", "rcpp:dimensionHeight", "rcpp:memberCount"],
+            operators: ["×", "×", "×"],
+            output: "rcpp:grossVolume",
+            note: "부재별 체적 산식은 부재 유형에 따라 달라질 수 있다."
+          },
+          {
+            title: "콘크리트 순체적 산출",
+            inputs: ["rcpp:grossVolume", "rcpp:deductionVolume"],
+            operators: ["-"],
+            output: "rcpp:netVolume",
+            note: "공제·할증 조건이 있으면 deductionRule 또는 allowanceRule에 원문 기준을 남긴다."
+          }
+        ],
+        formulas: [
+          ["순체적", "rcpp:netVolume = rcpp:grossVolume - rcpp:deductionVolume", "순체적이 콘크리트 금회수량의 검산 기준이 된다."]
+        ]
+      },
+      quantityFormwork: {
+        attributeLabel: "속성값",
+        attributes: [
+          ["rcpp:forBusinessItem", "업무항목", "예시 업무항목: 거푸집 설치 및 해체", "수량산출항목이 어느 업무항목의 근거인지 식별한다"],
+          ["rcpp:forBusinessItem/rcpp:hasSpecification", "참조 규격", "거푸집규격 합판 기초 측면", "재료·형식·적용부재는 업무항목의 규격 노드에서 가져온다"],
+          ["rcpp:unitCode", "단위코드", "m2", "내역서 금회수량과 비교할 단위"],
+          ["rcpp:memberLocation", "부재 위치", "기초 F1", "수량산출서에서 확인되는 위치"],
+          ["rcpp:dimensionLength", "길이", "20.0 m", "접촉면적 산출 입력"],
+          ["rcpp:dimensionHeight", "높이", "3.0 m", "접촉면적 산출 입력"],
+          ["rcpp:perimeterLength", "둘레 길이", "해당 없음", "둘레 기준 산식일 때 사용"],
+          ["rcpp:faceCount", "면수", "2", "접촉면 수"],
+          ["rcpp:placeCount", "개소수", "1", "동일 조건 반복 수"],
+          ["rcpp:grossContactArea", "총 접촉면적", "120.0 m2", "공제 전 면적"],
+          ["rcpp:deductionArea", "공제면적", "0.0 m2", "개구부 등 공제 면적"],
+          ["rcpp:netContactArea", "순 접촉면적", "120.0 m2", "기성수량으로 연결되는 파생면적"],
+          ["rcpp:documentedQuantity", "문서기재면적", "120.0 m2", "내역서 또는 수량산출서 원문 면적"],
+          ["rcpp:quantityDifference", "면적차이", "0.0 m2", "문서기재면적과 순 접촉면적의 차이"]
+        ],
+        calculationFlows: [
+          {
+            title: "거푸집 총 접촉면적 산출",
+            inputs: ["rcpp:dimensionLength", "rcpp:dimensionHeight", "rcpp:faceCount", "rcpp:placeCount"],
+            operators: ["×", "×", "×"],
+            output: "rcpp:grossContactArea",
+            note: "거푸집 면적은 부재별 접촉면 산식으로 계산한다. 자재두께는 규격값으로 보존한다."
+          },
+          {
+            title: "거푸집 순 접촉면적 산출",
+            inputs: ["rcpp:grossContactArea", "rcpp:deductionArea"],
+            operators: ["-"],
+            output: "rcpp:netContactArea",
+            note: "공제 기준은 문서 원문 또는 산출서 기준을 deductionRule로 남긴다."
+          }
+        ],
+        formulas: [
+          ["순 접촉면적", "rcpp:netContactArea = rcpp:grossContactArea - rcpp:deductionArea", "순 접촉면적이 거푸집 금회수량의 검산 기준이 된다."]
+        ]
+      },
+      quantityShoring: {
+        attributeLabel: "속성값",
+        attributes: [
+          ["rcpp:forBusinessItem", "업무항목", "예시 업무항목: 동바리 설치 및 해체", "수량산출항목이 어느 업무항목의 근거인지 식별한다"],
+          ["rcpp:forBusinessItem/rcpp:hasSpecification", "참조 규격", "동바리규격 시스템동바리 H=4.0m", "시스템과 적용높이는 업무항목의 규격 노드에서 가져온다"],
+          ["rcpp:unitCode", "단위코드", "m3", "내역서 금회수량과 비교할 단위"],
+          ["rcpp:supportMember", "지지부재", "슬래브 지지", "지지 대상 부재"],
+          ["rcpp:measurementMethod", "측정방식", "체적", "면적, 체적, 개수, 기간수량 중 계약 기준"],
+          ["rcpp:supportLength", "지지면 길이", "10.0 m", "지지면적 산출 입력"],
+          ["rcpp:supportWidth", "지지면 폭", "8.0 m", "지지면적 산출 입력"],
+          ["rcpp:forBusinessItem/rcpp:hasSpecification/rcpp:shoringHeight", "규격 적용높이", "4.0 m", "설치체적 산식에서 참조하는 규격값"],
+          ["rcpp:supportCount", "지지재수", "80", "개수 기준 산정 시 사용"],
+          ["rcpp:supportSpacing", "지지재 간격", "0.9 m", "배치 조건"],
+          ["rcpp:rentalDuration", "임대기간", "1.0", "기간수량 산정 시 사용"],
+          ["rcpp:supportArea", "지지면적", "80.0 m2", "면적 방식 파생수량"],
+          ["rcpp:installedVolume", "설치체적", "320.0 m3", "체적 방식 파생수량"],
+          ["rcpp:periodQuantity", "기간수량", "320.0 m3·기간", "기간 조건이 있는 경우의 파생수량"],
+          ["rcpp:documentedQuantity", "문서기재수량", "320.0 m3", "내역서 또는 수량산출서 원문 수량"],
+          ["rcpp:quantityDifference", "수량차이", "0.0 m3", "문서기재수량과 파생수량의 차이"]
+        ],
+        calculationFlows: [
+          {
+            title: "동바리 지지면적 산출",
+            inputs: ["rcpp:supportLength", "rcpp:supportWidth"],
+            operators: ["×"],
+            output: "rcpp:supportArea",
+            note: "계약 측정방식이 면적일 때 지지면적을 금회수량의 검산 기준으로 사용한다."
+          },
+          {
+            title: "동바리 설치체적 산출",
+            inputs: ["rcpp:supportArea", "rcpp:forBusinessItem/rcpp:hasSpecification/rcpp:shoringHeight"],
+            operators: ["×"],
+            output: "rcpp:installedVolume",
+            note: "계약 측정방식이 체적일 때 규격 노드의 적용높이를 참조해 설치체적을 검산한다."
+          },
+          {
+            title: "동바리 기간수량 산출",
+            inputs: ["rcpp:installedVolume", "rcpp:rentalDuration"],
+            operators: ["×"],
+            output: "rcpp:periodQuantity",
+            note: "임대기간이 단가조건에 포함되는 경우에만 기간수량을 적용한다."
+          }
+        ],
+        formulas: [
+          ["설치체적", "rcpp:installedVolume = rcpp:supportArea × rcpp:hasSpecification/rcpp:shoringHeight", "계약 측정방식이 체적인 경우 적용한다."],
+          ["기간수량", "rcpp:periodQuantity = rcpp:installedVolume × rcpp:rentalDuration", "기간 조건이 별도 산정요소일 때만 적용한다."]
+        ]
+      },
+      unitPriceItem: {
+        attributes: [
+          ["rcpp:forBusinessItem", "업무항목", "단가항목이 어느 업무항목의 단가 근거인지 식별한다"],
+          ["rcpp:unitText", "원문 단위", "ton, m3, m2", "단가문서에 적힌 단위 표현"],
+          ["rcpp:unitCode", "정규 단위코드", "t, m3, m2", "단가가 적용되는 표준 수량 단위"],
+          ["rcpp:unitPrice", "단가", "기성내역항목에 적용되는 단가"],
+          ["rcpp:calculationFormula", "단가 산식", "합계단가 구성식"],
+          ["rcpp:sourceLocation", "출처위치", "단가산출서, 일위대가표, 자재단가표 등의 행·열 위치"]
+        ],
+        formulas: [
+          ["합계단가", "합계단가 = 재료비단가 + 노무비단가 + 경비단가", "단가 구성요소가 분리된 경우 적용한다."]
+        ]
+      },
+      summaryItem: {
+        attributes: [
+          ["rcpp:summarizesWorkType", "집계 공종", "철근공사, 콘크리트공사, 거푸집공사, 동바리공사", "공종별 합계 수준의 집계항목"],
+          ["rcpp:currentAmount", "집계 금회금액", "공종별내역서 행의 금회금액 합계"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "공종별내역서 행"]
+        ],
+        formulas: [
+          ["공종별 금회금액", "rcpp:SummaryLineItem.currentAmount = Σ(rcpp:TradeDetailLineItem.currentAmount)", "같은 rcpp:summarizesWorkType 공종 범위에 속한 공종별내역서 행을 합산한다."]
+        ]
+      },
+      costSection: {
+        formulas: [
+          ["총공사비", "총공사비 = 공급가액 + 부가가치세", "총액은 비용항목이 아니라 집계값으로 분리한다."],
+          ["공급가액", "공급가액 = 직접공사비 + 간접공사비 + 법정경비 + 일반관리비 + 이윤", "부가가치세는 hasCostItem이 아니라 hasTaxAmount로만 연결한다."]
+        ]
+      },
+      directCost: {
+        attributes: [
+          ["rcpp:amountValue", "금액값", "11,360,000", "철근·콘크리트·거푸집·동바리 집계항목의 합"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "공종별 집계항목 4개", "직접비에 포함되는 항목"]
+        ],
+        formulas: [
+          ["직접공사비", "11,360,000 = 3,000,000 + 5,000,000 + 2,400,000 + 960,000", "공종별 집계항목의 금회금액을 합산한다."]
+        ]
+      },
+      indirectCost: {
+        attributes: [
+          ["rcpp:amountValue", "금액값", "1,136,000", "계산 결과 금액"],
+          ["rcpp:computedBy", "계산규칙", "예시_간접공사비계산", "요율과 연산자는 RateCalculation 노드에 둔다"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "직접공사비", "요율 적용 기준금액"]
+        ],
+        formulas: [
+          ["간접공사비", "rcpp:IndirectConstructionCost.amountValue = rcpp:DirectConstructionCost.amountValue × 0.10", "예시 요율 10%를 적용한다."]
+        ]
+      },
+      statutoryExpense: {
+        attributes: [
+          ["rcpp:amountValue", "금액값", "227,200", "계산 결과 금액"],
+          ["rcpp:computedBy", "계산규칙", "예시_법정경비계산", "요율과 연산자는 RateCalculation 노드에 둔다"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "직접공사비", "요율 적용 기준금액"]
+        ],
+        formulas: [
+          ["법정경비", "rcpp:StatutoryExpense.amountValue = rcpp:DirectConstructionCost.amountValue × 0.02", "예시 요율 2%를 적용한다."]
+        ]
+      },
+      adminCost: {
+        attributes: [
+          ["rcpp:amountValue", "금액값", "636,160", "계산 결과 금액"],
+          ["rcpp:computedBy", "계산규칙", "예시_일반관리비계산", "요율과 연산자는 RateCalculation 노드에 둔다"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "직접공사비, 간접공사비, 법정경비", "요율 적용 기준금액"]
+        ],
+        formulas: [
+          ["일반관리비", "rcpp:GeneralAdministrationCost.amountValue = (직접공사비 + 간접공사비 + 법정경비) × 0.05", "예시 요율 5%를 적용한다."]
+        ]
+      },
+      profit: {
+        attributes: [
+          ["rcpp:amountValue", "금액값", "1,335,936", "계산 결과 금액"],
+          ["rcpp:computedBy", "계산규칙", "예시_이윤계산", "요율과 연산자는 RateCalculation 노드에 둔다"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "직접공사비, 간접공사비, 법정경비, 일반관리비", "요율 적용 기준금액"]
+        ],
+        formulas: [
+          ["이윤", "rcpp:Profit.amountValue = (직접공사비 + 간접공사비 + 법정경비 + 일반관리비) × 0.10", "예시 요율 10%를 적용한다."]
+        ]
+      },
+      subtotal: {
+        attributes: [
+          ["rcpp:amountValue", "금액값", "14,695,296", "세전 공급가액"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "직접공사비, 간접공사비, 법정경비, 일반관리비, 이윤", "원가항목 합계"]
+        ],
+        formulas: [
+          ["공급가액", "rcpp:SubtotalAmount.amountValue = 직접공사비 + 간접공사비 + 법정경비 + 일반관리비 + 이윤", "부가가치세 계산의 기준금액이다."]
+        ]
+      },
+      vat: {
+        attributes: [
+          ["rcpp:amountValue", "금액값", "1,469,529.6", "계산 결과 세액"],
+          ["rcpp:computedBy", "계산규칙", "예시_부가가치세계산", "요율과 연산자는 RateCalculation 노드에 둔다"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "공급가액", "세액 계산 기준금액"]
+        ],
+        formulas: [
+          ["부가가치세", "rcpp:ValueAddedTax.amountValue = rcpp:SubtotalAmount.amountValue × 0.10", "예시 부가세율 10%를 적용한다."]
+        ]
+      },
+      totalAmount: {
+        attributes: [
+          ["rcpp:amountValue", "금액값", "16,164,825.6", "최종 총공사비"],
+          ["rcpp:isCalculatedFrom", "계산 입력", "공급가액, 부가가치세", "총액 계산 입력값"]
+        ],
+        formulas: [
+          ["총공사비", "rcpp:TotalAmount.amountValue = rcpp:SubtotalAmount.amountValue + rcpp:ValueAddedTax.amountValue", "공급가액과 부가가치세를 합산한다."]
+        ]
+      },
+      calculationRule: {
+        attributes: [
+          ["rcpp:calculationOperator", "계산연산자", "SUM 또는 RATE", "합산인지 요율계산인지 구분한다"],
+          ["rcpp:hasBaseAmount", "기준금액", "계산 입력 항목", "계산규칙이 참조하는 입력값"],
+          ["rcpp:rateValue", "요율값", "0.10 등", "RATE 계산일 때만 사용한다"],
+          ["rcpp:produces", "산출대상", "원가항목 또는 집계값", "계산규칙이 만드는 결과"]
+        ],
+        notes: [
+          "그래프에서는 여러 계산규칙 인스턴스를 하나의 대표 노드로 압축해 표시한다.",
+          "실제 RDF에는 직접공사비계산, 간접공사비계산, 법정경비계산, 일반관리비계산, 이윤계산, 공급가액계산, 부가가치세계산, 총공사비계산이 분리되어 있다."
+        ]
+      },
+      unitComposition: {
+        formulas: [
+          ["일위대가 합계", "합계단가 = 재료비 + 노무비 + 경비", "일위대가표에서 단가항목을 계산하는 방식이다."]
+        ]
+      },
+      standardProd: {
+        notes: ["표준품셈은 소요량·작업기준의 표준원가근거다. 표준시장단가와 분리한다."]
+      },
+      marketRate: {
+        notes: ["표준시장단가는 시장단가 기반 표준원가근거다. 표준품셈과 분리한다."]
+      },
+      rebarWork: {
+        attributeLabel: "연결된 규격·산출 예시",
+        attributes: [
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:steelGrade", "철근 강종", "SD400", "규격 노드 값"],
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:barDesignation", "철근 호칭", "D13", "규격 노드 값"],
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:nominalDiameterValue", "공칭직경", "12.7 mm", "규격 노드 값"],
+          ["rcpp:QuantityCalculationItem/rcpp:barLength", "본당길이", "10.0 m", "수량산출항목의 입력값"],
+          ["rcpp:QuantityCalculationItem/rcpp:barCount", "본수", "1000", "수량산출항목의 입력값"],
+          ["rcpp:QuantityCalculationItem/rcpp:unitWeight", "단위중량", "0.995 kg/m", "수량산출항목의 기준참조값"],
+          ["rcpp:QuantityCalculationItem/rcpp:rebarWeight", "이론중량", "9950.0 kg", "수량산출항목의 파생값"]
+        ],
+        notes: [
+          "철근공사는 여러 문서 섹션과 항목이 공유해서 참조하는 WorkType 인스턴스다.",
+          "아래 값은 공종 자체가 보유한 값이 아니라, 업무항목의 규격 노드와 연결된 철근 수량산출항목의 예시값이다."
+        ]
+      },
+      concreteWork: {
+        attributeLabel: "연결된 규격·산출 예시",
+        attributes: [
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:concreteType", "콘크리트 종류", "레미콘", "규격 노드 값"],
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:designStrengthValue", "설계기준압축강도", "24 MPa", "규격 노드 값"],
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:aggregateMaxSizeValue", "굵은골재 최대치수", "25 mm", "규격 노드 값"],
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:slumpValue", "슬럼프", "150 mm", "규격 노드 값"],
+          ["rcpp:QuantityCalculationItem/rcpp:grossVolume", "총체적", "50.0 m3", "수량산출항목의 파생값"],
+          ["rcpp:QuantityCalculationItem/rcpp:netVolume", "순체적", "50.0 m3", "기성수량 검산 기준"]
+        ],
+        notes: [
+          "콘크리트공사는 여러 문서 섹션과 항목이 공유해서 참조하는 WorkType 인스턴스다.",
+          "아래 값은 공종 자체가 보유한 값이 아니라, 업무항목의 규격 노드와 연결된 콘크리트 수량산출항목의 예시값이다."
+        ]
+      },
+      formwork: {
+        attributeLabel: "연결된 규격·산출 예시",
+        attributes: [
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:formworkMaterial", "거푸집 재료", "합판", "규격 노드 값"],
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:formworkType", "거푸집 형식", "일반 거푸집", "규격 노드 값"],
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:contactMember", "적용 부재", "기초 측면", "규격 노드 값"],
+          ["rcpp:QuantityCalculationItem/rcpp:faceCount", "면수", "2", "수량산출항목의 입력값"],
+          ["rcpp:QuantityCalculationItem/rcpp:grossContactArea", "총 접촉면적", "120.0 m2", "수량산출항목의 파생값"],
+          ["rcpp:QuantityCalculationItem/rcpp:netContactArea", "순 접촉면적", "120.0 m2", "기성수량 검산 기준"]
+        ],
+        notes: [
+          "거푸집공사는 여러 문서 섹션과 항목이 공유해서 참조하는 WorkType 인스턴스다.",
+          "아래 값은 공종 자체가 보유한 값이 아니라, 업무항목의 규격 노드와 연결된 거푸집 수량산출항목의 예시값이다."
+        ]
+      },
+      shoringWork: {
+        attributeLabel: "연결된 규격·산출 예시",
+        attributes: [
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:shoringSystem", "동바리 시스템", "시스템동바리", "규격 노드 값"],
+          ["rcpp:BusinessItem/rcpp:hasSpecification/rcpp:shoringHeight", "규격 적용높이", "4.0 m", "규격 노드 값"],
+          ["rcpp:QuantityCalculationItem/rcpp:measurementMethod", "측정방식", "체적", "계약 기준 측정방식"],
+          ["rcpp:QuantityCalculationItem/rcpp:supportSpacing", "지지재 간격", "0.9 m", "수량산출항목의 배치 조건"],
+          ["rcpp:QuantityCalculationItem/rcpp:installedVolume", "설치체적", "320.0 m3", "수량산출항목의 파생값"],
+          ["rcpp:QuantityCalculationItem/rcpp:periodQuantity", "기간수량", "320.0 m3·기간", "기간 조건 포함 시 파생수량"]
+        ],
+        notes: [
+          "동바리공사는 여러 문서 섹션과 항목이 공유해서 참조하는 WorkType 인스턴스다.",
+          "아래 값은 공종 자체가 보유한 값이 아니라, 업무항목의 규격 노드와 연결된 동바리 수량산출항목의 예시값이다."
+        ]
+      }
+    };
+
+    nodes.forEach((node) => Object.assign(node, nodeDetails[node.id] || {}));
+
+    if (!window.d3) {
+      document.getElementById("load-error").style.display = "block";
+    } else {
+      initGraph();
+    }
+
+    function initGraph() {
+      const svg = d3.select("#graph").attr("viewBox", `0 0 ${width} ${height}`);
+      const details = document.getElementById("details");
+      const search = document.getElementById("search");
+      const resetButton = document.getElementById("reset");
+      const nodeById = new Map(nodes.map((node) => [node.id, node]));
+      const linkData = links.map((link) => ({
+        ...link,
+        source: nodeById.get(link.source),
+        target: nodeById.get(link.target)
+      }));
+      let activeFilter = "all";
+      let selectedId = null;
+
+      const root = svg.append("g");
+      const linkLayer = root.append("g");
+      const labelLayer = root.append("g");
+      const nodeLayer = root.append("g");
+
+      const zoom = d3.zoom()
+        .scaleExtent([0.32, 2.4])
+        .on("zoom", (event) => root.attr("transform", event.transform));
+      svg.call(zoom);
+
+      svg.append("defs")
+        .selectAll("marker")
+        .data(Object.entries(relationMeta))
+        .join("marker")
+        .attr("id", ([key]) => `arrow-${key}`)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 9)
+        .attr("refY", 0)
+        .attr("markerWidth", 6)
+        .attr("markerHeight", 6)
+        .attr("orient", "auto")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("fill", ([, meta]) => meta.color);
+
+      const link = linkLayer.selectAll("path")
+        .data(linkData)
+        .join("path")
+        .attr("class", "link")
+        .attr("stroke", (linkDatum) => relationMeta[linkDatum.relation].color)
+        .attr("marker-end", (linkDatum) => `url(#arrow-${linkDatum.relation})`)
+        .attr("d", pathForLink);
+
+      const linkLabel = labelLayer.selectAll("text")
+        .data(linkData)
+        .join("text")
+        .attr("class", "link-label")
+        .text((linkDatum) => relationMeta[linkDatum.relation].label)
+        .attr("x", (linkDatum) => labelPoint(linkDatum).x)
+        .attr("y", (linkDatum) => labelPoint(linkDatum).y);
+
+      const node = nodeLayer.selectAll("g")
+        .data(nodes)
+        .join("g")
+        .attr("class", (nodeDatum) => `node ${typeMeta[nodeDatum.type].radius <= 31 ? "small" : ""}`)
+        .attr("transform", (nodeDatum) => `translate(${nodeDatum.x},${nodeDatum.y})`)
+        .call(d3.drag()
+          .on("start", dragStarted)
+          .on("drag", dragged));
+
+      node.append("circle")
+        .attr("r", (nodeDatum) => typeMeta[nodeDatum.type].radius)
+        .attr("fill", (nodeDatum) => typeMeta[nodeDatum.type].fill)
+        .attr("stroke", (nodeDatum) => typeMeta[nodeDatum.type].stroke);
+
+      node.append("text")
+        .selectAll("tspan")
+        .data((nodeDatum) => wrapLabel(nodeDatum.label, 8).map((line, index, lines) => ({ line, index, lines })))
+        .join("tspan")
+        .attr("x", 0)
+        .attr("dy", (datum) => datum.index === 0 ? `${-(datum.lines.length - 1) * 0.58}em` : "1.16em")
+        .text((datum) => datum.line);
+
+      node.on("click", (event, datum) => {
+        event.stopPropagation();
+        selectedId = datum.id;
+        updateDetails(datum);
+        applyVisibility();
+      });
+
+      svg.on("click", () => {
+        selectedId = null;
+        updateDetails(null);
+        applyVisibility();
+      });
+
+      document.querySelectorAll("button[data-filter]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("button[data-filter]").forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          activeFilter = button.dataset.filter;
+          applyVisibility();
+        });
+      });
+
+      resetButton.addEventListener("click", () => {
+        selectedId = null;
+        search.value = "";
+        activeFilter = "all";
+        document.querySelectorAll("button[data-filter]").forEach((item) => {
+          item.classList.toggle("active", item.dataset.filter === "all");
+        });
+        svg.transition().duration(250).call(zoom.transform, d3.zoomIdentity);
+        updateDetails(null);
+        applyVisibility();
+      });
+
+      search.addEventListener("input", applyVisibility);
+      renderLegend();
+      updateDetails(null);
+      applyVisibility();
+
+      function pathForLink(linkDatum) {
+        const sourceRadius = typeMeta[linkDatum.source.type].radius + 3;
+        const targetRadius = typeMeta[linkDatum.target.type].radius + 10;
+        const start = edgePoint(linkDatum.source, linkDatum.target, sourceRadius);
+        const end = edgePoint(linkDatum.target, linkDatum.source, targetRadius);
+        const sx = start.x;
+        const sy = start.y;
+        const tx = end.x;
+        const ty = end.y;
+        const dx = tx - sx;
+        const curve = Math.max(-90, Math.min(90, dx * 0.12));
+        const cx = sx + dx * 0.52;
+        const cy = (sy + ty) / 2 - curve;
+        return `M${sx},${sy} Q${cx},${cy} ${tx},${ty}`;
+      }
+
+      function edgePoint(from, to, radius) {
+        const dx = to.x - from.x;
+        const dy = to.y - from.y;
+        const length = Math.sqrt(dx * dx + dy * dy) || 1;
+        return {
+          x: from.x + (dx / length) * radius,
+          y: from.y + (dy / length) * radius
+        };
+      }
+
+      function labelPoint(linkDatum) {
+        const sx = linkDatum.source.x;
+        const sy = linkDatum.source.y;
+        const tx = linkDatum.target.x;
+        const ty = linkDatum.target.y;
+        return {
+          x: (sx + tx) / 2,
+          y: (sy + ty) / 2 - 8
+        };
+      }
+
+      function dragStarted(event, datum) {
+        datum.x = event.x;
+        datum.y = event.y;
+        refreshPositions();
+      }
+
+      function dragged(event, datum) {
+        datum.x = event.x;
+        datum.y = event.y;
+        refreshPositions();
+      }
+
+      function refreshPositions() {
+        node.attr("transform", (nodeDatum) => `translate(${nodeDatum.x},${nodeDatum.y})`);
+        link.attr("d", pathForLink);
+        linkLabel
+          .attr("x", (linkDatum) => labelPoint(linkDatum).x)
+          .attr("y", (linkDatum) => labelPoint(linkDatum).y);
+      }
+
+      function applyVisibility() {
+        const term = search.value.trim().toLowerCase();
+        const selectedNeighbors = new Set();
+        if (selectedId) {
+          selectedNeighbors.add(selectedId);
+          linkData.forEach((linkDatum) => {
+            if (linkDatum.source.id === selectedId) selectedNeighbors.add(linkDatum.target.id);
+            if (linkDatum.target.id === selectedId) selectedNeighbors.add(linkDatum.source.id);
+          });
+        }
+
+        node.classed("dim", (nodeDatum) => {
+          const filterDim = activeFilter !== "all" && nodeDatum.group !== activeFilter;
+          const searchDim = term && !searchText(nodeDatum).includes(term);
+          const selectedDim = selectedId && !selectedNeighbors.has(nodeDatum.id);
+          return filterDim || searchDim || selectedDim;
+        }).classed("focus", (nodeDatum) => nodeDatum.id === selectedId);
+
+        link.classed("dim", (linkDatum) => {
+          const relation = relationMeta[linkDatum.relation];
+          const filterDim = activeFilter !== "all" && !relation.filters.includes(activeFilter);
+          const searchDim = term && !searchText(linkDatum.source).includes(term) && !searchText(linkDatum.target).includes(term);
+          const selectedDim = selectedId && linkDatum.source.id !== selectedId && linkDatum.target.id !== selectedId;
+          return filterDim || searchDim || selectedDim;
+        });
+
+        linkLabel.classed("dim", (linkDatum) => {
+          const relation = relationMeta[linkDatum.relation];
+          const filterDim = activeFilter !== "all" && !relation.filters.includes(activeFilter);
+          const searchDim = term && !searchText(linkDatum.source).includes(term) && !searchText(linkDatum.target).includes(term);
+          const selectedDim = selectedId && linkDatum.source.id !== selectedId && linkDatum.target.id !== selectedId;
+          return filterDim || searchDim || selectedDim;
+        });
+      }
+
+      function searchText(nodeDatum) {
+        return [
+          nodeDatum.label,
+          nodeDatum.iri,
+          nodeDatum.detail || "",
+          (nodeDatum.notes || []).join(" "),
+          (nodeDatum.attributes || []).flat().join(" "),
+          (nodeDatum.formulas || []).flat().join(" "),
+          (nodeDatum.calculationFlows || []).flatMap((flow) => [flow.title, flow.output, flow.note, ...flow.inputs]).join(" "),
+          typeMeta[nodeDatum.type].label
+        ].join(" ").toLowerCase();
+      }
+
+      function updateDetails(datum) {
+        const dl = details.querySelector("dl");
+        if (!datum) {
+          dl.innerHTML = `
+            <dt>라벨</dt>
+            <dd>노드를 선택하면 RDF/RDFS 유형, 속성, 계산식, 연결관계가 표시됩니다.</dd>
+          `;
+          return;
+        }
+
+        const outbound = linkData.filter((linkDatum) => linkDatum.source.id === datum.id);
+        const inbound = linkData.filter((linkDatum) => linkDatum.target.id === datum.id);
+        dl.innerHTML = `
+          <dt>라벨</dt><dd>${datum.label}</dd>
+          <dt>식별자</dt><dd><code>${datum.iri}</code></dd>
+          <dt>구분</dt><dd>${typeMeta[datum.type].label}</dd>
+          <dt>설명</dt><dd>${datum.detail}</dd>
+          ${datum.notes ? `<dt>기준</dt><dd><ul class="note-list">${datum.notes.map((note) => `<li>${note}</li>`).join("")}</ul></dd>` : ""}
+          ${datum.attributes ? `<dt>${datum.attributeLabel || "속성"}</dt><dd>${renderAttributeTable(datum.attributes)}</dd>` : ""}
+          ${datum.calculationFlows ? `<dt>계산 흐름</dt><dd>${renderCalculationFlows(datum.calculationFlows)}</dd>` : ""}
+          ${datum.formulas ? `<dt>계산식</dt><dd>${renderFormulaList(datum.formulas)}</dd>` : ""}
+          <dt>나가는 표시 관계</dt><dd>${outbound.length ? outbound.map(formatOutboundLink).join("<br>") : "없음"}</dd>
+          <dt>들어오는 표시 관계</dt><dd>${inbound.length ? inbound.map(formatInboundLink).join("<br>") : "없음"}</dd>
+        `;
+      }
+
+      function renderAttributeTable(attributes) {
+        return `
+          <table class="detail-table">
+            <tbody>
+              ${attributes.map(([predicate, label, valueOrNote, note]) => `
+                <tr>
+                  <th><code>${predicate}</code><br>${label}</th>
+                  <td>
+                    ${note === undefined ? valueOrNote : `<div class="attribute-value">${valueOrNote}</div>${note}`}
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+      }
+
+      function renderFormulaList(formulas) {
+        return `
+          <ul class="formula-list">
+            ${formulas.map(([name, expression, note]) => `
+              <li>
+                <strong>${name}</strong><br>
+                <code>${expression}</code><br>
+                ${note}
+              </li>
+            `).join("")}
+          </ul>
+        `;
+      }
+
+      function renderCalculationFlows(flows) {
+        return `
+          <div class="calc-flow">
+            ${flows.map((flow) => `
+              <div class="calc-card">
+                <div class="calc-title">${flow.title}</div>
+                <div class="calc-row">
+                  ${flow.inputs.map((input, index) => `
+                    <span class="calc-token">${input}</span>
+                    ${flow.operators[index] ? `<span class="calc-op">${flow.operators[index]}</span>` : ""}
+                  `).join("")}
+                  <span class="calc-op">=</span>
+                  <span class="calc-token output">${flow.output}</span>
+                </div>
+                <div class="calc-note">${flow.note}</div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function formatOutboundLink(linkDatum) {
+        return `<code>${relationMeta[linkDatum.relation].label}</code> → ${linkDatum.target.label}`;
+      }
+
+      function formatInboundLink(linkDatum) {
+        return `${linkDatum.source.label} → <code>${relationMeta[linkDatum.relation].label}</code>`;
+      }
+
+      function renderLegend() {
+        document.getElementById("legend").innerHTML = Object.entries(typeMeta).map(([, meta]) => `
+          <div class="legend-item">
+            <span class="swatch" style="background:${meta.fill}; color:${meta.stroke}"></span>
+            <span>${meta.label}</span>
+          </div>
+        `).join("");
+      }
+    }
+
+    function wrapLabel(label, max) {
+      if (label.length <= max) return [label];
+      const words = label.split(" ");
+      if (words.length > 1) {
+        const lines = [];
+        let current = "";
+        words.forEach((word) => {
+          const next = current ? `${current} ${word}` : word;
+          if (next.length > max && current) {
+            lines.push(current);
+            current = word;
+          } else {
+            current = next;
+          }
+        });
+        if (current) lines.push(current);
+        return lines.slice(0, 3);
+      }
+      return [
+        label.slice(0, max),
+        label.slice(max, max * 2),
+        label.slice(max * 2, max * 3)
+      ].filter(Boolean);
+    }
+  </script>
+</body>
+</html>

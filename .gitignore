@@ -1,0 +1,15 @@
+# Ignore all root-level files and directories by default.
+/*
+
+# Keep repository configuration and reproducibility files.
+!/.gitignore
+!/README.md
+!/requirements.txt
+
+# Keep ontology source, visualization, and validation artifacts.
+!/ontology/
+!/ontology/**
+!/visualization/
+!/visualization/**
+!/validation/
+!/validation/**
