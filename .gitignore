@@ -1,26 +1,15 @@
-# Ignore all root-level files and directories by default.
+# Git에는 메인 안내문, KO 온톨로지와 시각화만 포함한다.
 /*
-
-# Keep local source documents on disk, but never commit them.
-/Documents/
-
-# Keep repository configuration and reproducibility files.
 !/.gitignore
 !/README.md
 !/requirements.txt
+!/KO/
 
-# Keep only the runnable ontology implementation.
-!/ontology/
-!/ontology/**
-!/visualization/
-!/visualization/**
-!/data/
-!/data/**
-!/queries/
-!/queries/**
-!/scripts/
-!/scripts/**
+# KO 폴더 안에서는 온톨로지 원본과 재현 가능한 시각화만 추적한다.
+/KO/*
+!/KO/ontology/
+!/KO/visualization/
 
-# Ignore generated Python cache files.
+# 생성 과정에서 생기는 캐시는 추적하지 않는다.
 **/__pycache__/
 *.py[cod]

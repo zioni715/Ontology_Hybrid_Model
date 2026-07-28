@@ -1,0 +1,370 @@
+@prefix rcpp: <https://example.org/rcpp#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# End-to-end document and field flow
+#################################################################
+
+rcpp:ProgressPaymentDataFlow a rdfs:Resource ;
+    rdfs:label "공사기성부분내역서 작성 데이터 흐름"@ko ;
+    rdfs:comment "① 수량산출서의 산출수량·산식·근거를 계약수량의 근거로 연결한다. ② 계약내역을 공종별내역서와 계약비용 집계표로 구성한다. ③ 전회 기성 확정값과 기성수량산출서의 확정 금회수량으로 누계·잔여수량을 계산한다. ④ 계약기준정보·전회값·확정 금회수량으로 상세 기성금액을 계산하고 그 결과를 공종별로 집계하여 공사기성부분내역서를 작성한다."@ko .
+
+rcpp:DocumentFlowDefinition a rdfs:Resource ;
+    rdfs:label "서류 흐름 정의"@ko ;
+    rdfs:comment "두 입력 흐름, 즉 ‘수량근거 → 계약기준 → 세부비용 → 계약비용집계’와 ‘전회기성기준 + 확정 금회기성수량 → 기성금액 계산’이 공사기성부분내역서에서 합류하는 대표 흐름을 사용한다. 프로젝트별 실제 파일 순서는 고정하지 않는다."@ko .
+rcpp:ItemFlowDefinition a rdfs:Resource ;
+    rdfs:label "항목 흐름 정의"@ko ;
+    rdfs:comment "공종·품명·규격·단위·내역코드로 동일 항목을 식별하고 계약수량·단가·금액, 기성수량·금액, 공종별 집계의 계산 순서를 정의한다."@ko .
+rcpp:InterDocumentFieldTransferDefinition a rdfs:Resource ;
+    rdfs:label "서류 간 항목 전달관계 정의"@ko ;
+    rdfs:comment "개별 rdf:Property 사이의 그대로 전달·매칭 기준·산식 입력·집계 전달·일관성 비교 관계로 출발 서류내역과 도착 서류내역을 명시한다."@ko .
+
+#################################################################
+# Reusable document-role individuals
+#################################################################
+
+rcpp:ContractBasisDocumentRole a rcpp:DocumentRole ;
+    rdfs:label "계약기준 역할"@ko ; rdfs:comment "품목코드·계약수량·계약단가·계약금액을 제공하는 역할."@ko .
+rcpp:QuantityBasisDocumentRole a rcpp:DocumentRole ;
+    rdfs:label "계약수량 근거 역할"@ko ; rdfs:comment "품명·규격·단위 식별정보와 계약수량의 산출근거를 제공한다. 금회기성수량의 직접 출처 역할은 아니다."@ko .
+rcpp:PreviousProgressBasisDocumentRole a rcpp:DocumentRole ;
+    rdfs:label "전회기성기준 역할"@ko ; rdfs:comment "전회누계기성수량·금액·비율을 제공하는 역할."@ko .
+rcpp:DetailedCostDocumentRole a rcpp:DocumentRole ;
+    rdfs:label "세부비용 역할"@ko ; rdfs:comment "공종별 품목·규격·수량·단가·금액의 상세행을 구성하는 역할."@ko .
+rcpp:CostSummaryDocumentRole a rcpp:DocumentRole ;
+    rdfs:label "계약비용집계 역할"@ko ; rdfs:comment "계약내역 계열의 세부금액과 직접공사비를 공종별로 집계하는 역할. 금회·누계 기성금액 집계는 결과서류 내부 집계항목의 역할이다."@ko .
+rcpp:ProgressQuantityDocumentRole a rcpp:DocumentRole ;
+    rdfs:label "기성수량 역할"@ko ; rdfs:comment "전회누계값과 비용산정용으로 확정 입력된 금회기성수량, 그리고 계산된 누계·잔여 기성수량을 제공하는 역할."@ko .
+rcpp:ProgressStatementDocumentRole a rcpp:DocumentRole ;
+    rdfs:label "기성결과 역할"@ko ; rdfs:comment "계약기준과 기성수량을 결합하여 기성금액 결과를 기록하는 역할."@ko .
+rcpp:SupportingReferenceDocumentRole a rcpp:DocumentRole ;
+    rdfs:label "지원·교차확인 역할"@ko ; rdfs:comment "단가 및 원가구성을 보조하되 금회수량이나 금액의 직접 근거로 사용하지 않는 역할."@ko .
+
+rcpp:ProjectDocumentRoleFlexibilityRule a rdfs:Resource ;
+    rdfs:label "프로젝트별 서류역할 적용 원칙"@ko ;
+    rdfs:comment "실제 프로젝트 문서 개체는 파일명과 관계없이 hasDocumentRole로 하나 이상의 역할을 가질 수 있다. 계약내역서와 공종별내역서가 같은 파일이거나 별도 기성수량산출서가 없는 경우에도 역할 조합으로 표현한다."@ko .
+
+#################################################################
+# Field mapping principles
+#################################################################
+
+rcpp:ItemIdentityRule a rdfs:Resource ;
+    rdfs:label "동일 품목 판별 원칙"@ko ;
+    rdfs:comment "내역코드와 공종을 보조키로 사용하고 품명·정규화된 비용 관련 규격요소·단위를 복합 비교한다. 품명 하나나 원문규격 문자열 하나만으로 서류 행과 계약단가를 연결하지 않는다."@ko .
+rcpp:SpecificationInclusionRule a rdfs:Resource ;
+    rdfs:label "비용규격 속성 포함 원칙"@ko ;
+    rdfs:comment "내역항목 식별, 계약단가 구분, 금회기성수량 또는 금액 확인 중 하나 이상에 필요한 속성만 공종별 비용규격으로 분해한다. 세 조건에 해당하지 않는 정보는 제외하거나 원문규격에만 보존한다."@ko .
+rcpp:OriginalSpecificationPreservationRule a rdfs:Resource ;
+    rdfs:label "규격 원문 보존 원칙"@ko ;
+    rdfs:comment "원문규격은 contractSpecification·quantitySpecification·workDetailSpecification·progressQuantitySpecification·outputSpecification처럼 출처 서류 내역의 속성에 보존한다. 표준 비용항목에는 원문 문자열을 저장하지 않고 비용 관련 요소와 정규화규격코드만 기록한다."@ko .
+rcpp:NormalizedSpecificationMatchingRule a rdfs:Resource ;
+    rdfs:label "정규화 규격 매칭 원칙"@ko ;
+    rdfs:comment "공종별 규격요소를 정규화규격코드로 구성한 뒤 품명과 단위에 결합하여 계약항목과 기성항목의 동일 여부 및 적용 계약단가를 판단한다."@ko .
+rcpp:QuantityAndPriceSpecificationSeparationRule a rdfs:Resource ;
+    rdfs:label "수량입력·비용규격 분리 원칙"@ko ;
+    rdfs:comment "수량산출서에 기재된 산식·산출근거·산출수량은 서류 내역의 속성값으로 보존한다. 도면의 개수·길이·부재치수·설치간격을 이용해 수량을 새로 계산하는 기능은 포함하지 않는다. 강종·호칭강도·전용횟수·최대수직고처럼 단가를 식별하는 값은 비용규격에 둔다."@ko .
+rcpp:RebarDiameterRepresentationRule a rdfs:Resource ;
+    rdfs:label "철근 지름 표현 원칙"@ko ;
+    rdfs:comment "계약항목이 D13처럼 정확한 지름을 사용하면 호칭지름을 정의하고, D13 이하·D16 이상·D10~D13처럼 구간으로 단가를 구분하면 최소지름·최대지름 또는 지름구간을 정의한다. 철근 규격은 강종, 호칭지름 또는 지름구간, 작업유형을 최소 권장요소로 사용한다."@ko .
+rcpp:ObservedUnitPriceDifferenceRule a rdfs:Resource ;
+    rdfs:label "실제 계약단가 차이 기준"@ko ;
+    rdfs:comment "단가 구분 시 포함 속성은 적용 프로젝트의 계약내역에서 해당 값에 따라 항목 또는 계약단가가 실제로 달라질 때만 분해한다. 차이가 확인되지 않은 요소는 표준 비용항목에서 제외하되 원문은 해당 서류 내역의 규격 속성에 보존한다."@ko .
+rcpp:SpecificationBandRule a rdfs:Resource ;
+    rdfs:label "구간 규격 표현 원칙"@ko ;
+    rdfs:comment "철근 지름·콘크리트 타설물량·거푸집 및 동바리 수직고가 범위로 제시되면 원문 구간문구와 함께 최소값·최대값 또는 구간 분류값을 정의하여 단가 매칭에 사용한다."@ko .
+rcpp:DirectTransferRule a rdfs:Resource ;
+    rdfs:label "직접 전달 원칙"@ko ;
+    rdfs:comment "최종 결과의 코드·공종·품명·규격·단위·계약수량·계약단가·계약금액은 계약내역서에서, 전회누계수량·금액과 원천에 존재하는 전회비율은 전회 공사기성부분내역서에서, 금회·누계·잔여수량은 기성수량산출서에서 전달한다. 계약금액과 누계·잔여수량의 재계산식은 전달값을 대체하지 않는 교차검토식이다. 수량산출서의 산식·근거는 quantityBasisFrom으로 연결하고 산출수량만 계약수량과 일관성 비교한다."@ko .
+rcpp:CalculationDependencyRule a rdfs:Resource ;
+    rdfs:label "계산 영향 원칙"@ko ;
+    rdfs:comment "계산값마다 어떤 원천서류의 어떤 항목이 산식 입력으로 영향을 주는지 calculationInputFor 관계로 명시한다."@ko .
+rcpp:UnitConsistencyRule a rdfs:Resource ;
+    rdfs:label "단위 일관성 원칙"@ko ;
+    rdfs:comment "계약내역서 단위, 수량산출결과 단위와 공사기성부분내역서 단위는 같거나 같은 차원의 기준단위로 변환 가능해야 한다. 비교와 금액 계산 전에 conversionFactorToBaseUnit을 적용한다."@ko .
+rcpp:PreviousCarryForwardRule a rdfs:Resource ;
+    rdfs:label "전회값 이월 원칙"@ko ;
+    rdfs:comment "전회 공사기성부분내역서의 누계기성수량·금액·비율을 동일 계약 품목의 전회까지 기성값으로 연결한다."@ko .
+rcpp:FirstProgressRoundRule a rdfs:Resource ;
+    rdfs:label "최초 기성회차 원칙"@ko ;
+    rdfs:comment "최초 기성회차는 previousProgressRound와 전회 공사기성부분내역서를 갖지 않으며 전회누계기성수량과 전회누계기성금액을 0으로 적용한다. 이후 회차는 isFirstProgressRound를 false로 두고 직전 회차 확정값을 이월한다."@ko .
+rcpp:BaseUnitConversionRule a rcpp:UnitConversionRule ;
+    rdfs:label "기준단위 경유 변환규칙"@ko ;
+    rcpp:applicationCondition "원천단위와 계약단위의 baseUnit이 동일할 때 적용한다."@ko ;
+    rcpp:unitCondition "원천단위와 계약단위가 동일한 물리 차원이어야 한다."@ko .
+rcpp:StandardProgressQuantityRollupRule a rcpp:ProgressQuantityRollupCalculation ;
+    rdfs:label "표준 기성수량 누계·잔여 규칙"@ko .
+rcpp:StandardCurrentProgressAmountRule a rcpp:CurrentProgressAmountCalculation ;
+    rdfs:label "표준 금회기성금액 계산규칙"@ko .
+rcpp:StandardProgressSummaryRule a rcpp:ProgressSummaryCalculation ;
+    rdfs:label "표준 공종별·전체 기성집계 규칙"@ko .
+rcpp:ApprovedCorrespondenceRule a rdfs:Resource ;
+    rdfs:label "승인 매칭관계 원칙"@ko ;
+    rdfs:comment "DocumentItemMatching은 후보·근거·신뢰도·검토상태를 기록하고, correspondsToItem은 검토상태가 승인된 최종 서류내역 대응관계에만 사용한다."@ko .
+
+rcpp:RebarSpecificationRule a rcpp:SpecificationNormalizationRule ;
+    rdfs:label "철근 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rcpp:componentOrder "강종 → 호칭지름 또는 지름구간 → 가공·조립구분 → 계약단가 구분 시 이음방식"@ko ;
+    rcpp:missingValueTreatment "계약단가 구분에 사용하지 않는 선택 요소는 생략하고, 필수 식별요소가 없으면 검토대상으로 둔다."@ko .
+rcpp:ReadyMixedConcreteSpecificationRule a rcpp:SpecificationNormalizationRule ;
+    rdfs:label "레미콘 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rcpp:componentOrder "콘크리트종류 → 굵은골재 최대치수 → 호칭강도 → 슬럼프 → 계약단가 구분 시 시멘트종류"@ko ;
+    rcpp:missingValueTreatment "계약 품목의 필수 규격값이 없으면 원문규격을 보존하고 검토대상으로 둔다."@ko .
+rcpp:ConcretePlacementSpecificationRule a rcpp:SpecificationNormalizationRule ;
+    rdfs:label "콘크리트 타설 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rcpp:componentOrder "타설방법 → 적용부위 → 물량구간 → 계약단가 구분 시 작업조건"@ko ;
+    rcpp:missingValueTreatment "계약단가를 구분하지 않는 요소는 생략한다."@ko .
+rcpp:FormworkSpecificationRule a rcpp:SpecificationNormalizationRule ;
+    rdfs:label "거푸집 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rcpp:componentOrder "거푸집종류 → 복잡도 → 전용횟수 → 수직고구간 → 작업유형"@ko ;
+    rcpp:missingValueTreatment "계약단가를 구분하지 않는 선택 요소는 생략한다."@ko .
+rcpp:ShoringSpecificationRule a rcpp:SpecificationNormalizationRule ;
+    rdfs:label "동바리 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rcpp:componentOrder "동바리종류 → 설치환경 → 수직고구간 → 작업유형"@ko ;
+    rcpp:missingValueTreatment "계약단가를 구분하지 않는 선택 요소는 생략한다."@ko .
+
+rcpp:ClassInstanceSeparationRule a rdfs:Resource ;
+    rdfs:label "클래스와 개체 구분 원칙"@ko ;
+    rdfs:comment "expectedCostItemClass·expectedCorrespondingItemClass 같은 속성은 클래스 설계 관계에만 사용한다. representsCostItem·correspondsToItem·usesUnitPriceFrom·derivedFrom·aggregatedInto는 실제 프로젝트 개체 사이에만 사용한다. CalculationActivity의 appliesRule은 계산규칙 유형 클래스가 아니라 해당 유형의 실제 규칙 개체를 참조한다. 공종별 규격값은 별도 규격 노드를 만들지 않고 해당 CostItem 개체의 속성으로 기록한다."@ko .
+rcpp:SourceTextNormalizationRule a rdfs:Resource ;
+    rdfs:label "원문 문자열과 표준 개체 분리 원칙"@ko ;
+    rdfs:comment "서류에 적힌 철근공·철근공사·철근 및 M2·m²·㎡ 등의 표현은 원문 공종문구·원문 단위문구로 보존하고, 표준값은 belongsToWorkCategory와 usesUnit으로 WorkCategory·Unit 개체에 연결한다."@ko .
+rcpp:NormalizedCostItemValueRule a rdfs:Resource ;
+    rdfs:label "정규화 비용항목 값 분리 원칙"@ko ;
+    rdfs:comment "CostItem에는 정규화 코드·품명·공종·규격·단위만 두며 프로젝트별 계약수량·계약단가·계약금액·기성수량·기성금액은 ContractStatementItem·CurrentProgressQuantityItem·CurrentProgressDetailItem 개체에 기록한다."@ko .
+rcpp:RdfsDomainRangeInferenceRule a rdfs:Resource ;
+    rdfs:label "RDFS domain·range 해석 원칙"@ko ;
+    rdfs:comment "rdfs:domain과 rdfs:range는 입력값을 차단하는 검증 규칙이 아니라 주어와 목적어의 유형을 추론하는 의미 규칙으로 사용한다. 여러 클래스에 재사용하는 속성에는 appliesToClass를 사용하여 의도하지 않은 교집합 추론을 피한다."@ko .
+rcpp:FutureShaclValidationRule a rdfs:Resource ;
+    rdfs:label "향후 SHACL 검증 분리 원칙"@ko ;
+    rdfs:comment "필수값·데이터형·허용값·최솟값·최댓값·서류 간 수량 및 금액 일관성 검증은 온톨로지 의미모델과 분리한 SHACL shapes 계층으로 확장한다."@ko .
+
+rcpp:PreviousAmountCarryForwardRule a rdfs:Resource ;
+    rdfs:label "전회누계금액 확정값 이월 원칙"@ko ;
+    rdfs:comment "전회누계기성금액은 전회 공사기성부분내역서의 확정값을 그대로 이월한다. 전회누계수량 × 계약단가는 원천값을 대체하지 않고 계산정책의 허용오차 안에서 교차검토하는 데만 사용한다."@ko .
+
+#################################################################
+# Class-specific field requirements
+#################################################################
+
+rcpp:ContractStatementItemRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "계약 내역 필수필드"@ko ; rcpp:requiredForClass rcpp:ContractStatementItem ;
+    rcpp:requiredProperty rcpp:contractWorkType , rcpp:contractItemName , rcpp:contractSpecification ,
+        rcpp:contractUnit , rcpp:contractQuantity , rcpp:contractUnitPrice , rcpp:contractAmount ;
+    rcpp:requirementLevel "필수"@ko .
+rcpp:ContractStatementItemCodeCondition a rcpp:FieldRequirement ;
+    rdfs:label "계약 내역 코드 조건"@ko ; rcpp:requiredForClass rcpp:ContractStatementItem ;
+    rcpp:requiredProperty rcpp:contractItemCode ; rcpp:requirementLevel "조건부"@ko ;
+    rcpp:inclusionCondition "원천 품목코드가 있으면 보존하고, 없으면 프로젝트 범위에서 안정적인 행 식별자를 생성한다."@ko .
+
+rcpp:QuantityCalculationItemRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "수량산출 내역 필수필드"@ko ; rcpp:requiredForClass rcpp:QuantityCalculationItem ;
+    rcpp:requiredProperty rcpp:quantityWorkType , rcpp:quantityItemName , rcpp:quantitySpecification ,
+        rcpp:quantityUnit , rcpp:quantityFormula , rcpp:quantityCalculationBasis , rcpp:quantityCalculatedQuantity ;
+    rcpp:requirementLevel "필수"@ko .
+rcpp:QuantityCalculationItemCodeCondition a rcpp:FieldRequirement ;
+    rdfs:label "수량산출서 식별코드 조건"@ko ; rcpp:requiredForClass rcpp:QuantityCalculationItem ;
+    rcpp:requiredProperty rcpp:quantityCalculationCode , rcpp:quantityContractItemCode ; rcpp:requirementLevel "조건부"@ko ;
+    rcpp:inclusionCondition "원천 코드가 있으면 사용하고, 없으면 복합 식별기준으로 계약항목에 매칭한 뒤 안정적인 식별자를 생성한다."@ko .
+
+rcpp:WorkTypeDetailItemRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "공종별 상세내역 필수필드"@ko ; rcpp:requiredForClass rcpp:WorkTypeDetailItem ;
+    rcpp:requiredProperty rcpp:workDetailWorkType , rcpp:workDetailItemName , rcpp:workDetailSpecification ,
+        rcpp:workDetailUnit , rcpp:workDetailQuantity , rcpp:workDetailUnitPrice , rcpp:workDetailAmount ;
+    rcpp:requirementLevel "필수"@ko .
+rcpp:WorkTypeDetailItemCodeCondition a rcpp:FieldRequirement ;
+    rdfs:label "공종별 상세내역 코드 조건"@ko ; rcpp:requiredForClass rcpp:WorkTypeDetailItem ;
+    rcpp:requiredProperty rcpp:workDetailItemCode ; rcpp:requirementLevel "조건부"@ko ;
+    rcpp:inclusionCondition "원천 코드가 있으면 보존하고, 없으면 대응 계약항목의 식별자를 사용한다."@ko .
+
+rcpp:WorkTypeSummaryItemRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "공종별 계약집계내역 필수필드"@ko ; rcpp:requiredForClass rcpp:WorkTypeSummaryItem ;
+    rcpp:requiredProperty rcpp:summaryWorkType , rcpp:summaryContractAmount ; rcpp:requirementLevel "필수"@ko .
+
+rcpp:CurrentProgressQuantityItemSourceFields a rcpp:FieldRequirement ;
+    rdfs:label "기성수량 내역 원천입력 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
+    rcpp:requiredProperty rcpp:progressQuantityWorkType , rcpp:progressQuantityItemName ,
+        rcpp:progressQuantitySpecification , rcpp:progressQuantityUnit , rcpp:progressCurrentQuantity ;
+    rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "원천입력" .
+rcpp:CurrentProgressQuantityItemCarryForwardFields a rcpp:FieldRequirement ;
+    rdfs:label "기성수량 내역 이월입력 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
+    rcpp:requiredProperty rcpp:progressPreviousCumulativeQuantity ;
+    rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "이월입력" .
+rcpp:CurrentProgressQuantityItemCalculatedFields a rcpp:FieldRequirement ;
+    rdfs:label "기성수량 내역 계산결과 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
+    rcpp:requiredProperty rcpp:progressCumulativeQuantity , rcpp:progressRemainingQuantity ;
+    rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "계산결과" .
+rcpp:CurrentProgressQuantityItemCodeCondition a rcpp:FieldRequirement ;
+    rdfs:label "기성수량 내역 코드 조건"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
+    rcpp:requiredProperty rcpp:progressQuantityItemCode ; rcpp:requirementLevel "조건부"@ko ;
+    rcpp:inclusionCondition "원천 코드가 있으면 보존하고, 없으면 대응 계약항목의 식별자를 사용한다."@ko .
+
+rcpp:PreviousProgressStatementItemRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "전회 기성내역 필수필드"@ko ; rcpp:requiredForClass rcpp:PreviousProgressStatementItem ;
+    rcpp:requiredProperty rcpp:previousWorkDescription , rcpp:previousSpecification , rcpp:previousUnit ,
+        rcpp:previousCumulativeQuantity , rcpp:previousCumulativeAmount ; rcpp:requirementLevel "필수"@ko .
+rcpp:PreviousProgressStatementItemConditionalFields a rcpp:FieldRequirement ;
+    rdfs:label "전회 기성내역 조건부필드"@ko ; rcpp:requiredForClass rcpp:PreviousProgressStatementItem ;
+    rcpp:requiredProperty rcpp:previousItemCode , rcpp:previousCumulativeRate ; rcpp:requirementLevel "조건부"@ko ;
+    rcpp:inclusionCondition "품목코드는 원천 코드가 없으면 생성 식별자로 대체하며, 비율은 원천 서류에 있거나 출력 양식이 요구할 때 사용한다."@ko .
+
+rcpp:CurrentProgressDetailItemTransferredFields a rcpp:FieldRequirement ;
+    rdfs:label "기성 상세내역 전달·출력 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
+    rcpp:requiredProperty rcpp:outputWorkType , rcpp:outputWorkDescription , rcpp:outputSpecification ,
+        rcpp:outputUnit , rcpp:outputContractQuantity , rcpp:outputContractUnitPrice , rcpp:outputContractAmount ,
+        rcpp:outputPreviousQuantity , rcpp:outputPreviousAmount , rcpp:outputCurrentQuantity ;
+    rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "결과서류출력" .
+rcpp:CurrentProgressDetailItemCalculatedFields a rcpp:FieldRequirement ;
+    rdfs:label "기성 상세내역 계산결과 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
+    rcpp:requiredProperty rcpp:outputCurrentAmount , rcpp:outputCumulativeQuantity , rcpp:outputCumulativeAmount ,
+        rcpp:outputRemainingQuantity , rcpp:outputRemainingAmount ;
+    rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "계산결과" .
+rcpp:CurrentProgressDetailItemConditionalFields a rcpp:FieldRequirement ;
+    rdfs:label "기성 상세내역 조건부필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
+    rcpp:requiredProperty rcpp:outputItemCode , rcpp:outputPreviousRate , rcpp:outputCurrentRate , rcpp:outputCumulativeRate ;
+    rcpp:requirementLevel "조건부"@ko ;
+    rcpp:inclusionCondition "품목코드는 원천 코드가 없으면 생성 식별자로 대체하며, 비율은 결과 양식에서 요구할 때 산출한다."@ko .
+
+rcpp:CurrentProgressSummaryItemRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "기성 집계내역 필수필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressSummaryItem ;
+    rcpp:requiredProperty rcpp:outputSummaryWorkCategoryText , rcpp:outputSummaryContractAmount ,
+        rcpp:outputSummaryPreviousAmount , rcpp:outputSummaryCurrentAmount , rcpp:outputSummaryCumulativeAmount ;
+    rcpp:requirementLevel "필수"@ko .
+
+rcpp:CostItemRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "표준 비용항목 필수필드"@ko ; rcpp:requiredForClass rcpp:CostItem ;
+    rcpp:requiredProperty rcpp:costItemCode , rcpp:costItemName , rcpp:normalizedSpecificationCode ,
+        rcpp:belongsToWorkCategory , rcpp:usesUnit ;
+    rcpp:requirementLevel "필수"@ko .
+
+rcpp:DocumentItemMatchingRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "서류내역 매칭 필수필드"@ko ; rcpp:requiredForClass rcpp:DocumentItemMatching ;
+    rcpp:requiredProperty rcpp:sourceItem , rcpp:targetItem , rcpp:matchedCostItem ,
+        rcpp:matchingMethod , rcpp:matchingEvidence , rcpp:reviewStatus ;
+    rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "교차검토" .
+rcpp:DocumentItemMatchingConditionalFields a rcpp:FieldRequirement ;
+    rdfs:label "서류내역 매칭 조건부필드"@ko ; rcpp:requiredForClass rcpp:DocumentItemMatching ;
+    rcpp:requiredProperty rcpp:confidenceScore , rcpp:reviewedBy ;
+    rcpp:requirementLevel "조건부"@ko ; rcpp:requirementPurpose "교차검토" .
+rcpp:CalculationActivityRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "계산활동 필수필드"@ko ; rcpp:requiredForClass rcpp:CalculationActivity ;
+    rcpp:requiredProperty rcpp:calculationRound , rcpp:appliesRule , rcpp:appliesPolicy ,
+        rcpp:calculationInputItem , rcpp:calculationOutputItem , rcpp:calculationStatus ;
+    rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "계산입력" .
+
+#################################################################
+# Reusable work-category individuals
+#################################################################
+
+rcpp:ReinforcedConcreteWorkCategory a rcpp:WorkCategory ;
+    rcpp:workCategoryCode "RC" ; rcpp:workCategoryName "철근콘크리트공종"@ko ;
+    rcpp:sourceValueAlias "철근콘크리트" , "철근콘크리트공" , "철근콘크리트공사" ;
+    rdfs:label "철근콘크리트공종"@ko .
+rcpp:RebarWorkCategory a rcpp:WorkCategory ;
+    rcpp:workCategoryCode "RC-REBAR" ; rcpp:workCategoryName "철근"@ko ;
+    rcpp:sourceValueAlias "철근" , "철근공" , "철근공사" ;
+    rcpp:parentWorkCategory rcpp:ReinforcedConcreteWorkCategory ; rdfs:label "철근공사"@ko .
+rcpp:ConcreteWorkCategory a rcpp:WorkCategory ;
+    rcpp:workCategoryCode "RC-CONCRETE" ; rcpp:workCategoryName "콘크리트"@ko ;
+    rcpp:sourceValueAlias "콘크리트" , "콘크리트공" , "콘크리트공사" ;
+    rcpp:parentWorkCategory rcpp:ReinforcedConcreteWorkCategory ; rdfs:label "콘크리트공사"@ko .
+rcpp:FormworkWorkCategory a rcpp:WorkCategory ;
+    rcpp:workCategoryCode "RC-FORMWORK" ; rcpp:workCategoryName "거푸집"@ko ;
+    rcpp:sourceValueAlias "거푸집" , "거푸집공" , "거푸집공사" ;
+    rcpp:parentWorkCategory rcpp:ReinforcedConcreteWorkCategory ; rdfs:label "거푸집공사"@ko .
+rcpp:ShoringWorkCategory a rcpp:WorkCategory ;
+    rcpp:workCategoryCode "RC-SHORING" ; rcpp:workCategoryName "동바리"@ko ;
+    rcpp:sourceValueAlias "동바리" , "동바리공" , "동바리공사" ;
+    rcpp:parentWorkCategory rcpp:ReinforcedConcreteWorkCategory ; rdfs:label "동바리공사"@ko .
+
+#################################################################
+# Reusable unit individuals
+#################################################################
+
+rcpp:MetreUnit a rcpp:Unit ; rcpp:unitCode "M" ; rcpp:unitSymbol "m" ;
+    rcpp:sourceValueAlias "M" , "m" , "미터" ; rcpp:unitDimension "길이"@ko ;
+    rcpp:baseUnit rcpp:MetreUnit ; rcpp:conversionFactorToBaseUnit 1.0 ; rdfs:label "미터"@ko .
+rcpp:SquareMetreUnit a rcpp:Unit ; rcpp:unitCode "M2" ; rcpp:unitSymbol "㎡" ;
+    rcpp:sourceValueAlias "M2" , "m2" , "m²" , "㎡" ; rcpp:unitDimension "면적"@ko ;
+    rcpp:baseUnit rcpp:SquareMetreUnit ; rcpp:conversionFactorToBaseUnit 1.0 ; rdfs:label "제곱미터"@ko .
+rcpp:CubicMetreUnit a rcpp:Unit ; rcpp:unitCode "M3" ; rcpp:unitSymbol "㎥" ;
+    rcpp:sourceValueAlias "M3" , "m3" , "m³" , "㎥" ; rcpp:unitDimension "체적"@ko ;
+    rcpp:baseUnit rcpp:CubicMetreUnit ; rcpp:conversionFactorToBaseUnit 1.0 ; rdfs:label "세제곱미터"@ko .
+rcpp:KilogramUnit a rcpp:Unit ; rcpp:unitCode "KG" ; rcpp:unitSymbol "kg" ;
+    rcpp:sourceValueAlias "KG" , "kg" , "킬로그램" ; rcpp:unitDimension "질량"@ko ;
+    rcpp:baseUnit rcpp:KilogramUnit ; rcpp:conversionFactorToBaseUnit 1.0 ; rdfs:label "킬로그램"@ko .
+rcpp:TonneUnit a rcpp:Unit ; rcpp:unitCode "TON" ; rcpp:unitSymbol "ton" ;
+    rcpp:sourceValueAlias "TON" , "ton" , "t" , "톤" ; rcpp:unitDimension "질량"@ko ;
+    rcpp:baseUnit rcpp:KilogramUnit ; rcpp:conversionFactorToBaseUnit 1000.0 ; rdfs:label "톤"@ko .
+rcpp:EachUnit a rcpp:Unit ; rcpp:unitCode "EA" ; rcpp:unitSymbol "개" ;
+    rcpp:sourceValueAlias "EA" , "ea" , "개" ; rcpp:unitDimension "개수"@ko ;
+    rcpp:baseUnit rcpp:EachUnit ; rcpp:conversionFactorToBaseUnit 1.0 ; rdfs:label "개수"@ko .
+
+#################################################################
+# Calculation-policy and controlled specification values
+#################################################################
+
+rcpp:KRW a rcpp:Currency ; rcpp:codeValue "KRW" ; rdfs:label "대한민국 원"@ko .
+rcpp:RoundHalfUp a rcpp:RoundingMode ; rcpp:codeValue "HALF_UP" ; rdfs:label "반올림"@ko .
+rcpp:RoundDown a rcpp:RoundingMode ; rcpp:codeValue "DOWN" ; rdfs:label "절사"@ko .
+rcpp:RoundUp a rcpp:RoundingMode ; rcpp:codeValue "UP" ; rdfs:label "올림"@ko .
+
+rcpp:KRWItemWonHalfUpPolicy a rcpp:CalculationPolicy ;
+    rdfs:label "KRW 항목별 원단위 반올림 정책"@ko ;
+    rcpp:currency rcpp:KRW ;
+    rcpp:roundingMode rcpp:RoundHalfUp ;
+    rcpp:decimalScale 0 ;
+    rcpp:amountTolerance 0.0 ;
+    rcpp:quantityTolerance 0.0001 ;
+    rcpp:calculationOrder "수량을 계약단위로 변환 → 품목별 금액 계산 → 원 단위 반올림 → 공종별 합계"@ko .
+
+rcpp:SD400 a rcpp:RebarGrade ; rcpp:codeValue "SD400" ; rcpp:sourceValueAlias "SD 400" , "에스디400" ; rdfs:label "SD400"@ko .
+rcpp:SD500 a rcpp:RebarGrade ; rcpp:codeValue "SD500" ; rcpp:sourceValueAlias "SD 500" , "에스디500" ; rdfs:label "SD500"@ko .
+rcpp:SD600 a rcpp:RebarGrade ; rcpp:codeValue "SD600" ; rcpp:sourceValueAlias "SD 600" , "에스디600" ; rdfs:label "SD600"@ko .
+rcpp:RebarFabrication a rcpp:RebarWorkType ; rcpp:codeValue "FABRICATION" ;
+    rcpp:sourceValueAlias "가공" , "철근가공" ; rdfs:label "철근 가공"@ko .
+rcpp:RebarAssembly a rcpp:RebarWorkType ; rcpp:codeValue "ASSEMBLY" ;
+    rcpp:sourceValueAlias "조립" , "철근조립" ; rdfs:label "철근 조립"@ko .
+rcpp:RebarFabricationAndAssembly a rcpp:RebarWorkType ; rcpp:codeValue "FABRICATION_ASSEMBLY" ;
+    rcpp:sourceValueAlias "가공조립" , "가공 및 조립" , "철근 가공·조립" ; rdfs:label "가공 및 조립"@ko .
+rcpp:PlywoodFormwork a rcpp:FormworkType ; rcpp:codeValue "PLYWOOD" ;
+    rcpp:sourceValueAlias "합판거푸집" , "합판 거푸집" ; rdfs:label "합판거푸집"@ko .
+rcpp:EuroFormwork a rcpp:FormworkType ; rcpp:codeValue "EURO_FORM" ;
+    rcpp:sourceValueAlias "유로폼" , "유로 거푸집" ; rdfs:label "유로폼"@ko .
+rcpp:SimpleComplexity a rcpp:ComplexityLevel ; rcpp:codeValue "SIMPLE" ;
+    rcpp:sourceValueAlias "간단" , "단순" , "Simple" ; rdfs:label "단순"@ko .
+rcpp:NormalComplexity a rcpp:ComplexityLevel ; rcpp:codeValue "NORMAL" ;
+    rcpp:sourceValueAlias "보통" , "일반" , "Normal" ; rdfs:label "보통"@ko .
+rcpp:ComplexComplexity a rcpp:ComplexityLevel ; rcpp:codeValue "COMPLEX" ;
+    rcpp:sourceValueAlias "복잡" , "복잡형" , "Complex" ; rdfs:label "복잡"@ko .
+rcpp:SystemShoring a rcpp:ShoringType ; rcpp:codeValue "SYSTEM_SHORING" ;
+    rcpp:sourceValueAlias "시스템동바리" , "시스템 동바리" ; rdfs:label "시스템동바리"@ko .
+rcpp:SteelPipeShoring a rcpp:ShoringType ; rcpp:codeValue "STEEL_PIPE_SHORING" ;
+    rcpp:sourceValueAlias "강관동바리" , "강관 동바리" ; rdfs:label "강관동바리"@ko .
+rcpp:LandInstallationEnvironment a rcpp:InstallationEnvironment ; rcpp:codeValue "LAND" ;
+    rcpp:sourceValueAlias "육상" ; rdfs:label "육상"@ko .
+rcpp:WaterInstallationEnvironment a rcpp:InstallationEnvironment ; rcpp:codeValue "WATER" ;
+    rcpp:sourceValueAlias "수상" ; rdfs:label "수상"@ko .
+rcpp:PumpCarPlacement a rcpp:PlacementMethod ; rcpp:codeValue "PUMP_CAR" ;
+    rcpp:sourceValueAlias "펌프카 타설" , "펌프타설" , "펌프카" ; rdfs:label "펌프카 타설"@ko .
+rcpp:ManualPlacement a rcpp:PlacementMethod ; rcpp:codeValue "MANUAL" ;
+    rcpp:sourceValueAlias "인력타설" , "인력 타설" , "수작업 타설" ; rdfs:label "인력 타설"@ko .
+
+#################################################################
+# Included and excluded scope
+#################################################################
+
+rcpp:IncludedDocumentTypes a rdfs:Resource ;
+    rdfs:label "사용 기성서류"@ko ;
+    rdfs:comment "산정 근거서류는 수량산출서·계약내역서·공종별내역서·공종별집계표·기성수량산출서·전회 공사기성부분내역서와 단가·원가 지원서류이고, 산정 결과서류는 공사기성부분내역서이다."@ko .
+rcpp:IncludedWorkScope a rdfs:Resource ;
+    rdfs:label "현재 포함 공종"@ko ;
+    rdfs:comment "현재 온톨로지 구축 범위는 철근콘크리트공종 하나이며 세부공종은 철근·콘크리트·거푸집·동바리 네 가지로 한정한다. 다른 공종은 현재 클래스·속성 범위에 포함하지 않는다."@ko .
+rcpp:ExcludedWorkScope a rdfs:Resource ;
+    rdfs:label "제외 서류와 판단"@ko ;
+    rdfs:comment "검측요청서·검측결과서, 작업일보·시공일보, 콘크리트 타설일보, 철근가공조서·배근 검측자료, 물량측정서, 시공사진, 자재납품서를 제외한다. 실제 시공 여부·검측 적합성·품질 적합성을 판정하지 않는다."@ko .
+
+rcpp:AutomationGoal a rdfs:Resource ;
+    rdfs:label "기성서류 작성 자동화 목표"@ko ;
+    rdfs:comment "서류를 반복 탐색하는 비표준 업무를 서류내역 매핑 순서로 정리하여 재작업과 오류를 줄이고, 최종적으로 확장 가능한 기성서류 작성 자동화를 구현한다."@ko .

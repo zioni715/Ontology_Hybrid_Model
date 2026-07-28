@@ -1,0 +1,33 @@
+@prefix rcpp: <https://example.org/rcpp#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+rcpp:OntologySchema
+    a rdfs:Resource ;
+    dcterms:title "기성서류 내역 매핑 및 공사기성부분내역서 작성 온톨로지"@ko ,
+        "Progress Document Field Mapping and Statement Preparation Ontology"@en ;
+    dcterms:description "프로젝트와 기성회차별 서류 역할·서류 내역을 표준 비용항목에 연결하고 철근·콘크리트·거푸집·동바리 비용항목에 직접 부여하는 단가 식별 속성, 서류에 기록된 수량산식·산출근거·산출수량, 단위 변환, 계산정책, 계약단가, 확정 금회기성수량과 금회기성금액 계산을 정의하는 RDF/RDFS 온톨로지."@ko ;
+    dcterms:identifier "RCPP" ;
+    dcterms:hasVersion "1.0.0" ;
+    dcterms:created "2026-07-16"^^xsd:date ;
+    dcterms:modified "2026-07-28"^^xsd:date ;
+    rcpp:namespaceUri "https://example.org/rcpp#"^^xsd:anyURI ;
+    rdfs:comment "RCPP는 Reinforced Concrete Progress Payment의 약어이다. 기성서류를 핵심 업무개념으로 유지하면서 Project와 ProgressPaymentRound를 실제 데이터의 적용 문맥으로 명시한다. 연구 범위는 철근콘크리트공종의 철근·콘크리트·거푸집·동바리 수량 및 기성금액 산정이며 실제 시공·검측·품질 판정은 제외한다."@ko ;
+    rdfs:seeAlso rcpp:ClassesModule , rcpp:PropertiesModule , rcpp:CodeListsModule , rcpp:ProgressPaymentDataFlow , rcpp:PrototypeNamespaceNotice .
+
+rcpp:PrototypeNamespaceNotice a rdfs:Resource ;
+    rdfs:label "프로토타입 네임스페이스 고지"@ko ;
+    rdfs:comment "https://example.org/rcpp#는 연구·프로토타입용 임시 네임스페이스이다. 외부 공개·영구 식별·운영 배포 전에 소유 기관이 통제하는 영구 URI로 일괄 교체해야 한다."@ko .
+
+rcpp:ClassesModule a rdfs:Resource ;
+    rdfs:label "서류·항목·처리규칙 클래스 모듈"@ko ;
+    rdfs:comment "서류 역할, 상세 내역과 집계 내역, 프로젝트 독립 표준 비용항목, 공종분류·측정단위·공종별 속성·매칭·금회기성액 계산·결과서류 내부 집계 규칙을 정의한다."@ko .
+
+rcpp:PropertiesModule a rdfs:Resource ;
+    rdfs:label "서류 내역 및 영향 관계 모듈"@ko ;
+    rdfs:comment "각 서류의 원천 데이터 항목을 공통 코드·공종·품명·규격·단위·수량·단가·금액 상위속성에 정렬하고, 공종별 최소 규격속성과 서류 흐름·동일 항목 대응·단가 참조·파생·집계·산식입력 관계를 정의한다."@ko .
+
+rcpp:CodeListsModule a rdfs:Resource ;
+    rdfs:label "흐름·역할·범위 지침 모듈"@ko ;
+    rdfs:comment "서류별 역할, 항목 매칭 원칙, 포함·제외 범위, 클래스·개체 구분 및 RDFS 추론·향후 SHACL 검증 분리 원칙과 재사용 공종·단위 개체를 정의한다."@ko .

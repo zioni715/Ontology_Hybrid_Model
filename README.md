@@ -1,161 +1,116 @@
-# Public Construction Progress Payment Ontology
+# 공사기성부분내역서 작성을 위한 온톨로지
 
-PCPO is a foundational RDF/RDFS ontology for calculating and validating current
-progress-payment amounts for reinforced concrete work in public construction.
-It connects effective contract items, current quantity takeoff data, previously
-approved cumulative values, current progress lines, and work-level summaries.
+이 프로젝트는 건설 프로젝트의 기성서류를 구조화하고, 공사기성부분내역서 작성(특히 금회기성금액)에 필요한 데이터 관계를 표현하는 온톨로지 구축을 목적으로 함.
 
-The core calculation is:
+기성서류의 종류와 항목, 서류 간 데이터 전달, 항목 매칭 및 기성금액 계산 흐름을 RDF + RDFS로 정의함.
 
-```text
-current progress amount = current progress quantity × effective contract unit price
+대상 공종은 철근콘크리트이며, 철근콘크리트의 상세 속성은 철근, 콘크리트, 거푸집 및 동바리로 정의함.
+
+
+## 현재 진행도
+
+기성서류 작성 흐름과 데이터 정의를 바탕으로 1차 온톨로지를 구축함.
+현재 버전에서는 RDF + RDFS로 클래스·속성·관계를 정의하고, SPARQL 질의를 이용하여 주요 계산 및 데이터 연결 구조를 검증하였음.
+
+## 1. Ontology 설명
+
+### 1-1. Prefix
+
+온톨로지의 기본 Prefix는 `rcpp(Reinforced Concrete Progress Payment)`
+
+```turtle
+@prefix rcpp: <https://example.org/rcpp#> .
+(현재는 임시 IRI)
 ```
 
-The implementation intentionally uses only **RDF, RDFS, SPARQL, Python, and
-RDFLib**. OWL, SHACL, and SWRL are outside the current scope. Data consistency
-and calculation checks are implemented as executable SPARQL `SELECT` queries.
 
-> [!IMPORTANT]
-> `data/sample-valid.ttl` and `data/sample-invalid.ttl` are synthetic example
-> data. They do not represent an actual public project or an official document format.
+### 1-2. Class
 
-## Project Structure
 
-```text
-.
-├── README.md
-├── ontology/
-│   ├── schema.ttl
-│   ├── classes.ttl
-│   ├── properties.ttl
-│   └── code-lists.ttl
-├── data/
-│   ├── sample-valid.ttl
-│   └── sample-invalid.ttl
-├── queries/
-│   ├── Q01_contract_items.rq
-│   ├── Q02_current_amount.rq
-│   ├── Q03_quantity_status.rq
-│   ├── Q04_subwork_summary.rq
-│   ├── Q05_rc_total.rq
-│   ├── Q06_effective_contract_version.rq
-│   └── validation/
-│       └── V01_...rq through V15_...rq
-├── scripts/
-│   ├── validate_rdf.py
-│   ├── run_queries.py
-│   └── generate_validation_report.py
-├── visualization/
-│   └── ontology_graph.html
-├── .gitignore
-└── requirements.txt
+- 프로젝트 및 기성회차: `Project`, `ProgressPaymentRound`
+- 기성서류: `ProgressDocument`, `QuantityCalculationSheet`, `ContractStatement`, `PreviousProgressStatement`, `CurrentProgressQuantitySheet`, `CurrentProgressStatement`
+- 서류 내역: `DocumentItem`, `QuantityCalculationItem`, `ContractStatementItem`, `PreviousProgressStatementItem`, `ProgressQuantityDetailItem`, `CurrentProgressQuantityItem`, `CurrentProgressDetailItem`, `CurrentProgressSummaryItem`
+- 표준 비용항목: `CostItem`, `RebarCostItem`, `ConcreteCostItem`, `ReadyMixedConcreteCostItem`, `ConcretePlacementCostItem`, `FormworkCostItem`, `ShoringCostItem`
+- 서류내역 매칭: `DocumentItemMatching`
+- 계산규칙 및 계산활동: `CalculationRule`, `UnitConversionRule`, `ProgressQuantityRollupCalculation`, `CurrentProgressAmountCalculation`, `ProgressSummaryCalculation`, `CalculationActivity`
+
+### 1-3. Property
+
+
+- 계약내역: `contractItemCode`, `contractWorkType`, `contractItemName`, `contractSpecification`, `contractUnit`, `contractQuantity`, `contractUnitPrice`, `contractAmount`
+- 수량산출: `quantityFormula`, `quantityCalculationBasis`, `quantityCalculatedQuantity`
+- 기성수량: `progressPreviousCumulativeQuantity`, `progressCurrentQuantity`, `progressCumulativeQuantity`, `progressRemainingQuantity`
+- 기성금액: `outputPreviousAmount`, `outputCurrentAmount`, `outputCumulativeAmount`, `outputRemainingAmount`
+- 단위변환 및 계산정책: `baseUnit`, `conversionFactorToBaseUnit`, `roundingMode`, `decimalScale`, `calculationOrder`
+- 공종별 비용속성: `rebarGrade`, `nominalDiameter`, `maximumAggregateSize`, `nominalStrength`, `slump`, `formworkType`, `reuseCount`, `shoringType`
+
+### 1-4. Relation
+
+
+- `containsItem`: 서류와 서류 내역 연결
+- `representsCostItem`: 서류 내역과 표준 비용항목 연결
+- `correspondsToItem`: 승인된 동일 서류 내역 연결
+- `usesUnitPriceFrom`: 기성 상세내역과 계약단가 원천 연결
+- `quantityBasisFrom`: 계약수량과 수량산출 근거 연결
+- `previousQuantityFrom`: 전회누계수량의 이월 원천 연결
+- `derivedFrom`: 결과 내역과 원천 내역 연결
+- `quantityAggregatedInto`: 상세 기성수량을 계약항목 단위 수량으로 집계
+- `aggregatedInto`: 상세 금액을 공종별 집계 내역으로 합산
+- `groupsByField`: 상세 내역을 공종별로 묶는 기준 연결
+
+### 1-5. 기성서류 데이터 흐름
+
+```mermaid
+flowchart LR
+    A[수량산출서] --> B[계약내역서]
+    B --> E[항목 매칭 및 계산]
+    C[전회 공사기성부분내역서] --> E
+    D[기성수량산출서] --> E
+    E --> F[공사기성부분내역서]
+    F --> G[공종별·전체 금액 집계]
 ```
 
-The ontology is split into four modules to keep schema metadata, the class
-hierarchy, properties, and controlled resources independently readable. The
-Python scripts always load all four modules as one graph.
 
-The namespace `https://example.org/pcpo#` is temporary and must be replaced with
-an official persistent URI before production use. It is declared centrally in
-`ontology/schema.ttl` and repeated only in Turtle/SPARQL prefix declarations.
+## 2. 실행 방법
 
-## Environment Setup
-
-Run all commands from the repository root directory.
-
-### 1. Create and Activate the Conda Environment
+### 2-1. Conda 환경 생성
 
 ```bash
-conda create --name RC_Ontology python=3.13.14 pip -y
+conda create -n RC_Ontology python=3.10.14 -y
+```
+
+### 2-2. Conda 환경 활성화
+
+```bash
 conda activate RC_Ontology
 ```
 
-### 2. Install the Python Dependencies
+### 2-3. 패키지 설치
 
 ```bash
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+conda install -y pip
+pip install -r requirements.txt
 ```
 
-## Run the Project
-
-### 1. Parse and Validate the RDF Files
+### 2-4. 시각화 생성
 
 ```bash
-python scripts/validate_rdf.py
+cd KO
+python visualization/generate_visualization_data.py
+python visualization/generate_visualization_data.py --check
 ```
 
-This command parses every PCPO Turtle file, loads the valid and invalid-overlay
-graphs, and confirms that excluded OWL, SHACL, and SWRL terms are not used.
+생성된 `KO/visualization/ontology_graph.html` 파일을 브라우저에서 열어 시각화 확인.
 
-### 2. Run the Six Retrieval Queries
+## 3. 파일 구성
 
-```bash
-python scripts/run_queries.py
-```
+- `KO/ontology/schema.ttl`: 온톨로지 정보와 네임스페이스
+- `KO/ontology/classes.ttl`: 클래스와 클래스 계층
+- `KO/ontology/properties.ttl`: 속성과 관계
+- `KO/ontology/code-lists.ttl`: 공종·단위·통제값과 규칙 개체
+- `KO/visualization/ontology_graph.html`: 온톨로지 시각화
 
-The command prints contract items, current amounts, quantity status, sub-work
-totals, the reinforced-concrete total, and the effective contract version.
+## 4. 버전
 
-### 3. Run All SPARQL Validation Rules
-
-```bash
-python scripts/generate_validation_report.py
-```
-
-The generated report is written locally to `reports/validation-report.md`; the
-`reports/` directory is ignored by Git. A successful test run has these conditions:
-
-- all V01–V15 queries return zero rows for `sample-valid.ttl`;
-- all V01–V15 queries detect at least one row after `sample-invalid.ttl` is overlaid.
-
-The synthetic validation tolerance is `0.0001` for quantities and `0.5 KRW` for
-amounts. An actual project must replace these values with the applicable owner
-or site rounding policy.
-
-## Model Summary
-
-The model distinguishes a document row from the real contract item it describes:
-
-```text
-ContractDocumentLine ──representsContractItem──> ContractItem
-QuantityCalculationLine ──basedOnContractItem──> ContractItem
-CurrentProgressLine ──basedOnContractItem──────> ContractItem
-CurrentProgressLine ──carriedForwardFrom───────> PreviousProgressLine
-```
-
-The main derived values are:
-
-```text
-cumulative quantity = previous cumulative quantity + current progress quantity
-remaining quantity = effective contract quantity - cumulative quantity
-current progress amount = current progress quantity × effective contract unit price
-cumulative amount = previous cumulative amount + current progress amount
-contract amount = effective contract quantity × effective contract unit price
-```
-
-Rebar, concrete, formwork, and shoring are represented as RDFS subclasses of
-`ReinforcedConcreteWorkItem`. Quantities with different units are never directly
-compared or added.
-
-## PCPO Visualization
-
-The interactive visualization at `visualization/ontology_graph.html` represents
-the current PCPO class hierarchy, document lineage, calculation relations, and
-the synthetic round-2 progress example. Its graph data is embedded in the HTML,
-so ontology changes must also be reflected in this file manually.
-
-To view the visualization:
-
-```bash
-python -m http.server 8000
-```
-
-Open `http://localhost:8000/visualization/ontology_graph.html`. The page loads
-D3.js from a CDN and therefore requires an internet connection.
-
-## Deactivate the Environment
-
-```bash
-conda deactivate
-```
+- Ontology version: `v1.0.0`
+- Namespace: `https://example.org/rcpp#`
