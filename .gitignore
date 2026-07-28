@@ -13,3 +13,6 @@
 # 생성 과정에서 생기는 캐시는 추적하지 않는다.
 **/__pycache__/
 *.py[cod]
+
+# 온톨로지 명세서 생성용 로컬 스크립트는 추적하지 않는다.
+/KO/ontology/generate_specification.py

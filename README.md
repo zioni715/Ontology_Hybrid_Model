@@ -248,6 +248,7 @@ python visualization/generate_visualization_data.py --check
 - `KO/ontology/classes.ttl`: 클래스와 클래스 계층
 - `KO/ontology/properties.ttl`: 속성과 관계
 - `KO/ontology/code-lists.ttl`: 공종·단위·통제값과 규칙 개체
+- `KO/ontology/ONTOLOGY_SPECIFICATION.md`: 클래스·속성·규칙·통제값과 내부 관계 트리플 명세서
 - `KO/visualization/ontology_graph.html`: 온톨로지 시각화
 
 ## 4. 버전

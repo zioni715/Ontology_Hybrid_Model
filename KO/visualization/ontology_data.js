@@ -992,6 +992,15 @@ window.RCPP_GRAPH_DATA = {
       "predicate": "rcpp:expectedSourceItemClass",
       "primary": false,
       "source": "https://example.org/rcpp#CurrentProgressQuantityItem",
+      "target": "https://example.org/rcpp#ProgressQuantityDetailItem"
+    },
+    {
+      "description": "대상 내역값의 실제 개체가 어느 서류내역 클래스의 개체에서 파생되어야 하는지 설명한다.",
+      "kind": "direct",
+      "label": "예상 내역값 파생 근거",
+      "predicate": "rcpp:expectedSourceItemClass",
+      "primary": false,
+      "source": "https://example.org/rcpp#CurrentProgressQuantityItem",
       "target": "https://example.org/rcpp#PreviousProgressStatementItem"
     },
     {
@@ -1109,7 +1118,7 @@ window.RCPP_GRAPH_DATA = {
       "predicate": "rcpp:inputQuantityProperty",
       "primary": true,
       "source": "https://example.org/rcpp#CurrentProgressAmountCalculation",
-      "target": "https://example.org/rcpp#outputCurrentQuantity"
+      "target": "https://example.org/rcpp#progressCurrentQuantity"
     },
     {
       "description": "계산 클래스가 입력으로 요구하는 계약단가 속성을 지정한다.",
@@ -1118,7 +1127,7 @@ window.RCPP_GRAPH_DATA = {
       "predicate": "rcpp:inputUnitPriceProperty",
       "primary": true,
       "source": "https://example.org/rcpp#CurrentProgressAmountCalculation",
-      "target": "https://example.org/rcpp#outputContractUnitPrice"
+      "target": "https://example.org/rcpp#contractUnitPrice"
     },
     {
       "description": "금회기성수량 또는 계약단가 속성에서 금회기성금액 계산 클래스로 이어지는 스키마상 입력 흐름.",
@@ -1126,7 +1135,7 @@ window.RCPP_GRAPH_DATA = {
       "label": "금액계산 입력 전달",
       "predicate": "rcpp:inputToCalculationClass",
       "primary": true,
-      "source": "https://example.org/rcpp#outputCurrentQuantity",
+      "source": "https://example.org/rcpp#progressCurrentQuantity",
       "target": "https://example.org/rcpp#CurrentProgressAmountCalculation"
     },
     {
@@ -1135,11 +1144,11 @@ window.RCPP_GRAPH_DATA = {
       "label": "금액계산 입력 전달",
       "predicate": "rcpp:inputToCalculationClass",
       "primary": true,
-      "source": "https://example.org/rcpp#outputContractUnitPrice",
+      "source": "https://example.org/rcpp#contractUnitPrice",
       "target": "https://example.org/rcpp#CurrentProgressAmountCalculation"
     },
     {
-      "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+      "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
       "kind": "object",
       "label": "필드요구 대상",
       "predicate": "rcpp:expectedRequirementTargetClass",
@@ -1148,7 +1157,7 @@ window.RCPP_GRAPH_DATA = {
       "target": "https://example.org/rcpp#DocumentItem"
     },
     {
-      "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+      "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
       "kind": "object",
       "label": "필드요구 대상",
       "predicate": "rcpp:expectedRequirementTargetClass",
@@ -1157,7 +1166,7 @@ window.RCPP_GRAPH_DATA = {
       "target": "https://example.org/rcpp#DocumentItemMatching"
     },
     {
-      "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+      "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
       "kind": "object",
       "label": "필드요구 대상",
       "predicate": "rcpp:expectedRequirementTargetClass",
@@ -3054,7 +3063,7 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:CalculationActivity",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "계산활동",
+      "label": "계산 실행",
       "level": "core",
       "name": "CalculationActivity",
       "nodeType": "calculation",
@@ -3074,12 +3083,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "계산활동"
+            "계산 실행"
           ],
           "range": "rcpp:ProgressPaymentRound",
           "required": true,
           "requiredForClasses": [
-            "계산활동"
+            "계산 실행"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -3098,12 +3107,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "계산활동"
+            "계산 실행"
           ],
           "range": "rcpp:DocumentItem",
           "required": true,
           "requiredForClasses": [
-            "계산활동"
+            "계산 실행"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -3122,12 +3131,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "계산활동"
+            "계산 실행"
           ],
           "range": "rcpp:DocumentItem",
           "required": true,
           "requiredForClasses": [
-            "계산활동"
+            "계산 실행"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -3146,12 +3155,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "계산활동"
+            "계산 실행"
           ],
           "range": "rcpp:CalculationRule",
           "required": true,
           "requiredForClasses": [
-            "계산활동"
+            "계산 실행"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -3170,12 +3179,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "계산활동"
+            "계산 실행"
           ],
           "range": "rcpp:CalculationPolicy",
           "required": true,
           "requiredForClasses": [
-            "계산활동"
+            "계산 실행"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -3194,7 +3203,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "계산활동"
+            "계산 실행"
           ],
           "range": "rcpp:UnitConversionRule",
           "required": false,
@@ -3216,12 +3225,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "계산활동"
+            "계산 실행"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계산활동"
+            "계산 실행"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -3231,7 +3240,7 @@ window.RCPP_GRAPH_DATA = {
       "relations": {
         "incoming": [
           {
-            "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+            "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
             "kind": "object",
             "label": "필드요구 대상",
             "predicate": "rcpp:expectedRequirementTargetClass",
@@ -3574,7 +3583,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "계산규칙",
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -3787,7 +3796,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -3812,12 +3821,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -3998,7 +4014,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -4023,12 +4039,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -4348,9 +4371,10 @@ window.RCPP_GRAPH_DATA = {
       "flowY": 1080,
       "formulas": [
         "계약금액 = 계약수량 × 계약단가",
-        "계약내역서 단위 = 수량산출결과 단위 = 공사기성부분내역서 단위",
+        "공사기성부분내역서 출력단위 = 계약단가 기준단위",
         "금회기성금액 = 금회기성수량 × 계약단가",
         "금회기성수량 ≤ 계약수량 − 전회누계기성수량",
+        "기성수량 원천단위는 계약단위와 같거나 동일한 물리 차원에서 변환 가능해야 한다",
         "누계기성금액 = 전회누계기성금액 + 금회기성금액",
         "누계기성금액 ≤ 계약금액",
         "누계기성수량 = 전회누계기성수량 + 금회기성수량",
@@ -4452,12 +4476,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [
             "도급금액",
@@ -4569,7 +4593,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -4617,7 +4641,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -4665,12 +4689,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -4693,12 +4717,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -4721,7 +4745,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -4745,12 +4769,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -4773,12 +4797,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -4803,12 +4827,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -4831,12 +4855,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -4988,12 +5012,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:ContractStatementItem",
       "itemMatchingX": 400,
       "itemMatchingY": 130,
-      "label": "계약 내역",
+      "label": "계약내역 항목",
       "level": "structure",
       "name": "ContractStatementItem",
       "nodeType": "item",
       "parents": [
-        "상세 내역"
+        "품목별 상세항목"
       ],
       "primary": false,
       "properties": [
@@ -5014,12 +5038,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [
             "도급금액",
@@ -5043,7 +5067,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -5065,7 +5089,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "rcpp:QuantityCalculationItem",
           "required": false,
@@ -5088,7 +5112,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -5112,7 +5136,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -5134,7 +5158,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -5156,7 +5180,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -5179,7 +5203,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "상세 내역"
+            "품목별 상세항목"
           ],
           "range": "rcpp:SummaryCostItem",
           "required": false,
@@ -5202,12 +5226,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -5226,11 +5257,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -5248,7 +5281,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -5270,7 +5303,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -5292,7 +5325,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -5314,7 +5347,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -5338,7 +5371,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -5362,7 +5395,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -5386,12 +5419,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -5414,12 +5447,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -5442,7 +5475,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -5466,12 +5499,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -5494,12 +5527,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -5522,7 +5555,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -5544,7 +5577,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -5568,12 +5601,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -5596,12 +5629,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "계약 내역"
+            "계약내역 항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -5624,7 +5657,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -5646,7 +5679,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -6046,7 +6079,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -6071,12 +6104,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -6366,7 +6406,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -6478,7 +6518,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -6548,7 +6588,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -6640,7 +6680,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -6668,7 +6708,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -6694,7 +6734,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -6720,7 +6760,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -6748,7 +6788,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -6774,7 +6814,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -6898,12 +6938,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:CurrentProgressAmountCalculation",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "금회기성금액 계산",
+      "label": "금회기성금액 산정규칙",
       "level": "core",
       "name": "CurrentProgressAmountCalculation",
       "nodeType": "calculation",
       "parents": [
-        "기성금액·비율 및 누계 산정"
+        "기성금액·비율 및 누계 산정규칙"
       ],
       "primary": true,
       "properties": [
@@ -6965,7 +7005,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "계산규칙",
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -7010,7 +7050,7 @@ window.RCPP_GRAPH_DATA = {
             "label": "금액계산 입력 전달",
             "predicate": "rcpp:inputToCalculationClass",
             "primary": true,
-            "source": "https://example.org/rcpp#outputCurrentQuantity",
+            "source": "https://example.org/rcpp#progressCurrentQuantity",
             "target": "https://example.org/rcpp#CurrentProgressAmountCalculation"
           },
           {
@@ -7019,7 +7059,7 @@ window.RCPP_GRAPH_DATA = {
             "label": "금액계산 입력 전달",
             "predicate": "rcpp:inputToCalculationClass",
             "primary": true,
-            "source": "https://example.org/rcpp#outputContractUnitPrice",
+            "source": "https://example.org/rcpp#contractUnitPrice",
             "target": "https://example.org/rcpp#CurrentProgressAmountCalculation"
           }
         ],
@@ -7058,7 +7098,7 @@ window.RCPP_GRAPH_DATA = {
             "predicate": "rcpp:inputQuantityProperty",
             "primary": true,
             "source": "https://example.org/rcpp#CurrentProgressAmountCalculation",
-            "target": "https://example.org/rcpp#outputCurrentQuantity"
+            "target": "https://example.org/rcpp#progressCurrentQuantity"
           },
           {
             "description": "계산 클래스가 입력으로 요구하는 계약단가 속성을 지정한다.",
@@ -7067,7 +7107,7 @@ window.RCPP_GRAPH_DATA = {
             "predicate": "rcpp:inputUnitPriceProperty",
             "primary": true,
             "source": "https://example.org/rcpp#CurrentProgressAmountCalculation",
-            "target": "https://example.org/rcpp#outputContractUnitPrice"
+            "target": "https://example.org/rcpp#contractUnitPrice"
           }
         ]
       },
@@ -7095,13 +7135,13 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:CurrentProgressDetailItem",
       "itemMatchingX": 720,
       "itemMatchingY": 420,
-      "label": "기성 상세내역",
+      "label": "공사기성 상세항목",
       "level": "structure",
       "name": "CurrentProgressDetailItem",
       "nodeType": "item",
       "parents": [
-        "기성 내역",
-        "상세 내역"
+        "공사기성 내역항목",
+        "품목별 상세항목"
       ],
       "primary": false,
       "properties": [
@@ -7122,12 +7162,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "금회기성액/금액",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7152,7 +7192,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "금회기성액/비율(%)",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -7178,12 +7218,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7208,7 +7248,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -7234,12 +7274,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7265,7 +7305,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "전회까지의 기성액/비율(%)",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -7290,7 +7330,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -7313,7 +7353,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -7337,7 +7377,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -7359,7 +7399,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -7381,7 +7421,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -7404,7 +7444,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "상세 내역"
+            "품목별 상세항목"
           ],
           "range": "rcpp:SummaryCostItem",
           "required": false,
@@ -7427,12 +7467,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7451,11 +7498,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -7473,7 +7522,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -7495,7 +7544,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -7517,7 +7566,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -7539,7 +7588,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -7561,7 +7610,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -7583,7 +7632,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -7605,7 +7654,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -7627,7 +7676,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -7649,7 +7698,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -7676,12 +7725,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "도급액/금액",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "도급금액",
@@ -7707,12 +7756,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "도급액/단가",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "도급 단가"
@@ -7737,12 +7786,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "도급액/수량",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "도급 수량"
@@ -7767,12 +7816,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "공사내역",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7795,12 +7844,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "공종",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -7825,12 +7874,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "규격",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7853,12 +7902,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "금회기성액/수량",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7884,12 +7933,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7912,12 +7961,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "단위",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -7945,12 +7994,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -7973,7 +8022,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "적요",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -7997,12 +8046,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "전회까지의 기성액/수량",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -8028,12 +8077,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "전회까지의 기성액/금액",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "전회기성금액",
@@ -8059,7 +8108,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "내부 매칭키",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -8398,12 +8447,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:CurrentProgressQuantityItem",
       "itemMatchingX": 580,
       "itemMatchingY": 440,
-      "label": "기성수량 내역",
+      "label": "기성수량 항목",
       "level": "structure",
       "name": "CurrentProgressQuantityItem",
       "nodeType": "item",
       "parents": [
-        "서류 내역"
+        "서류 항목"
       ],
       "primary": false,
       "properties": [
@@ -8424,12 +8473,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -8454,12 +8503,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -8480,7 +8529,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -8503,7 +8552,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -8527,7 +8576,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -8549,7 +8598,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -8571,7 +8620,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -8594,7 +8643,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "rcpp:PreviousProgressStatementItem",
           "required": false,
@@ -8617,12 +8666,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -8641,11 +8697,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -8663,7 +8721,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -8685,7 +8743,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -8707,7 +8765,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -8729,7 +8787,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -8751,7 +8809,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -8775,7 +8833,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -8801,12 +8859,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -8829,7 +8887,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -8851,7 +8909,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -8875,12 +8933,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -8903,12 +8961,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -8931,12 +8989,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -8959,7 +9017,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -8981,7 +9039,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -9005,12 +9063,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9033,12 +9091,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9220,6 +9278,15 @@ window.RCPP_GRAPH_DATA = {
             "predicate": "rcpp:expectedSourceItemClass",
             "primary": false,
             "source": "https://example.org/rcpp#CurrentProgressQuantityItem",
+            "target": "https://example.org/rcpp#ProgressQuantityDetailItem"
+          },
+          {
+            "description": "대상 내역값의 실제 개체가 어느 서류내역 클래스의 개체에서 파생되어야 하는지 설명한다.",
+            "kind": "direct",
+            "label": "예상 내역값 파생 근거",
+            "predicate": "rcpp:expectedSourceItemClass",
+            "primary": false,
+            "source": "https://example.org/rcpp#CurrentProgressQuantityItem",
             "target": "https://example.org/rcpp#PreviousProgressStatementItem"
           },
           {
@@ -9292,12 +9359,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9322,12 +9389,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9436,7 +9503,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -9484,7 +9551,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -9532,12 +9599,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -9562,12 +9629,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9590,12 +9657,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9618,12 +9685,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -9714,12 +9781,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9742,12 +9809,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성수량 내역"
+            "기성수량 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9875,12 +9942,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "금회기성액/금액",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9905,7 +9972,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "금회기성액/비율(%)",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -9931,12 +9998,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -9961,7 +10028,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -9987,12 +10054,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10018,7 +10085,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "전회까지의 기성액/비율(%)",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -10131,7 +10198,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -10270,12 +10337,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "도급액/금액",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "도급금액",
@@ -10301,12 +10368,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "도급액/단가",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "도급 단가"
@@ -10331,12 +10398,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "도급액/수량",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "도급 수량"
@@ -10361,12 +10428,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "공사내역",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10389,12 +10456,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "공종",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -10421,12 +10488,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10451,12 +10518,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10481,12 +10548,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10511,12 +10578,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10539,12 +10606,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "규격",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10567,12 +10634,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "금회기성액/수량",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10598,12 +10665,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10626,12 +10693,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "단위",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -10659,12 +10726,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10687,7 +10754,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "적요",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -10711,12 +10778,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "전회까지의 기성액/수량",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -10742,12 +10809,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "전회까지의 기성액/금액",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "sourceFieldLabels": [
             "전회기성금액",
@@ -10773,12 +10840,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -10803,7 +10870,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -10829,7 +10896,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "내부 매칭키",
           "owners": [
-            "기성 상세내역"
+            "공사기성 상세항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -10970,12 +11037,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:CurrentProgressStatementItem",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "기성 내역",
+      "label": "공사기성 내역항목",
       "level": "structure",
       "name": "CurrentProgressStatementItem",
       "nodeType": "item",
       "parents": [
-        "서류 내역"
+        "서류 항목"
       ],
       "primary": false,
       "properties": [
@@ -10992,7 +11059,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -11015,7 +11082,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -11039,7 +11106,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -11061,7 +11128,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -11083,7 +11150,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -11107,12 +11174,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -11131,11 +11205,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -11153,7 +11229,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -11175,7 +11251,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -11197,7 +11273,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -11219,7 +11295,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -11241,7 +11317,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11263,7 +11339,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11285,7 +11361,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11307,7 +11383,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11329,7 +11405,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11396,13 +11472,13 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:CurrentProgressSummaryItem",
       "itemMatchingX": 1050,
       "itemMatchingY": 440,
-      "label": "기성 집계내역",
+      "label": "공사기성 집계항목",
       "level": "structure",
       "name": "CurrentProgressSummaryItem",
       "nodeType": "item",
       "parents": [
-        "기성 내역",
-        "집계 내역"
+        "공사기성 내역항목",
+        "집계항목"
       ],
       "primary": false,
       "properties": [
@@ -11419,7 +11495,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -11442,7 +11518,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -11466,7 +11542,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -11488,7 +11564,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -11510,7 +11586,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -11534,12 +11610,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -11558,11 +11641,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -11580,7 +11665,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -11602,7 +11687,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -11624,7 +11709,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -11646,7 +11731,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -11668,7 +11753,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11690,7 +11775,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11712,7 +11797,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11734,7 +11819,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11756,7 +11841,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -11782,12 +11867,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -11812,12 +11897,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -11842,12 +11927,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -11872,12 +11957,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -11900,12 +11985,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -11930,7 +12015,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "기성 집계내역"
+            "공사기성 집계항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -12071,12 +12156,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:DetailCostItem",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "상세 내역",
+      "label": "품목별 상세항목",
       "level": "structure",
       "name": "DetailCostItem",
       "nodeType": "item",
       "parents": [
-        "서류 내역"
+        "서류 항목"
       ],
       "primary": false,
       "properties": [
@@ -12093,7 +12178,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -12116,7 +12201,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -12140,7 +12225,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -12162,7 +12247,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -12184,7 +12269,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -12207,7 +12292,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "상세 내역"
+            "품목별 상세항목"
           ],
           "range": "rcpp:SummaryCostItem",
           "required": false,
@@ -12230,12 +12315,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -12254,11 +12346,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -12276,7 +12370,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -12298,7 +12392,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -12320,7 +12414,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -12342,7 +12436,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -12364,7 +12458,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12386,7 +12480,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12408,7 +12502,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12430,7 +12524,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12452,7 +12546,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12546,7 +12640,7 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:DocumentItem",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "서류 내역",
+      "label": "서류 항목",
       "level": "structure",
       "name": "DocumentItem",
       "nodeType": "item",
@@ -12566,7 +12660,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -12589,7 +12683,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -12613,7 +12707,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -12635,7 +12729,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -12657,7 +12751,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -12681,12 +12775,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -12705,11 +12806,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -12727,7 +12830,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -12749,7 +12852,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -12771,7 +12874,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -12793,7 +12896,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -12815,7 +12918,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12837,7 +12940,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12859,7 +12962,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12881,7 +12984,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12903,7 +13006,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -12979,7 +13082,7 @@ window.RCPP_GRAPH_DATA = {
             "target": "https://example.org/rcpp#DocumentItem"
           },
           {
-            "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+            "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
             "kind": "object",
             "label": "필드요구 대상",
             "predicate": "rcpp:expectedRequirementTargetClass",
@@ -13307,7 +13410,7 @@ window.RCPP_GRAPH_DATA = {
             "target": "https://example.org/rcpp#DocumentItemMatching"
           },
           {
-            "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+            "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
             "kind": "object",
             "label": "필드요구 대상",
             "predicate": "rcpp:expectedRequirementTargetClass",
@@ -13415,7 +13518,7 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:FieldRequirement",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "필드 요구조건",
+      "label": "항목값 요구조건",
       "level": "extended",
       "name": "FieldRequirement",
       "nodeType": "reference",
@@ -13435,7 +13538,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "필드 요구조건"
+            "항목값 요구조건"
           ],
           "range": "xsd:string",
           "required": false,
@@ -13457,7 +13560,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "필드 요구조건"
+            "항목값 요구조건"
           ],
           "range": "rdf:Property",
           "required": false,
@@ -13479,7 +13582,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "필드 요구조건"
+            "항목값 요구조건"
           ],
           "range": "rdfs:Class",
           "required": false,
@@ -13501,7 +13604,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "필드 요구조건"
+            "항목값 요구조건"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -13515,7 +13618,7 @@ window.RCPP_GRAPH_DATA = {
         "incoming": [],
         "outgoing": [
           {
-            "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+            "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
             "kind": "object",
             "label": "필드요구 대상",
             "predicate": "rcpp:expectedRequirementTargetClass",
@@ -13524,7 +13627,7 @@ window.RCPP_GRAPH_DATA = {
             "target": "https://example.org/rcpp#DocumentItem"
           },
           {
-            "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+            "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
             "kind": "object",
             "label": "필드요구 대상",
             "predicate": "rcpp:expectedRequirementTargetClass",
@@ -13533,7 +13636,7 @@ window.RCPP_GRAPH_DATA = {
             "target": "https://example.org/rcpp#DocumentItemMatching"
           },
           {
-            "description": "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다.",
+            "description": "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다.",
             "kind": "object",
             "label": "필드요구 대상",
             "predicate": "rcpp:expectedRequirementTargetClass",
@@ -13590,7 +13693,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -13615,12 +13718,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -14331,7 +14441,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -14717,7 +14827,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -14787,7 +14897,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -14879,12 +14989,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -14907,12 +15017,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -14935,12 +15045,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -14965,12 +15075,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -14993,7 +15103,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -15017,12 +15127,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -15096,12 +15206,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:PreviousProgressStatementItem",
       "itemMatchingX": 110,
       "itemMatchingY": 440,
-      "label": "전회 기성내역",
+      "label": "전회 기성항목",
       "level": "structure",
       "name": "PreviousProgressStatementItem",
       "nodeType": "item",
       "parents": [
-        "상세 내역"
+        "품목별 상세항목"
       ],
       "primary": false,
       "properties": [
@@ -15118,7 +15228,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -15141,7 +15251,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -15165,7 +15275,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -15187,7 +15297,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -15209,7 +15319,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -15232,7 +15342,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "상세 내역"
+            "품목별 상세항목"
           ],
           "range": "rcpp:SummaryCostItem",
           "required": false,
@@ -15255,12 +15365,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -15279,11 +15396,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -15301,7 +15420,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -15323,7 +15442,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -15345,7 +15464,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -15367,7 +15486,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -15389,7 +15508,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -15413,7 +15532,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -15437,7 +15556,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -15459,7 +15578,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -15481,7 +15600,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -15503,7 +15622,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -15527,12 +15646,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -15555,12 +15674,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -15583,12 +15702,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -15613,12 +15732,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -15641,7 +15760,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -15665,12 +15784,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "전회 기성내역"
+            "전회 기성항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -15868,7 +15987,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -15980,7 +16099,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -16050,7 +16169,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -16142,7 +16261,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -16170,7 +16289,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -16196,7 +16315,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -16222,7 +16341,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -16250,7 +16369,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -16276,7 +16395,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -16336,7 +16455,7 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:ProgressAmountCalculation",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "기성금액·비율 및 누계 산정",
+      "label": "기성금액·비율 및 누계 산정규칙",
       "level": "core",
       "name": "ProgressAmountCalculation",
       "nodeType": "process",
@@ -16403,7 +16522,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "계산규칙",
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -16587,7 +16706,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -17000,12 +17119,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:ProgressQuantityDetailItem",
       "itemMatchingX": 340,
       "itemMatchingY": 600,
-      "label": "기성수량 상세행",
+      "label": "기성수량 상세항목",
       "level": "extended",
       "name": "ProgressQuantityDetailItem",
       "nodeType": "item",
       "parents": [
-        "서류 내역"
+        "서류 항목"
       ],
       "primary": false,
       "properties": [
@@ -17022,7 +17141,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -17045,7 +17164,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -17069,11 +17188,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 상세행"
+            "기성수량 상세항목"
           ],
           "range": "rcpp:CurrentProgressQuantityItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -17091,7 +17212,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -17113,7 +17234,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -17135,7 +17256,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -17159,12 +17280,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -17183,11 +17311,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -17205,7 +17335,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -17227,7 +17357,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -17249,7 +17379,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -17271,7 +17401,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -17293,11 +17423,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 상세행"
+            "기성수량 상세항목"
           ],
           "range": "xsd:decimal",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -17315,7 +17447,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -17337,7 +17469,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -17359,7 +17491,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -17381,7 +17513,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "기성수량 상세행"
+            "기성수량 상세항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -17403,7 +17535,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -17425,7 +17557,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -17444,6 +17576,15 @@ window.RCPP_GRAPH_DATA = {
             "predicate": "rcpp:expectedItemClass",
             "primary": false,
             "source": "https://example.org/rcpp#CurrentProgressQuantitySheet",
+            "target": "https://example.org/rcpp#ProgressQuantityDetailItem"
+          },
+          {
+            "description": "대상 내역값의 실제 개체가 어느 서류내역 클래스의 개체에서 파생되어야 하는지 설명한다.",
+            "kind": "direct",
+            "label": "예상 내역값 파생 근거",
+            "predicate": "rcpp:expectedSourceItemClass",
+            "primary": false,
+            "source": "https://example.org/rcpp#CurrentProgressQuantityItem",
             "target": "https://example.org/rcpp#ProgressQuantityDetailItem"
           }
         ],
@@ -17522,7 +17663,7 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:ProgressQuantityRollupCalculation",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "기성수량 누계·잔여 산정",
+      "label": "기성수량 누계·잔여 산정규칙",
       "level": "core",
       "name": "ProgressQuantityRollupCalculation",
       "nodeType": "process",
@@ -17589,7 +17730,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "계산규칙",
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -17729,7 +17870,7 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:ProgressSummaryCalculation",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "공종별·전체 기성 집계",
+      "label": "공종별·전체 기성 집계규칙",
       "level": "extended",
       "name": "ProgressSummaryCalculation",
       "nodeType": "process",
@@ -17796,7 +17937,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "계산규칙",
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -17952,12 +18093,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:QuantityCalculationItem",
       "itemMatchingX": 110,
       "itemMatchingY": 130,
-      "label": "수량산출 내역",
+      "label": "수량산출 항목",
       "level": "structure",
       "name": "QuantityCalculationItem",
       "nodeType": "item",
       "parents": [
-        "서류 내역"
+        "서류 항목"
       ],
       "primary": false,
       "properties": [
@@ -17978,12 +18119,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -18004,7 +18145,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -18027,7 +18168,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -18051,7 +18192,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -18073,7 +18214,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -18095,7 +18236,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -18119,12 +18260,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -18143,11 +18291,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -18165,7 +18315,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -18187,7 +18337,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -18209,7 +18359,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -18231,7 +18381,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -18253,7 +18403,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18277,7 +18427,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18303,7 +18453,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18327,12 +18477,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -18355,7 +18505,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18377,7 +18527,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18401,12 +18551,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -18429,12 +18579,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -18459,12 +18609,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -18485,12 +18635,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -18509,7 +18659,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18531,7 +18681,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18555,12 +18705,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -18760,12 +18910,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -18874,7 +19024,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -18922,7 +19072,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18970,7 +19120,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -18994,12 +19144,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -19024,12 +19174,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -19052,12 +19202,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -19148,12 +19298,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -19174,12 +19324,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -19200,12 +19350,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "수량산출 내역"
+            "수량산출 항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -19302,7 +19452,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -19327,12 +19477,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -19614,7 +19771,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -19639,12 +19796,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -20329,7 +20493,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -20354,12 +20518,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -20938,7 +21109,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -21349,7 +21520,7 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:SpecificationNormalizationRule",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "규격코드 생성규칙",
+      "label": "규격 정규화규칙",
       "level": "extended",
       "name": "SpecificationNormalizationRule",
       "nodeType": "process",
@@ -21369,7 +21540,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -21391,7 +21562,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "xsd:string",
           "required": false,
@@ -21413,7 +21584,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "xsd:string",
           "required": false,
@@ -21435,7 +21606,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -21458,7 +21629,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "계산규칙",
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -21496,12 +21667,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:SummaryCostItem",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "집계 내역",
+      "label": "집계항목",
       "level": "structure",
       "name": "SummaryCostItem",
       "nodeType": "item",
       "parents": [
-        "서류 내역"
+        "서류 항목"
       ],
       "primary": false,
       "properties": [
@@ -21518,7 +21689,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -21541,7 +21712,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -21565,7 +21736,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -21587,7 +21758,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -21609,7 +21780,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -21633,12 +21804,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -21657,11 +21835,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -21679,7 +21859,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -21701,7 +21881,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -21723,7 +21903,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -21745,7 +21925,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -21767,7 +21947,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -21789,7 +21969,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -21811,7 +21991,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -21833,7 +22013,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -21855,7 +22035,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -21955,7 +22135,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -22067,7 +22247,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -22137,7 +22317,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22229,7 +22409,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22257,7 +22437,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22283,7 +22463,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -22309,7 +22489,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22337,7 +22517,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -22363,7 +22543,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22459,12 +22639,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:SupportingReferenceItem",
       "itemMatchingX": 900,
       "itemMatchingY": 720,
-      "label": "보조자료 내역",
+      "label": "보조자료 항목",
       "level": "structure",
       "name": "SupportingReferenceItem",
       "nodeType": "item",
       "parents": [
-        "서류 내역"
+        "서류 항목"
       ],
       "primary": false,
       "properties": [
@@ -22483,7 +22663,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -22507,7 +22687,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -22530,7 +22710,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -22554,7 +22734,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -22576,7 +22756,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -22598,7 +22778,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -22622,12 +22802,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -22646,11 +22833,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -22668,7 +22857,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -22690,7 +22879,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -22712,7 +22901,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -22734,7 +22923,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -22756,7 +22945,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22780,7 +22969,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22804,7 +22993,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22826,7 +23015,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22848,7 +23037,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22870,7 +23059,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22894,7 +23083,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22922,7 +23111,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -22948,7 +23137,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -22974,7 +23163,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -23002,7 +23191,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -23028,7 +23217,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -23418,7 +23607,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "계산규칙",
-            "규격코드 생성규칙"
+            "규격 정규화규칙"
           ],
           "range": "rdfs:Literal",
           "required": false,
@@ -23500,7 +23689,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -23612,7 +23801,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -23682,7 +23871,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -23774,7 +23963,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -23802,7 +23991,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -23828,7 +24017,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -23854,7 +24043,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -23882,7 +24071,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -23908,7 +24097,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "보조자료 내역"
+            "보조자료 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -24103,12 +24292,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:WorkTypeDetailItem",
       "itemMatchingX": 690,
       "itemMatchingY": 130,
-      "label": "공종별 상세내역",
+      "label": "공종별 상세항목",
       "level": "structure",
       "name": "WorkTypeDetailItem",
       "nodeType": "item",
       "parents": [
-        "상세 내역"
+        "품목별 상세항목"
       ],
       "primary": false,
       "properties": [
@@ -24129,42 +24318,18 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": [
             "rcpp:hasAmountValue"
           ]
-        },
-        {
-          "category": "계산",
-          "description": "공종별집계표의 직접공사비 합계로 집계되는 세부 직접공사비.",
-          "documents": [
-            "공종별내역서"
-          ],
-          "examples": [],
-          "formulas": [],
-          "id": "https://example.org/rcpp#workDetailDirectCost",
-          "inclusionCondition": "",
-          "iri": "rcpp:workDetailDirectCost",
-          "label": "직접공사비",
-          "level": "extended",
-          "outputColumnGroup": "",
-          "owners": [
-            "공종별 상세내역"
-          ],
-          "range": "xsd:decimal",
-          "required": false,
-          "requiredForClasses": [],
-          "sourceFieldLabels": [],
-          "specificationRequirement": "",
-          "superProperties": []
         },
         {
           "category": "관계",
@@ -24179,7 +24344,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -24202,7 +24367,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -24226,7 +24391,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -24248,7 +24413,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -24270,7 +24435,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -24293,7 +24458,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "상세 내역"
+            "품목별 상세항목"
           ],
           "range": "rcpp:SummaryCostItem",
           "required": false,
@@ -24316,12 +24481,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -24340,11 +24512,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -24362,7 +24536,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -24384,7 +24558,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -24406,7 +24580,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -24428,7 +24602,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -24450,7 +24624,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -24474,7 +24648,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -24498,7 +24672,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -24520,7 +24694,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -24544,12 +24718,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -24572,12 +24746,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -24600,12 +24774,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -24630,12 +24804,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [
             "세부 공종"
@@ -24660,12 +24834,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -24686,7 +24860,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -24708,9 +24882,33 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
+          "required": false,
+          "requiredForClasses": [],
+          "sourceFieldLabels": [],
+          "specificationRequirement": "",
+          "superProperties": []
+        },
+        {
+          "category": "입력",
+          "description": "공종별내역서에 기록된 원천 직접공사비이며 공종별집계표의 직접공사비 합계로 집계되는 값.",
+          "documents": [
+            "공종별내역서"
+          ],
+          "examples": [],
+          "formulas": [],
+          "id": "https://example.org/rcpp#workDetailDirectCost",
+          "inclusionCondition": "",
+          "iri": "rcpp:workDetailDirectCost",
+          "label": "직접공사비",
+          "level": "extended",
+          "outputColumnGroup": "",
+          "owners": [
+            "공종별 상세항목"
+          ],
+          "range": "xsd:decimal",
           "required": false,
           "requiredForClasses": [],
           "sourceFieldLabels": [],
@@ -24732,12 +24930,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -24946,42 +25144,18 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": [
             "rcpp:hasAmountValue"
           ]
-        },
-        {
-          "category": "계산",
-          "description": "공종별집계표의 직접공사비 합계로 집계되는 세부 직접공사비.",
-          "documents": [
-            "공종별내역서"
-          ],
-          "examples": [],
-          "formulas": [],
-          "id": "https://example.org/rcpp#workDetailDirectCost",
-          "inclusionCondition": "",
-          "iri": "rcpp:workDetailDirectCost",
-          "label": "직접공사비",
-          "level": "extended",
-          "outputColumnGroup": "",
-          "owners": [
-            "공종별 상세내역"
-          ],
-          "range": "xsd:decimal",
-          "required": false,
-          "requiredForClasses": [],
-          "sourceFieldLabels": [],
-          "specificationRequirement": "",
-          "superProperties": []
         },
         {
           "category": "관계",
@@ -25084,7 +25258,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -25132,7 +25306,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -25180,12 +25354,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -25208,12 +25382,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -25236,12 +25410,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [
             "단위"
@@ -25332,12 +25506,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [
             "세부 공종"
@@ -25362,18 +25536,42 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": [
             "rcpp:hasQuantityValue"
           ]
+        },
+        {
+          "category": "입력",
+          "description": "공종별내역서에 기록된 원천 직접공사비이며 공종별집계표의 직접공사비 합계로 집계되는 값.",
+          "documents": [
+            "공종별내역서"
+          ],
+          "examples": [],
+          "formulas": [],
+          "id": "https://example.org/rcpp#workDetailDirectCost",
+          "inclusionCondition": "",
+          "iri": "rcpp:workDetailDirectCost",
+          "label": "직접공사비",
+          "level": "extended",
+          "outputColumnGroup": "",
+          "owners": [
+            "공종별 상세항목"
+          ],
+          "range": "xsd:decimal",
+          "required": false,
+          "requiredForClasses": [],
+          "sourceFieldLabels": [],
+          "specificationRequirement": "",
+          "superProperties": []
         },
         {
           "category": "입력",
@@ -25390,12 +25588,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 상세내역"
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -25470,12 +25668,12 @@ window.RCPP_GRAPH_DATA = {
       "iri": "rcpp:WorkTypeSummaryItem",
       "itemMatchingX": 1030,
       "itemMatchingY": 130,
-      "label": "공종별 계약집계내역",
+      "label": "공종별 계약집계항목",
       "level": "structure",
       "name": "WorkTypeSummaryItem",
       "nodeType": "item",
       "parents": [
-        "집계 내역"
+        "집계항목"
       ],
       "primary": false,
       "properties": [
@@ -25496,12 +25694,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -25511,12 +25709,14 @@ window.RCPP_GRAPH_DATA = {
         },
         {
           "category": "계산",
-          "description": "세부 직접공사비의 공종별 합계.",
+          "description": "공종별내역서에 기록된 세부 직접공사비를 동일 공종별로 합산한 값.",
           "documents": [
             "공종별집계표"
           ],
           "examples": [],
-          "formulas": [],
+          "formulas": [
+            "공종별 직접공사비 합계 = Σ(동일 공종 세부 직접공사비)"
+          ],
           "id": "https://example.org/rcpp#summaryDirectCost",
           "inclusionCondition": "",
           "iri": "rcpp:summaryDirectCost",
@@ -25524,7 +25724,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -25546,7 +25746,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:ContractStatementItem",
           "required": false,
@@ -25569,7 +25769,7 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:WorkCategory",
           "required": true,
@@ -25593,7 +25793,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -25615,7 +25815,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -25637,7 +25837,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -25661,12 +25861,19 @@ window.RCPP_GRAPH_DATA = {
           "outputColumnGroup": "",
           "owners": [
             "표준 비용항목",
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:Unit",
           "required": true,
           "requiredForClasses": [
-            "표준 비용항목"
+            "계약내역 항목",
+            "표준 비용항목",
+            "공사기성 상세항목",
+            "기성수량 항목",
+            "전회 기성항목",
+            "기성수량 상세항목",
+            "수량산출 항목",
+            "공종별 상세항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -25685,11 +25892,13 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:CostItem",
-          "required": false,
-          "requiredForClasses": [],
+          "required": true,
+          "requiredForClasses": [
+            "기성수량 상세항목"
+          ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
           "superProperties": []
@@ -25707,7 +25916,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "rcpp:DocumentItem",
           "required": false,
@@ -25729,7 +25938,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -25751,7 +25960,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -25773,7 +25982,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -25797,12 +26006,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -25825,7 +26034,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -25847,7 +26056,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -25869,7 +26078,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -25891,7 +26100,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -25913,7 +26122,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역"
+            "서류 항목"
           ],
           "range": "xsd:string",
           "required": false,
@@ -26042,12 +26251,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "range": "xsd:decimal",
           "required": true,
           "requiredForClasses": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "sourceFieldLabels": [],
           "specificationRequirement": "",
@@ -26057,12 +26266,14 @@ window.RCPP_GRAPH_DATA = {
         },
         {
           "category": "계산",
-          "description": "세부 직접공사비의 공종별 합계.",
+          "description": "공종별내역서에 기록된 세부 직접공사비를 동일 공종별로 합산한 값.",
           "documents": [
             "공종별집계표"
           ],
           "examples": [],
-          "formulas": [],
+          "formulas": [
+            "공종별 직접공사비 합계 = Σ(동일 공종 세부 직접공사비)"
+          ],
           "id": "https://example.org/rcpp#summaryDirectCost",
           "inclusionCondition": "",
           "iri": "rcpp:summaryDirectCost",
@@ -26070,7 +26281,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "extended",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "range": "xsd:decimal",
           "required": false,
@@ -26180,7 +26391,7 @@ window.RCPP_GRAPH_DATA = {
           "level": "detail",
           "outputColumnGroup": "",
           "owners": [
-            "서류 내역",
+            "서류 항목",
             "기성서류"
           ],
           "range": "rcpp:SourceLocation",
@@ -26228,12 +26439,12 @@ window.RCPP_GRAPH_DATA = {
           "level": "core",
           "outputColumnGroup": "",
           "owners": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "range": "xsd:string",
           "required": true,
           "requiredForClasses": [
-            "공종별 계약집계내역"
+            "공종별 계약집계항목"
           ],
           "sourceFieldLabels": [
             "공종"
@@ -26414,7 +26625,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": true,
@@ -26482,7 +26693,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1620,
@@ -26528,7 +26739,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": true,
@@ -26655,7 +26866,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": true,
@@ -26741,7 +26952,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1070,
@@ -26784,7 +26995,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": true,
@@ -26870,7 +27081,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1400,
@@ -26913,7 +27124,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": false,
@@ -26984,7 +27195,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": true,
@@ -27070,7 +27281,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1180,
@@ -27113,7 +27324,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": true,
@@ -27253,7 +27464,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1290,
@@ -27298,7 +27509,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": true,
@@ -27306,6 +27517,15 @@ window.RCPP_GRAPH_DATA = {
       "range": "xsd:decimal",
       "relations": {
         "incoming": [
+          {
+            "description": "계산 클래스가 입력으로 요구하는 계약단가 속성을 지정한다.",
+            "kind": "calculation",
+            "label": "계약단가 입력속성",
+            "predicate": "rcpp:inputUnitPriceProperty",
+            "primary": true,
+            "source": "https://example.org/rcpp#CurrentProgressAmountCalculation",
+            "target": "https://example.org/rcpp#contractUnitPrice"
+          },
           {
             "description": "서류 간 동일해야 하거나 계산 한계를 비교해야 하는 항목 관계.",
             "kind": "consistency",
@@ -27317,6 +27537,15 @@ window.RCPP_GRAPH_DATA = {
           }
         ],
         "outgoing": [
+          {
+            "description": "금회기성수량 또는 계약단가 속성에서 금회기성금액 계산 클래스로 이어지는 스키마상 입력 흐름.",
+            "kind": "calculation",
+            "label": "금액계산 입력 전달",
+            "predicate": "rcpp:inputToCalculationClass",
+            "primary": true,
+            "source": "https://example.org/rcpp#contractUnitPrice",
+            "target": "https://example.org/rcpp#CurrentProgressAmountCalculation"
+          },
           {
             "description": "원천서류의 값을 목표 서류내역으로 직접 전달한다.",
             "kind": "direct",
@@ -27357,7 +27586,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1510,
@@ -27400,7 +27629,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#ContractStatement",
       "ownerLabel": "계약내역서",
       "owners": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "parents": [],
       "primary": true,
@@ -27477,7 +27706,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "계약 내역"
+        "계약내역 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 960,
@@ -27525,7 +27754,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -27611,7 +27840,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1620,
@@ -27657,7 +27886,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -27689,7 +27918,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1400,
@@ -27734,7 +27963,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -27742,15 +27971,6 @@ window.RCPP_GRAPH_DATA = {
       "range": "xsd:decimal",
       "relations": {
         "incoming": [
-          {
-            "description": "계산 클래스가 입력으로 요구하는 계약단가 속성을 지정한다.",
-            "kind": "calculation",
-            "label": "계약단가 입력속성",
-            "predicate": "rcpp:inputUnitPriceProperty",
-            "primary": true,
-            "source": "https://example.org/rcpp#CurrentProgressAmountCalculation",
-            "target": "https://example.org/rcpp#outputContractUnitPrice"
-          },
           {
             "description": "원천서류의 값을 목표 서류내역으로 직접 전달한다.",
             "kind": "direct",
@@ -27762,15 +27982,6 @@ window.RCPP_GRAPH_DATA = {
           }
         ],
         "outgoing": [
-          {
-            "description": "금회기성수량 또는 계약단가 속성에서 금회기성금액 계산 클래스로 이어지는 스키마상 입력 흐름.",
-            "kind": "calculation",
-            "label": "금액계산 입력 전달",
-            "predicate": "rcpp:inputToCalculationClass",
-            "primary": true,
-            "source": "https://example.org/rcpp#outputContractUnitPrice",
-            "target": "https://example.org/rcpp#CurrentProgressAmountCalculation"
-          },
           {
             "description": "원천 항목이 대상 계산항목의 산식에 입력되는 영향 관계.",
             "kind": "calculation",
@@ -27793,7 +28004,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1510,
@@ -27840,7 +28051,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": false,
@@ -27908,7 +28119,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 2610,
@@ -27954,7 +28165,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": false,
@@ -27995,7 +28206,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 2500,
@@ -28040,7 +28251,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": false,
@@ -28122,7 +28333,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -28199,7 +28410,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 2170,
@@ -28242,7 +28453,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -28250,15 +28461,6 @@ window.RCPP_GRAPH_DATA = {
       "range": "xsd:decimal",
       "relations": {
         "incoming": [
-          {
-            "description": "계산 클래스가 입력으로 요구하는 계약수량·전회누계수량·금회기성수량 속성을 지정한다.",
-            "kind": "calculation",
-            "label": "금회수량 입력속성",
-            "predicate": "rcpp:inputQuantityProperty",
-            "primary": true,
-            "source": "https://example.org/rcpp#CurrentProgressAmountCalculation",
-            "target": "https://example.org/rcpp#outputCurrentQuantity"
-          },
           {
             "description": "원천서류의 값을 목표 서류내역으로 직접 전달한다.",
             "kind": "direct",
@@ -28270,15 +28472,6 @@ window.RCPP_GRAPH_DATA = {
           }
         ],
         "outgoing": [
-          {
-            "description": "금회기성수량 또는 계약단가 속성에서 금회기성금액 계산 클래스로 이어지는 스키마상 입력 흐름.",
-            "kind": "calculation",
-            "label": "금액계산 입력 전달",
-            "predicate": "rcpp:inputToCalculationClass",
-            "primary": true,
-            "source": "https://example.org/rcpp#outputCurrentQuantity",
-            "target": "https://example.org/rcpp#CurrentProgressAmountCalculation"
-          },
           {
             "description": "원천 항목이 대상 계산항목의 산식에 입력되는 영향 관계.",
             "kind": "calculation",
@@ -28301,7 +28494,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1730,
@@ -28346,7 +28539,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -28426,7 +28619,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -28520,7 +28713,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -28588,7 +28781,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1950,
@@ -28634,7 +28827,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -28675,7 +28868,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1840,
@@ -28721,7 +28914,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -28822,7 +29015,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "parents": [],
       "primary": true,
@@ -28887,7 +29080,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": false,
@@ -28928,7 +29121,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 2940,
@@ -28974,7 +29167,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": false,
@@ -29006,7 +29199,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 2830,
@@ -29049,7 +29242,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -29110,7 +29303,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -29160,7 +29353,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1180,
@@ -29205,7 +29398,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "parents": [],
       "primary": true,
@@ -29246,7 +29439,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 3160,
@@ -29291,7 +29484,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "parents": [],
       "primary": true,
@@ -29323,7 +29516,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 3490,
@@ -29368,7 +29561,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "parents": [],
       "primary": true,
@@ -29400,7 +29593,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 3380,
@@ -29445,7 +29638,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "parents": [],
       "primary": true,
@@ -29477,7 +29670,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 3270,
@@ -29520,7 +29713,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "parents": [],
       "primary": true,
@@ -29561,7 +29754,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 집계내역"
+        "공사기성 집계항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 3050,
@@ -29606,7 +29799,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -29665,7 +29858,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1290,
@@ -29710,7 +29903,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -29760,7 +29953,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1070,
@@ -29803,7 +29996,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressStatement",
       "ownerLabel": "공사기성부분내역서",
       "owners": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -29853,7 +30046,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성 상세내역"
+        "공사기성 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 960,
@@ -29898,7 +30091,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#PreviousProgressStatement",
       "ownerLabel": "전회 공사기성부분내역서",
       "owners": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "parents": [],
       "primary": true,
@@ -29938,7 +30131,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1400,
@@ -29981,7 +30174,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#PreviousProgressStatement",
       "ownerLabel": "전회 공사기성부분내역서",
       "owners": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "parents": [],
       "primary": true,
@@ -30031,7 +30224,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1290,
@@ -30074,7 +30267,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#PreviousProgressStatement",
       "ownerLabel": "전회 공사기성부분내역서",
       "owners": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "parents": [],
       "primary": true,
@@ -30153,7 +30346,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#PreviousProgressStatement",
       "ownerLabel": "전회 공사기성부분내역서",
       "owners": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "parents": [],
       "primary": true,
@@ -30243,7 +30436,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#PreviousProgressStatement",
       "ownerLabel": "전회 공사기성부분내역서",
       "owners": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "parents": [],
       "primary": true,
@@ -30292,7 +30485,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1070,
@@ -30335,7 +30528,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#PreviousProgressStatement",
       "ownerLabel": "전회 공사기성부분내역서",
       "owners": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "parents": [],
       "primary": true,
@@ -30393,7 +30586,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1180,
@@ -30438,7 +30631,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#PreviousProgressStatement",
       "ownerLabel": "전회 공사기성부분내역서",
       "owners": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "parents": [],
       "primary": true,
@@ -30487,7 +30680,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "전회 기성내역"
+        "전회 기성항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 960,
@@ -30532,7 +30725,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -30600,7 +30793,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1620,
@@ -30643,7 +30836,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -30659,9 +30852,27 @@ window.RCPP_GRAPH_DATA = {
             "primary": true,
             "source": "https://example.org/rcpp#ProgressQuantityRollupCalculation",
             "target": "https://example.org/rcpp#progressCurrentQuantity"
+          },
+          {
+            "description": "계산 클래스가 입력으로 요구하는 계약수량·전회누계수량·금회기성수량 속성을 지정한다.",
+            "kind": "calculation",
+            "label": "금회수량 입력속성",
+            "predicate": "rcpp:inputQuantityProperty",
+            "primary": true,
+            "source": "https://example.org/rcpp#CurrentProgressAmountCalculation",
+            "target": "https://example.org/rcpp#progressCurrentQuantity"
           }
         ],
         "outgoing": [
+          {
+            "description": "금회기성수량 또는 계약단가 속성에서 금회기성금액 계산 클래스로 이어지는 스키마상 입력 흐름.",
+            "kind": "calculation",
+            "label": "금액계산 입력 전달",
+            "predicate": "rcpp:inputToCalculationClass",
+            "primary": true,
+            "source": "https://example.org/rcpp#progressCurrentQuantity",
+            "target": "https://example.org/rcpp#CurrentProgressAmountCalculation"
+          },
           {
             "description": "원천서류의 값을 목표 서류내역으로 직접 전달한다.",
             "kind": "direct",
@@ -30693,7 +30904,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1510,
@@ -30736,7 +30947,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -30804,7 +31015,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1400,
@@ -30847,7 +31058,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -30938,7 +31149,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -30988,7 +31199,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1070,
@@ -31031,7 +31242,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31081,7 +31292,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1180,
@@ -31124,7 +31335,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31183,7 +31394,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1290,
@@ -31228,7 +31439,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31268,7 +31479,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 960,
@@ -31315,7 +31526,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#CurrentProgressQuantitySheet",
       "ownerLabel": "기성수량산출서",
       "owners": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31374,7 +31585,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "기성수량 내역"
+        "기성수량 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1730,
@@ -31419,7 +31630,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31450,7 +31661,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1730,
@@ -31493,7 +31704,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31524,7 +31735,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1620,
@@ -31565,7 +31776,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": false,
@@ -31626,7 +31837,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31698,7 +31909,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31720,7 +31931,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1510,
@@ -31761,7 +31972,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31792,7 +32003,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1180,
@@ -31835,7 +32046,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31866,7 +32077,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1290,
@@ -31909,7 +32120,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": true,
@@ -31950,7 +32161,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1400,
@@ -31995,7 +32206,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#QuantityCalculationSheet",
       "ownerLabel": "수량산출서",
       "owners": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "parents": [],
       "primary": true,
@@ -32026,7 +32237,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "수량산출 내역"
+        "수량산출 항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1070,
@@ -32073,7 +32284,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeSummaryStatement",
       "ownerLabel": "공종별집계표",
       "owners": [
-        "공종별 계약집계내역"
+        "공종별 계약집계항목"
       ],
       "parents": [],
       "primary": true,
@@ -32114,7 +32325,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 계약집계내역"
+        "공종별 계약집계항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 960,
@@ -32133,7 +32344,7 @@ window.RCPP_GRAPH_DATA = {
       "amountY": 620,
       "category": "계산",
       "code": "",
-      "description": "세부 직접공사비의 공종별 합계.",
+      "description": "공종별내역서에 기록된 세부 직접공사비를 동일 공종별로 합산한 값.",
       "documentFlowX": 1070,
       "documentFlowY": 580,
       "documents": [
@@ -32142,7 +32353,9 @@ window.RCPP_GRAPH_DATA = {
       "examples": [],
       "flowX": 1070,
       "flowY": 580,
-      "formulas": [],
+      "formulas": [
+        "공종별 직접공사비 합계 = Σ(동일 공종 세부 직접공사비)"
+      ],
       "group": "field-WorkTypeSummaryStatement",
       "id": "https://example.org/rcpp#summaryDirectCost",
       "inclusionCondition": "",
@@ -32157,7 +32370,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeSummaryStatement",
       "ownerLabel": "공종별집계표",
       "owners": [
-        "공종별 계약집계내역"
+        "공종별 계약집계항목"
       ],
       "parents": [],
       "primary": false,
@@ -32228,7 +32441,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeSummaryStatement",
       "ownerLabel": "공종별집계표",
       "owners": [
-        "공종별 계약집계내역"
+        "공종별 계약집계항목"
       ],
       "parents": [],
       "primary": true,
@@ -32269,7 +32482,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 계약집계내역"
+        "공종별 계약집계항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 850,
@@ -32314,7 +32527,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#SupportingReferenceDocument",
       "ownerLabel": "지원·교차확인 서류",
       "owners": [
-        "보조자료 내역"
+        "보조자료 항목"
       ],
       "parents": [],
       "primary": false,
@@ -32377,7 +32590,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#SupportingReferenceDocument",
       "ownerLabel": "지원·교차확인 서류",
       "owners": [
-        "보조자료 내역"
+        "보조자료 항목"
       ],
       "parents": [],
       "primary": false,
@@ -32449,7 +32662,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#SupportingReferenceDocument",
       "ownerLabel": "지원·교차확인 서류",
       "owners": [
-        "보조자료 내역"
+        "보조자료 항목"
       ],
       "parents": [],
       "primary": false,
@@ -32521,7 +32734,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#SupportingReferenceDocument",
       "ownerLabel": "지원·교차확인 서류",
       "owners": [
-        "보조자료 내역"
+        "보조자료 항목"
       ],
       "parents": [],
       "primary": false,
@@ -32584,7 +32797,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#SupportingReferenceDocument",
       "ownerLabel": "지원·교차확인 서류",
       "owners": [
-        "보조자료 내역"
+        "보조자료 항목"
       ],
       "parents": [],
       "primary": false,
@@ -32656,7 +32869,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#SupportingReferenceDocument",
       "ownerLabel": "지원·교차확인 서류",
       "owners": [
-        "보조자료 내역"
+        "보조자료 항목"
       ],
       "parents": [],
       "primary": false,
@@ -32739,7 +32952,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#SupportingReferenceDocument",
       "ownerLabel": "지원·교차확인 서류",
       "owners": [
-        "보조자료 내역"
+        "보조자료 항목"
       ],
       "parents": [],
       "primary": false,
@@ -32811,7 +33024,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#SupportingReferenceDocument",
       "ownerLabel": "지원·교차확인 서류",
       "owners": [
-        "보조자료 내역"
+        "보조자료 항목"
       ],
       "parents": [],
       "primary": false,
@@ -32887,7 +33100,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -32946,7 +33159,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1620,
@@ -32963,9 +33176,9 @@ window.RCPP_GRAPH_DATA = {
     {
       "amountX": 900,
       "amountY": 620,
-      "category": "계산",
+      "category": "입력",
       "code": "",
-      "description": "공종별집계표의 직접공사비 합계로 집계되는 세부 직접공사비.",
+      "description": "공종별내역서에 기록된 원천 직접공사비이며 공종별집계표의 직접공사비 합계로 집계되는 값.",
       "documentFlowX": 1730,
       "documentFlowY": 420,
       "documents": [
@@ -32989,7 +33202,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": false,
@@ -33059,7 +33272,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -33141,7 +33354,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -33182,7 +33395,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1070,
@@ -33225,7 +33438,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -33266,7 +33479,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1400,
@@ -33309,7 +33522,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -33350,7 +33563,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1180,
@@ -33393,7 +33606,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -33443,7 +33656,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1290,
@@ -33488,7 +33701,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -33529,7 +33742,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 1510,
@@ -33572,7 +33785,7 @@ window.RCPP_GRAPH_DATA = {
       "ownerDocument": "https://example.org/rcpp#WorkTypeDetailStatement",
       "ownerLabel": "공종별내역서",
       "owners": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "parents": [],
       "primary": true,
@@ -33622,7 +33835,7 @@ window.RCPP_GRAPH_DATA = {
       },
       "required": true,
       "requiredForClasses": [
-        "공종별 상세내역"
+        "공종별 상세항목"
       ],
       "role": "필수 데이터 항목",
       "schemaX": 960,

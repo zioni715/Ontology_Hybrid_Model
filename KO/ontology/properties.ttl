@@ -75,7 +75,7 @@ rcpp:usesSpecificationRule a rdf:Property ; rdfs:domain rcpp:CostItem ; rdfs:ran
 rcpp:expectedDocumentRole a rdf:Property ; rdfs:range rcpp:DocumentRole ; rcpp:propertyCategory "스키마관계" ;
     rdfs:label "대표 서류역할"@ko ; rdfs:comment "서류 유형 클래스에 일반적으로 기대되는 역할 개체를 연결하는 스키마 주석관계. 실제 프로젝트 서류는 hasDocumentRole을 사용한다."@ko .
 rcpp:expectedRequirementTargetClass a rdf:Property ; rdfs:range rdfs:Class ; rcpp:propertyCategory "스키마관계" ;
-    rdfs:label "예상 필드요구 대상 클래스"@ko ; rdfs:comment "FieldRequirement 개체가 필수·조건부 필드를 지정하는 대상의 공통 상위 클래스를 설명한다."@ko .
+    rdfs:label "항목값 요구 대상 클래스"@ko ; rdfs:comment "FieldRequirement 개체가 필수·조건부 항목값을 지정하는 대상의 공통 상위 클래스를 설명한다."@ko .
 rcpp:expectedItemClass a rdf:Property ; rdfs:range rdfs:Class ; rcpp:propertyCategory "스키마관계" ;
     rdfs:label "예상 서류내역 클래스"@ko ; rdfs:comment "서류 유형 클래스가 포함할 수 있는 내역의 클래스를 설명하며 실제 서류와 내역의 관계를 단정하지 않는다."@ko .
 rcpp:typicalNextDocumentClass a rdf:Property ; rdfs:range rdfs:Class ; rcpp:propertyCategory "스키마관계" ;
@@ -418,8 +418,8 @@ rcpp:outputContractQuantity rcpp:sourceFieldLabel "도급 수량"@ko .
 rcpp:outputContractUnitPrice rcpp:sourceFieldLabel "도급 단가"@ko .
 rcpp:outputPreviousRate rcpp:sourceFieldLabel "전회기성비율"@ko , "전회까지의 기성비율"@ko .
 
-rcpp:outputCurrentQuantity rcpp:inputToCalculationClass rcpp:CurrentProgressAmountCalculation .
-rcpp:outputContractUnitPrice rcpp:inputToCalculationClass rcpp:CurrentProgressAmountCalculation .
+rcpp:progressCurrentQuantity rcpp:inputToCalculationClass rcpp:CurrentProgressAmountCalculation .
+rcpp:contractUnitPrice rcpp:inputToCalculationClass rcpp:CurrentProgressAmountCalculation .
 
 #################################################################
 # Contract statement fields
@@ -541,9 +541,9 @@ rcpp:workDetailAmount a rdf:Property ; rdfs:domain rcpp:WorkTypeDetailItem ; rdf
     rcpp:formulaExpression "내역항목별 금액 = 수량 × 단가"@ko ; rcpp:aggregatesTo rcpp:summaryContractAmount ;
     rdfs:label "내역항목별 금액"@ko ; rdfs:comment "수량과 단가를 곱한 세부 내역항목의 계약금액."@ko .
 rcpp:workDetailDirectCost a rdf:Property ; rdfs:domain rcpp:WorkTypeDetailItem ; rdfs:range xsd:decimal ;
-    rcpp:fieldOfDocument rcpp:WorkTypeDetailStatement ; rcpp:fieldOrder 9 ; rcpp:graphLevel "extended" ; rcpp:propertyCategory "계산" ;
+    rcpp:fieldOfDocument rcpp:WorkTypeDetailStatement ; rcpp:fieldOrder 9 ; rcpp:graphLevel "extended" ; rcpp:propertyCategory "입력" ;
     rcpp:aggregatesTo rcpp:summaryDirectCost ;
-    rdfs:label "직접공사비"@ko ; rdfs:comment "공종별집계표의 직접공사비 합계로 집계되는 세부 직접공사비."@ko .
+    rdfs:label "직접공사비"@ko ; rdfs:comment "공종별내역서에 기록된 원천 직접공사비이며 공종별집계표의 직접공사비 합계로 집계되는 값."@ko .
 
 #################################################################
 # Work-type summary statement fields
@@ -559,7 +559,8 @@ rcpp:summaryContractAmount a rdf:Property ; rdfs:domain rcpp:WorkTypeSummaryItem
     rdfs:label "공종별 계약금액"@ko ; rdfs:comment "공종별내역서의 계약금액 합계이며 결과 집계금액과 교차검토한다."@ko .
 rcpp:summaryDirectCost a rdf:Property ; rdfs:domain rcpp:WorkTypeSummaryItem ; rdfs:range xsd:decimal ;
     rcpp:fieldOfDocument rcpp:WorkTypeSummaryStatement ; rcpp:fieldOrder 5 ; rcpp:graphLevel "extended" ; rcpp:propertyCategory "계산" ;
-    rdfs:label "직접공사비 합계"@ko ; rdfs:comment "세부 직접공사비의 공종별 합계."@ko .
+    rcpp:formulaExpression "공종별 직접공사비 합계 = Σ(동일 공종 세부 직접공사비)"@ko ;
+    rdfs:label "직접공사비 합계"@ko ; rdfs:comment "공종별내역서에 기록된 세부 직접공사비를 동일 공종별로 합산한 값."@ko .
 
 #################################################################
 # Current progress-quantity sheet fields

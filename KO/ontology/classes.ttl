@@ -174,7 +174,7 @@ rcpp:CurrentProgressStatement a rdfs:Class ;
 #################################################################
 
 rcpp:DocumentItem a rdfs:Class ;
-    rdfs:label "서류 내역"@ko , "Document Item"@en ;
+    rdfs:label "서류 항목"@ko , "Document Item"@en ;
     rdfs:comment "서류의 한 행 또는 함께 식별되는 데이터 묶음을 포괄하는 상위 개념. 서류 간 매칭은 내역 식별정보와 개별 필드 관계로 정의한다."@ko ;
     rcpp:expectedWorkCategoryClass rcpp:WorkCategory ;
     rcpp:expectedUnitClass rcpp:Unit ;
@@ -183,20 +183,20 @@ rcpp:DocumentItem a rdfs:Class ;
 
 rcpp:DetailCostItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DocumentItem ;
-    rdfs:label "상세 내역"@ko , "Detail Cost Item"@en ;
+    rdfs:label "품목별 상세항목"@ko , "Detail Cost Item"@en ;
     rdfs:comment "품명·규격·단위·수량·단가·금액을 가지며 다른 서류의 동일 표준 비용항목과 대응하는 품목별 상세 행."@ko ;
     rcpp:expectedAggregationTargetClass rcpp:SummaryCostItem ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "item-structure" .
 
 rcpp:SummaryCostItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DocumentItem ;
-    rdfs:label "집계 내역"@ko , "Summary Cost Item"@en ;
+    rdfs:label "집계항목"@ko , "Summary Cost Item"@en ;
     rdfs:comment "품목별 상세내역의 금액을 공종별 또는 상위 공종으로 합산한 행. 개별 품명·규격·단가를 필수로 요구하지 않는다."@ko ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "item-structure" .
 
 rcpp:ContractStatementItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DetailCostItem ;
-    rdfs:label "계약 내역"@ko ;
+    rdfs:label "계약내역 항목"@ko ;
     rdfs:comment "계약 품목코드, 공사내역, 규격, 단위와 도급 조건을 담는 행."@ko ;
     rcpp:expectedCostItemClass rcpp:CostItem ;
     rcpp:expectedSourceItemClass rcpp:QuantityCalculationItem ;
@@ -204,14 +204,14 @@ rcpp:ContractStatementItem a rdfs:Class ;
 
 rcpp:QuantityCalculationItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DocumentItem ;
-    rdfs:label "수량산출 내역"@ko ;
+    rdfs:label "수량산출 항목"@ko ;
     rdfs:comment "공종·품명·규격·단위와 서류에 기록된 수량산식·산출근거·산출수량을 담는 수량산출서의 행."@ko ;
     rcpp:expectedCostItemClass rcpp:CostItem ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "item-structure" .
 
 rcpp:PreviousProgressStatementItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DetailCostItem ;
-    rdfs:label "전회 기성내역"@ko ;
+    rdfs:label "전회 기성항목"@ko ;
     rdfs:comment "전회까지의 누계수량·누계금액·비율을 담는 행."@ko ;
     rcpp:expectedCostItemClass rcpp:CostItem ;
     rcpp:expectedCorrespondingItemClass rcpp:ContractStatementItem ;
@@ -219,7 +219,7 @@ rcpp:PreviousProgressStatementItem a rdfs:Class ;
 
 rcpp:WorkTypeDetailItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DetailCostItem ;
-    rdfs:label "공종별 상세내역"@ko ;
+    rdfs:label "공종별 상세항목"@ko ;
     rdfs:comment "세부 공종의 내역코드·품명·규격·단위·수량·단가·금액을 담는 행."@ko ;
     rcpp:expectedCostItemClass rcpp:CostItem ;
     rcpp:expectedCorrespondingItemClass rcpp:ContractStatementItem ;
@@ -229,32 +229,32 @@ rcpp:WorkTypeDetailItem a rdfs:Class ;
 
 rcpp:WorkTypeSummaryItem a rdfs:Class ;
     rdfs:subClassOf rcpp:SummaryCostItem ;
-    rdfs:label "공종별 계약집계내역"@ko ;
+    rdfs:label "공종별 계약집계항목"@ko ;
     rdfs:comment "계약내역 계열의 세부 내역금액을 공종별 계약금액과 필요 시 직접공사비로 집계하는 행. 금회·누계기성금액은 기성 집계내역에서만 계산한다."@ko ;
     rcpp:expectedSourceItemClass rcpp:WorkTypeDetailItem ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "item-structure" .
 
 rcpp:CurrentProgressQuantityItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DocumentItem ;
-    rdfs:label "기성수량 내역"@ko ;
+    rdfs:label "기성수량 항목"@ko ;
     rdfs:comment "동일 계약 내역의 전회누계값과 비용산정용으로 확정 입력된 금회기성수량을 바탕으로 누계·잔여 기성수량을 담는 행. 수량산출 내역은 계약수량과 품목 식별의 참고자료이며 금회기성수량의 직접 출처가 아니다."@ko ;
     rcpp:expectedCostItemClass rcpp:CostItem ;
     rcpp:expectedCorrespondingItemClass rcpp:ContractStatementItem , rcpp:PreviousProgressStatementItem ;
     rcpp:expectedIdentificationReferenceClass rcpp:QuantityCalculationItem , rcpp:ContractStatementItem ;
     rcpp:expectedQuantityBasisClass rcpp:QuantityCalculationItem ;
     rcpp:expectedPreviousQuantitySourceClass rcpp:PreviousProgressStatementItem ;
-    rcpp:expectedSourceItemClass rcpp:PreviousProgressStatementItem ;
+    rcpp:expectedSourceItemClass rcpp:ProgressQuantityDetailItem , rcpp:PreviousProgressStatementItem ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "item-structure" .
 
 rcpp:CurrentProgressStatementItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DocumentItem ;
-    rdfs:label "기성 내역"@ko ;
+    rdfs:label "공사기성 내역항목"@ko ;
     rdfs:comment "공사기성부분내역서의 상세 행과 결과서류 내부 집계 행을 포괄하는 상위 개념."@ko ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "item-structure" .
 
 rcpp:CurrentProgressDetailItem a rdfs:Class ;
     rdfs:subClassOf rcpp:CurrentProgressStatementItem , rcpp:DetailCostItem ;
-    rdfs:label "기성 상세내역"@ko ;
+    rdfs:label "공사기성 상세항목"@ko ;
     rdfs:comment "공사내역, 규격, 단위, 계약금액, 전회누계기성금액, 금회기성금액과 적요를 구성하는 결과서류의 품목별 상세 행."@ko ;
     rcpp:expectedCostItemClass rcpp:CostItem ;
     rcpp:expectedCorrespondingItemClass rcpp:ContractStatementItem , rcpp:CurrentProgressQuantityItem , rcpp:PreviousProgressStatementItem ;
@@ -265,14 +265,14 @@ rcpp:CurrentProgressDetailItem a rdfs:Class ;
 
 rcpp:CurrentProgressSummaryItem a rdfs:Class ;
     rdfs:subClassOf rcpp:CurrentProgressStatementItem , rcpp:SummaryCostItem ;
-    rdfs:label "기성 집계내역"@ko ;
+    rdfs:label "공사기성 집계항목"@ko ;
     rdfs:comment "공사기성부분내역서 안에서 품목별 상세금액을 철근·콘크리트·거푸집·동바리 및 철근콘크리트공사 합계로 집계하는 행."@ko ;
     rcpp:expectedSourceItemClass rcpp:CurrentProgressDetailItem ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "item-structure" .
 
 rcpp:SupportingReferenceItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DocumentItem ;
-    rdfs:label "보조자료 내역"@ko ;
+    rdfs:label "보조자료 항목"@ko ;
     rdfs:comment "공종·품목·규격·수량·단가·집계를 보조하는 지원서류의 내역."@ko ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "item-structure" .
 
@@ -291,7 +291,7 @@ rcpp:Unit a rdfs:Class ;
     rcpp:graphLevel "structure" ; rcpp:visualizationGroup "reference-concept" .
 
 rcpp:FieldRequirement a rdfs:Class ;
-    rdfs:label "필드 요구조건"@ko , "Field Requirement"@en ;
+    rdfs:label "항목값 요구조건"@ko , "Field Requirement"@en ;
     rdfs:comment "필수 여부를 속성 하나에 전역으로 부여하지 않고 요구 속성·적용 클래스·요구수준의 조합으로 표현하는 규칙 개체."@ko ;
     rcpp:expectedRequirementTargetClass rcpp:DocumentItem , rcpp:DocumentItemMatching , rcpp:CalculationActivity ;
     rcpp:graphLevel "extended" ; rcpp:visualizationGroup "reference-concept" .
@@ -399,7 +399,7 @@ rcpp:CalculationRule a rdfs:Class ;
     rcpp:graphLevel "core" ; rcpp:visualizationGroup "calculation-rule" .
 
 rcpp:CalculationActivity a rdfs:Class ;
-    rdfs:label "계산활동"@ko , "Calculation Activity"@en ;
+    rdfs:label "계산 실행"@ko , "Calculation Activity"@en ;
     rdfs:comment "특정 프로젝트와 기성회차에서 계산규칙·정책·입력항목·출력항목을 적용하여 실제 결과를 만든 실행 기록."@ko ;
     rcpp:graphLevel "core" ; rcpp:visualizationGroup "calculation-activity" .
 
@@ -411,7 +411,7 @@ rcpp:UnitConversionRule a rdfs:Class ;
     rcpp:graphLevel "core" ; rcpp:visualizationGroup "calculation-rule" .
 
 rcpp:SpecificationNormalizationRule a rdfs:Class ;
-    rdfs:label "규격코드 생성규칙"@ko , "Specification Normalization Rule"@en ;
+    rdfs:label "규격 정규화규칙"@ko , "Specification Normalization Rule"@en ;
     rdfs:comment "공종별 비용영향 속성의 선택·결합순서·구분자·누락값 처리·규칙버전을 정의하는 정규화 규칙."@ko ;
     rcpp:graphLevel "extended" ; rcpp:visualizationGroup "matching-rule" .
 
@@ -427,7 +427,7 @@ rcpp:DocumentItemMatching a rdfs:Class ;
 
 rcpp:ProgressQuantityDetailItem a rdfs:Class ;
     rdfs:subClassOf rcpp:DocumentItem ;
-    rdfs:label "기성수량 상세행"@ko , "Progress Quantity Detail Item"@en ;
+    rdfs:label "기성수량 상세항목"@ko , "Progress Quantity Detail Item"@en ;
     rdfs:comment "기성수량산출서에서 위치·구조물·층·부재 등 최소 구분별로 기록되고 하나의 계약항목 단위 금회기성수량으로 합산되는 상세행."@ko ;
     rcpp:expectedCostItemClass rcpp:CostItem ;
     rcpp:expectedCorrespondingItemClass rcpp:ContractStatementItem ;
@@ -436,7 +436,7 @@ rcpp:ProgressQuantityDetailItem a rdfs:Class ;
 
 rcpp:ProgressQuantityRollupCalculation a rdfs:Class ;
     rdfs:subClassOf rcpp:CalculationRule ;
-    rdfs:label "기성수량 누계·잔여 산정"@ko , "Progress Quantity Rollup Calculation"@en ;
+    rdfs:label "기성수량 누계·잔여 산정규칙"@ko , "Progress Quantity Rollup Calculation"@en ;
     rdfs:comment "금회기성수량 자체를 결정하지 않는다. 동일 표준 비용항목의 계약수량·전회누계수량과 현재 회차에 비용산정용으로 확정 입력된 금회기성수량을 결합하여 누계·잔여 기성수량을 계산한다. 검측·품질·시공사실 판단은 수행하지 않는다."@ko ;
     rcpp:schemaFlowsTo rcpp:CurrentProgressAmountCalculation , rcpp:ConsistencyRule , rcpp:CurrentProgressStatement ;
     rcpp:inputQuantityProperty rcpp:contractQuantity , rcpp:progressPreviousCumulativeQuantity , rcpp:progressCurrentQuantity ;
@@ -451,7 +451,7 @@ rcpp:ProgressQuantityRollupCalculation a rdfs:Class ;
 
 rcpp:ProgressAmountCalculation a rdfs:Class ;
     rdfs:subClassOf rcpp:CalculationRule ;
-    rdfs:label "기성금액·비율 및 누계 산정"@ko , "Progress Amount and Rollup Calculation"@en ;
+    rdfs:label "기성금액·비율 및 누계 산정규칙"@ko , "Progress Amount and Rollup Calculation"@en ;
     rdfs:comment "수량 누계·잔여 계산을 중복 수행하지 않고, 매칭된 계약조건·확정 금회기성수량·전회누계금액에 산식을 적용하여 계약·금회·누계·잔여 금액과 기성비율을 계산한다."@ko ;
     rcpp:schemaFlowsTo rcpp:ConsistencyRule , rcpp:CurrentProgressStatement ;
     rcpp:processStage "③-2 금액·비율 산정"@ko ;
@@ -471,10 +471,10 @@ rcpp:ProgressAmountCalculation a rdfs:Class ;
 
 rcpp:CurrentProgressAmountCalculation a rdfs:Class ;
     rdfs:subClassOf rcpp:ProgressAmountCalculation ;
-    rdfs:label "금회기성금액 계산"@ko , "Current Progress Amount Calculation"@en ;
+    rdfs:label "금회기성금액 산정규칙"@ko , "Current Progress Amount Calculation"@en ;
     rdfs:comment "기성수량산출서의 금회기성수량과 대응 계약 내역의 계약단가를 결합하여 공사기성부분내역서의 금회기성금액을 산출하는 계산규칙 유형."@ko ;
-    rcpp:inputQuantityProperty rcpp:outputCurrentQuantity ;
-    rcpp:inputUnitPriceProperty rcpp:outputContractUnitPrice ;
+    rcpp:inputQuantityProperty rcpp:progressCurrentQuantity ;
+    rcpp:inputUnitPriceProperty rcpp:contractUnitPrice ;
     rcpp:producesField rcpp:outputCurrentAmount ;
     rcpp:schemaFlowsTo rcpp:CurrentProgressStatement ;
     rcpp:formulaExpression "계약단위 기준 금회기성수량 = 원천 금회기성수량 × 원천단위 기준변환계수 ÷ 계약단위 기준변환계수"@ko ,
@@ -487,7 +487,7 @@ rcpp:CurrentProgressAmountCalculation a rdfs:Class ;
 
 rcpp:ProgressSummaryCalculation a rdfs:Class ;
     rdfs:subClassOf rcpp:CalculationRule ;
-    rdfs:label "공종별·전체 기성 집계"@ko , "Progress Summary Calculation"@en ;
+    rdfs:label "공종별·전체 기성 집계규칙"@ko , "Progress Summary Calculation"@en ;
     rdfs:comment "기성 상세내역의 품목별 금액을 철근·콘크리트·거푸집·동바리 및 전체 금액으로 집계한다."@ko ;
     rcpp:schemaFlowsTo rcpp:CurrentProgressStatement ;
     rcpp:formulaExpression "철근 금회기성금액 합계 = Σ(철근 품목별 금회기성금액)"@ko ,
@@ -514,7 +514,8 @@ rcpp:ConsistencyRule a rdfs:Class ;
         "금회기성수량 ≤ 계약수량 − 전회누계기성수량"@ko ,
         "누계기성수량 ≤ 계약수량"@ko ,
         "누계기성금액 ≤ 계약금액"@ko ,
-        "계약내역서 단위 = 수량산출결과 단위 = 공사기성부분내역서 단위"@ko ;
+        "기성수량 원천단위는 계약단위와 같거나 동일한 물리 차원에서 변환 가능해야 한다"@ko ,
+        "공사기성부분내역서 출력단위 = 계약단가 기준단위"@ko ;
     rcpp:crossCheckFormulaExpression "전회서류 이월 누계금액 ≈ 전회누계기성수량 × 계약단가(계산정책 허용오차 적용)"@ko ;
     rcpp:schemaFlowsTo rcpp:CurrentProgressStatement ;
     rcpp:processStage "③-4 산정 전 일관성 확인"@ko ;

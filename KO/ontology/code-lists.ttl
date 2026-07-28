@@ -104,23 +104,23 @@ rcpp:ApprovedCorrespondenceRule a rdfs:Resource ;
     rdfs:comment "DocumentItemMatching은 후보·근거·신뢰도·검토상태를 기록하고, correspondsToItem은 검토상태가 승인된 최종 서류내역 대응관계에만 사용한다."@ko .
 
 rcpp:RebarSpecificationRule a rcpp:SpecificationNormalizationRule ;
-    rdfs:label "철근 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rdfs:label "철근 규격 정규화규칙"@ko ; rcpp:appliesToClass rcpp:RebarCostItem ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
     rcpp:componentOrder "강종 → 호칭지름 또는 지름구간 → 가공·조립구분 → 계약단가 구분 시 이음방식"@ko ;
     rcpp:missingValueTreatment "계약단가 구분에 사용하지 않는 선택 요소는 생략하고, 필수 식별요소가 없으면 검토대상으로 둔다."@ko .
 rcpp:ReadyMixedConcreteSpecificationRule a rcpp:SpecificationNormalizationRule ;
-    rdfs:label "레미콘 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rdfs:label "레미콘 규격 정규화규칙"@ko ; rcpp:appliesToClass rcpp:ReadyMixedConcreteCostItem ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
     rcpp:componentOrder "콘크리트종류 → 굵은골재 최대치수 → 호칭강도 → 슬럼프 → 계약단가 구분 시 시멘트종류"@ko ;
     rcpp:missingValueTreatment "계약 품목의 필수 규격값이 없으면 원문규격을 보존하고 검토대상으로 둔다."@ko .
 rcpp:ConcretePlacementSpecificationRule a rcpp:SpecificationNormalizationRule ;
-    rdfs:label "콘크리트 타설 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rdfs:label "콘크리트 타설 규격 정규화규칙"@ko ; rcpp:appliesToClass rcpp:ConcretePlacementCostItem ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
     rcpp:componentOrder "타설방법 → 적용부위 → 물량구간 → 계약단가 구분 시 작업조건"@ko ;
     rcpp:missingValueTreatment "계약단가를 구분하지 않는 요소는 생략한다."@ko .
 rcpp:FormworkSpecificationRule a rcpp:SpecificationNormalizationRule ;
-    rdfs:label "거푸집 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rdfs:label "거푸집 규격 정규화규칙"@ko ; rcpp:appliesToClass rcpp:FormworkCostItem ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
     rcpp:componentOrder "거푸집종류 → 복잡도 → 전용횟수 → 수직고구간 → 작업유형"@ko ;
     rcpp:missingValueTreatment "계약단가를 구분하지 않는 선택 요소는 생략한다."@ko .
 rcpp:ShoringSpecificationRule a rcpp:SpecificationNormalizationRule ;
-    rdfs:label "동바리 규격코드 생성규칙"@ko ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
+    rdfs:label "동바리 규격 정규화규칙"@ko ; rcpp:appliesToClass rcpp:ShoringCostItem ; rcpp:ruleVersion "1.0" ; rcpp:componentDelimiter "-" ;
     rcpp:componentOrder "동바리종류 → 설치환경 → 수직고구간 → 작업유형"@ko ;
     rcpp:missingValueTreatment "계약단가를 구분하지 않는 선택 요소는 생략한다."@ko .
 
@@ -149,9 +149,9 @@ rcpp:PreviousAmountCarryForwardRule a rdfs:Resource ;
 #################################################################
 
 rcpp:ContractStatementItemRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "계약 내역 필수필드"@ko ; rcpp:requiredForClass rcpp:ContractStatementItem ;
+    rdfs:label "계약내역 항목 필수값"@ko ; rcpp:requiredForClass rcpp:ContractStatementItem ;
     rcpp:requiredProperty rcpp:contractWorkType , rcpp:contractItemName , rcpp:contractSpecification ,
-        rcpp:contractUnit , rcpp:contractQuantity , rcpp:contractUnitPrice , rcpp:contractAmount ;
+        rcpp:contractUnit , rcpp:usesUnit , rcpp:contractQuantity , rcpp:contractUnitPrice , rcpp:contractAmount ;
     rcpp:requirementLevel "필수"@ko .
 rcpp:ContractStatementItemCodeCondition a rcpp:FieldRequirement ;
     rdfs:label "계약 내역 코드 조건"@ko ; rcpp:requiredForClass rcpp:ContractStatementItem ;
@@ -159,9 +159,9 @@ rcpp:ContractStatementItemCodeCondition a rcpp:FieldRequirement ;
     rcpp:inclusionCondition "원천 품목코드가 있으면 보존하고, 없으면 프로젝트 범위에서 안정적인 행 식별자를 생성한다."@ko .
 
 rcpp:QuantityCalculationItemRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "수량산출 내역 필수필드"@ko ; rcpp:requiredForClass rcpp:QuantityCalculationItem ;
+    rdfs:label "수량산출 항목 필수값"@ko ; rcpp:requiredForClass rcpp:QuantityCalculationItem ;
     rcpp:requiredProperty rcpp:quantityWorkType , rcpp:quantityItemName , rcpp:quantitySpecification ,
-        rcpp:quantityUnit , rcpp:quantityFormula , rcpp:quantityCalculationBasis , rcpp:quantityCalculatedQuantity ;
+        rcpp:quantityUnit , rcpp:usesUnit , rcpp:quantityFormula , rcpp:quantityCalculationBasis , rcpp:quantityCalculatedQuantity ;
     rcpp:requirementLevel "필수"@ko .
 rcpp:QuantityCalculationItemCodeCondition a rcpp:FieldRequirement ;
     rdfs:label "수량산출서 식별코드 조건"@ko ; rcpp:requiredForClass rcpp:QuantityCalculationItem ;
@@ -169,9 +169,9 @@ rcpp:QuantityCalculationItemCodeCondition a rcpp:FieldRequirement ;
     rcpp:inclusionCondition "원천 코드가 있으면 사용하고, 없으면 복합 식별기준으로 계약항목에 매칭한 뒤 안정적인 식별자를 생성한다."@ko .
 
 rcpp:WorkTypeDetailItemRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "공종별 상세내역 필수필드"@ko ; rcpp:requiredForClass rcpp:WorkTypeDetailItem ;
+    rdfs:label "공종별 상세항목 필수값"@ko ; rcpp:requiredForClass rcpp:WorkTypeDetailItem ;
     rcpp:requiredProperty rcpp:workDetailWorkType , rcpp:workDetailItemName , rcpp:workDetailSpecification ,
-        rcpp:workDetailUnit , rcpp:workDetailQuantity , rcpp:workDetailUnitPrice , rcpp:workDetailAmount ;
+        rcpp:workDetailUnit , rcpp:usesUnit , rcpp:workDetailQuantity , rcpp:workDetailUnitPrice , rcpp:workDetailAmount ;
     rcpp:requirementLevel "필수"@ko .
 rcpp:WorkTypeDetailItemCodeCondition a rcpp:FieldRequirement ;
     rdfs:label "공종별 상세내역 코드 조건"@ko ; rcpp:requiredForClass rcpp:WorkTypeDetailItem ;
@@ -179,20 +179,20 @@ rcpp:WorkTypeDetailItemCodeCondition a rcpp:FieldRequirement ;
     rcpp:inclusionCondition "원천 코드가 있으면 보존하고, 없으면 대응 계약항목의 식별자를 사용한다."@ko .
 
 rcpp:WorkTypeSummaryItemRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "공종별 계약집계내역 필수필드"@ko ; rcpp:requiredForClass rcpp:WorkTypeSummaryItem ;
+    rdfs:label "공종별 계약집계항목 필수값"@ko ; rcpp:requiredForClass rcpp:WorkTypeSummaryItem ;
     rcpp:requiredProperty rcpp:summaryWorkType , rcpp:summaryContractAmount ; rcpp:requirementLevel "필수"@ko .
 
 rcpp:CurrentProgressQuantityItemSourceFields a rcpp:FieldRequirement ;
-    rdfs:label "기성수량 내역 원천입력 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
+    rdfs:label "기성수량 항목 원천입력값"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
     rcpp:requiredProperty rcpp:progressQuantityWorkType , rcpp:progressQuantityItemName ,
-        rcpp:progressQuantitySpecification , rcpp:progressQuantityUnit , rcpp:progressCurrentQuantity ;
+        rcpp:progressQuantitySpecification , rcpp:progressQuantityUnit , rcpp:usesUnit , rcpp:progressCurrentQuantity ;
     rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "원천입력" .
 rcpp:CurrentProgressQuantityItemCarryForwardFields a rcpp:FieldRequirement ;
-    rdfs:label "기성수량 내역 이월입력 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
+    rdfs:label "기성수량 항목 이월입력값"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
     rcpp:requiredProperty rcpp:progressPreviousCumulativeQuantity ;
     rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "이월입력" .
 rcpp:CurrentProgressQuantityItemCalculatedFields a rcpp:FieldRequirement ;
-    rdfs:label "기성수량 내역 계산결과 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
+    rdfs:label "기성수량 항목 계산결과값"@ko ; rcpp:requiredForClass rcpp:CurrentProgressQuantityItem ;
     rcpp:requiredProperty rcpp:progressCumulativeQuantity , rcpp:progressRemainingQuantity ;
     rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "계산결과" .
 rcpp:CurrentProgressQuantityItemCodeCondition a rcpp:FieldRequirement ;
@@ -200,55 +200,64 @@ rcpp:CurrentProgressQuantityItemCodeCondition a rcpp:FieldRequirement ;
     rcpp:requiredProperty rcpp:progressQuantityItemCode ; rcpp:requirementLevel "조건부"@ko ;
     rcpp:inclusionCondition "원천 코드가 있으면 보존하고, 없으면 대응 계약항목의 식별자를 사용한다."@ko .
 
+rcpp:ProgressQuantityDetailItemRequiredFields a rcpp:FieldRequirement ;
+    rdfs:label "기성수량 상세항목 필수값"@ko ; rcpp:requiredForClass rcpp:ProgressQuantityDetailItem ;
+    rcpp:requiredProperty rcpp:detailCurrentQuantity , rcpp:quantityAggregatedInto , rcpp:representsCostItem , rcpp:usesUnit ;
+    rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "상세수량 집계입력" .
+rcpp:ProgressQuantityDetailItemConditionalFields a rcpp:FieldRequirement ;
+    rdfs:label "기성수량 상세항목 위치정보 조건"@ko ; rcpp:requiredForClass rcpp:ProgressQuantityDetailItem ;
+    rcpp:requiredProperty rcpp:detailLocationText , rcpp:hasSourceLocation ; rcpp:requirementLevel "조건부"@ko ;
+    rcpp:inclusionCondition "원천 서류에 위치·구조물·층·부재 구분이 있으면 원문 위치와 표준 위치 연결을 함께 보존한다."@ko .
+
 rcpp:PreviousProgressStatementItemRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "전회 기성내역 필수필드"@ko ; rcpp:requiredForClass rcpp:PreviousProgressStatementItem ;
-    rcpp:requiredProperty rcpp:previousWorkDescription , rcpp:previousSpecification , rcpp:previousUnit ,
+    rdfs:label "전회 기성항목 필수값"@ko ; rcpp:requiredForClass rcpp:PreviousProgressStatementItem ;
+    rcpp:requiredProperty rcpp:previousWorkDescription , rcpp:previousSpecification , rcpp:previousUnit , rcpp:usesUnit ,
         rcpp:previousCumulativeQuantity , rcpp:previousCumulativeAmount ; rcpp:requirementLevel "필수"@ko .
 rcpp:PreviousProgressStatementItemConditionalFields a rcpp:FieldRequirement ;
-    rdfs:label "전회 기성내역 조건부필드"@ko ; rcpp:requiredForClass rcpp:PreviousProgressStatementItem ;
+    rdfs:label "전회 기성항목 조건부값"@ko ; rcpp:requiredForClass rcpp:PreviousProgressStatementItem ;
     rcpp:requiredProperty rcpp:previousItemCode , rcpp:previousCumulativeRate ; rcpp:requirementLevel "조건부"@ko ;
     rcpp:inclusionCondition "품목코드는 원천 코드가 없으면 생성 식별자로 대체하며, 비율은 원천 서류에 있거나 출력 양식이 요구할 때 사용한다."@ko .
 
 rcpp:CurrentProgressDetailItemTransferredFields a rcpp:FieldRequirement ;
-    rdfs:label "기성 상세내역 전달·출력 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
+    rdfs:label "공사기성 상세항목 전달·출력값"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
     rcpp:requiredProperty rcpp:outputWorkType , rcpp:outputWorkDescription , rcpp:outputSpecification ,
-        rcpp:outputUnit , rcpp:outputContractQuantity , rcpp:outputContractUnitPrice , rcpp:outputContractAmount ,
+        rcpp:outputUnit , rcpp:usesUnit , rcpp:outputContractQuantity , rcpp:outputContractUnitPrice , rcpp:outputContractAmount ,
         rcpp:outputPreviousQuantity , rcpp:outputPreviousAmount , rcpp:outputCurrentQuantity ;
     rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "결과서류출력" .
 rcpp:CurrentProgressDetailItemCalculatedFields a rcpp:FieldRequirement ;
-    rdfs:label "기성 상세내역 계산결과 필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
+    rdfs:label "공사기성 상세항목 계산결과값"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
     rcpp:requiredProperty rcpp:outputCurrentAmount , rcpp:outputCumulativeQuantity , rcpp:outputCumulativeAmount ,
         rcpp:outputRemainingQuantity , rcpp:outputRemainingAmount ;
     rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "계산결과" .
 rcpp:CurrentProgressDetailItemConditionalFields a rcpp:FieldRequirement ;
-    rdfs:label "기성 상세내역 조건부필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
+    rdfs:label "공사기성 상세항목 조건부값"@ko ; rcpp:requiredForClass rcpp:CurrentProgressDetailItem ;
     rcpp:requiredProperty rcpp:outputItemCode , rcpp:outputPreviousRate , rcpp:outputCurrentRate , rcpp:outputCumulativeRate ;
     rcpp:requirementLevel "조건부"@ko ;
     rcpp:inclusionCondition "품목코드는 원천 코드가 없으면 생성 식별자로 대체하며, 비율은 결과 양식에서 요구할 때 산출한다."@ko .
 
 rcpp:CurrentProgressSummaryItemRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "기성 집계내역 필수필드"@ko ; rcpp:requiredForClass rcpp:CurrentProgressSummaryItem ;
+    rdfs:label "공사기성 집계항목 필수값"@ko ; rcpp:requiredForClass rcpp:CurrentProgressSummaryItem ;
     rcpp:requiredProperty rcpp:outputSummaryWorkCategoryText , rcpp:outputSummaryContractAmount ,
         rcpp:outputSummaryPreviousAmount , rcpp:outputSummaryCurrentAmount , rcpp:outputSummaryCumulativeAmount ;
     rcpp:requirementLevel "필수"@ko .
 
 rcpp:CostItemRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "표준 비용항목 필수필드"@ko ; rcpp:requiredForClass rcpp:CostItem ;
+    rdfs:label "표준 비용항목 필수값"@ko ; rcpp:requiredForClass rcpp:CostItem ;
     rcpp:requiredProperty rcpp:costItemCode , rcpp:costItemName , rcpp:normalizedSpecificationCode ,
         rcpp:belongsToWorkCategory , rcpp:usesUnit ;
     rcpp:requirementLevel "필수"@ko .
 
 rcpp:DocumentItemMatchingRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "서류내역 매칭 필수필드"@ko ; rcpp:requiredForClass rcpp:DocumentItemMatching ;
+    rdfs:label "서류항목 매칭 필수값"@ko ; rcpp:requiredForClass rcpp:DocumentItemMatching ;
     rcpp:requiredProperty rcpp:sourceItem , rcpp:targetItem , rcpp:matchedCostItem ,
         rcpp:matchingMethod , rcpp:matchingEvidence , rcpp:reviewStatus ;
     rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "교차검토" .
 rcpp:DocumentItemMatchingConditionalFields a rcpp:FieldRequirement ;
-    rdfs:label "서류내역 매칭 조건부필드"@ko ; rcpp:requiredForClass rcpp:DocumentItemMatching ;
+    rdfs:label "서류항목 매칭 조건부값"@ko ; rcpp:requiredForClass rcpp:DocumentItemMatching ;
     rcpp:requiredProperty rcpp:confidenceScore , rcpp:reviewedBy ;
     rcpp:requirementLevel "조건부"@ko ; rcpp:requirementPurpose "교차검토" .
 rcpp:CalculationActivityRequiredFields a rcpp:FieldRequirement ;
-    rdfs:label "계산활동 필수필드"@ko ; rcpp:requiredForClass rcpp:CalculationActivity ;
+    rdfs:label "계산 실행 필수값"@ko ; rcpp:requiredForClass rcpp:CalculationActivity ;
     rcpp:requiredProperty rcpp:calculationRound , rcpp:appliesRule , rcpp:appliesPolicy ,
         rcpp:calculationInputItem , rcpp:calculationOutputItem , rcpp:calculationStatus ;
     rcpp:requirementLevel "필수"@ko ; rcpp:requirementPurpose "계산입력" .
