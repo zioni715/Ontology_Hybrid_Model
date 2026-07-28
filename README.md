@@ -237,7 +237,6 @@ pip install -r requirements.txt
 ```bash
 cd KO
 python visualization/generate_visualization_data.py
-python visualization/generate_visualization_data.py --check
 ```
 
 생성된 `KO/visualization/ontology_graph.html` 파일을 브라우저에서 열어 시각화 확인.
